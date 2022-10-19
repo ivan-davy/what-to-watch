@@ -1,8 +1,14 @@
 import HomeScreen from '../../pages/home-screen/home-screen';
 
-function App(): JSX.Element {
+type AppPropType = {
+    title: string;
+    genre: string;
+    releaseYear: number;
+}
+
+function App(props: AppPropType): JSX.Element {
   return (
-    <HomeScreen/>
+    <HomeScreen {...props}/>
   );
 }
 
