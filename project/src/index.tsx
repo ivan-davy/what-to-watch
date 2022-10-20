@@ -12,8 +12,12 @@ const featuredMovie = {
   releaseYear: 2014
 };
 
+const data = {
+  featuredMovie,
+};
+
 root.render(
   <React.StrictMode>
-    <App {...featuredMovie}/>
+    <App {...data}/>
   </React.StrictMode>,
 );
