@@ -1,4 +1,4 @@
-enum PageRoute {
+export enum PageRoute {
   Home = '/',
   SignIn = '/login',
   MyList = '/mylist',
@@ -7,4 +7,8 @@ enum PageRoute {
   Player = '/player'
 }
 
-export {PageRoute};
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}

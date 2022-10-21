@@ -1,21 +1,22 @@
 import HomeScreen from '../../pages/home-screen/home-screen';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import {PageRoute} from '../../const';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {AuthorizationStatus, PageRoute} from '../../const';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import MyListScreen from '../../pages/my-list-screen/my-list-screen';
 import MovieScreen from '../../pages/movie-screen/movie-screen';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
+import PrivateRoute from '../private-route/private-route';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import NotFoundScreen from '../../pages/not-found/not-found-screen';
 
-type FeaturedMoviePropType = {
+type FeaturedMoviePropsType = {
   title: string;
   genre: string;
   releaseYear: number;
 }
 
 type AppPropType = {
-  featuredMovie: FeaturedMoviePropType;
+  featuredMovie: FeaturedMoviePropsType;
 }
 
 function App(appProp: AppPropType): JSX.Element {
@@ -32,7 +33,11 @@ function App(appProp: AppPropType): JSX.Element {
         />
         <Route
           path={PageRoute.MyList}
-          element={<MyListScreen />}
+          element={
+            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+              <MyListScreen />
+            </PrivateRoute>
+          }
         />
         <Route
           path={`${PageRoute.Movie}/:id`}
@@ -40,7 +45,11 @@ function App(appProp: AppPropType): JSX.Element {
         />
         <Route
           path={`${PageRoute.Movie}/:id${PageRoute.AddReview}`}
-          element={<AddReviewScreen />}
+          element={
+            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+              <AddReviewScreen />
+            </PrivateRoute>
+          }
         />
         <Route
           path={`${PageRoute.Player}/:id`}

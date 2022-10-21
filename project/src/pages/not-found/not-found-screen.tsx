@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import Logo from '../../components/logo/logo';
 
 export default function NotFoundScreen (): JSX.Element {
   return (
@@ -14,13 +15,7 @@ export default function NotFoundScreen (): JSX.Element {
       <body>
         <div className="user-page">
           <header className="page-header user-page__head">
-            <div className="logo">
-              <a href="main.html" className="logo__link">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </a>
-            </div>
+            <Logo />
 
             <h1 className="page-title user-page__title">Page not found</h1>
           </header>
