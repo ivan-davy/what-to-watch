@@ -1,14 +1,9 @@
 import MovieCard from '../../components/movie-card/movie-card';
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
+import {HomePropsType} from '../../types/types';
 
-type FeaturedMoviePropsType = {
-  title: string;
-  genre: string;
-  releaseYear: number;
-}
-
-export default function HomeScreen(featuredProps: FeaturedMoviePropsType): JSX.Element {
+export default function HomeScreen(homeProps: HomePropsType): JSX.Element {
   return (
     <html lang="en">
       <head>
@@ -21,7 +16,7 @@ export default function HomeScreen(featuredProps: FeaturedMoviePropsType): JSX.E
 
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt={featuredProps.title}/>
+          <img src="img/bg-the-grand-budapest-hotel.jpg" alt={homeProps.featuredMovie.title}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -44,16 +39,16 @@ export default function HomeScreen(featuredProps: FeaturedMoviePropsType): JSX.E
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={`${featuredProps.title} poster`} width="218"
+              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={`${homeProps.featuredMovie.title} poster`} width="218"
                 height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{featuredProps.title}</h2>
+              <h2 className="film-card__title">{homeProps.featuredMovie.title}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{featuredProps.genre}</span>
-                <span className="film-card__year">{featuredProps.releaseYear}</span>
+                <span className="film-card__genre">{homeProps.featuredMovie.genre}</span>
+                <span className="film-card__year">{homeProps.featuredMovie.releaseYear}</span>
               </p>
 
               <div className="film-card__buttons">
