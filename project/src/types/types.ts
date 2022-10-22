@@ -1,18 +1,4 @@
-export type FeaturedMoviePropsType = {
-  title: string;
-  genre: string;
-  releaseYear: number;
-}
-
-export type HomePropsType = {
-  featuredMovie: FeaturedMoviePropsType;
-}
-
-export type AppPropsType = {
-  home: HomePropsType;
-}
-
-export type Movie = {
+export type MovieType = {
   id: number;
   name: string;
   posterImage: string;
@@ -32,9 +18,9 @@ export type Movie = {
   isFavorite: boolean;
 }
 
-export type Movies = Movie[]
+export type MoviesType = MovieType[]
 
-export type Review = {
+export type ReviewType = {
   comment: string;
   date: string;
   id: number;
@@ -45,4 +31,4 @@ export type Review = {
   };
 }
 
-export type Reviews = Review[]
+export type ReviewsType = ReviewType[]

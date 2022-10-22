@@ -1,6 +1,6 @@
-import {Movies} from '../types/types';
+import {MoviesType} from '../types/types';
 
-export const moviesMock: Movies = [
+export const moviesMock: MoviesType = [
   {
     'name': 'A Star Is Born',
     'posterImage': 'https://11.react.pages.academy/static/film/poster/A_Star_Is_Born.jpg',

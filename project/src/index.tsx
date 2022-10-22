@@ -1,24 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import {AppPropsType} from './types/types';
+import {moviesMock} from './mocks/movies';
+import {reviewsMock} from './mocks/reviews';
+import {MoviesType, MovieType, ReviewsType} from './types/types';
+
+export type StoreType = {
+  featuredMovie: MovieType;
+  movies: MoviesType;
+  reviews: ReviewsType;
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
-const appProps: AppPropsType = {
-  home: {
-    featuredMovie: {
-      title: 'The Grand Budapest Hotel',
-      genre: 'Drama',
-      releaseYear: 2014
-    }
-  }
+const store: StoreType = {
+  featuredMovie: moviesMock[0],
+  movies: moviesMock,
+  reviews: reviewsMock
 };
 
 root.render(
   <React.StrictMode>
-    <App {...appProps}/>
+    <App
+      featuredMovie={store.featuredMovie}
+      movies={store.movies}
+      reviews={store.reviews}
+    />
   </React.StrictMode>,
 );

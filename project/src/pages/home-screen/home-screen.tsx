@@ -1,22 +1,19 @@
 import MovieCard from '../../components/movie-card/movie-card';
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
-import {HomePropsType} from '../../types/types';
+import {MoviesType, MovieType} from '../../types/types';
 
-export default function HomeScreen(homeProps: HomePropsType): JSX.Element {
+export type HomeScreenPropsType = {
+  featuredMovie: MovieType;
+  movies: MoviesType;
+}
+
+export default function HomeScreen({featuredMovie, movies}: HomeScreenPropsType): JSX.Element {
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="UTF-8"/>
-        <title>WTW</title>
-        <meta name="robots" content="noindex, nofollow"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <link rel="stylesheet" href="css/main.min.css"/>
-      </head>
-
+    <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt={homeProps.featuredMovie.title}/>
+          <img src="img/bg-the-grand-budapest-hotel.jpg" alt={featuredMovie.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -39,16 +36,16 @@ export default function HomeScreen(homeProps: HomePropsType): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={`${homeProps.featuredMovie.title} poster`} width="218"
+              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={`${featuredMovie.name} poster`} width="218"
                 height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{homeProps.featuredMovie.title}</h2>
+              <h2 className="film-card__title">{featuredMovie.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{homeProps.featuredMovie.genre}</span>
-                <span className="film-card__year">{homeProps.featuredMovie.releaseYear}</span>
+                <span className="film-card__genre">{featuredMovie.genre}</span>
+                <span className="film-card__year">{featuredMovie.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -109,9 +106,7 @@ export default function HomeScreen(homeProps: HomePropsType): JSX.Element {
           </ul>
 
           <div className="catalog__films-list">
-            {/* eslint-disable-next-line react/jsx-key,@typescript-eslint/no-unsafe-assignment*/}
-            {[...Array(20)].map((element: number) => <MovieCard/>)}
-            {/*Жалуется на отсутствие key и небезопасный any в ...Array^*/}
+            {movies.map((movie: MovieType) => <MovieCard movie={movie} key={movie.id}/>)}
           </div>
 
           <div className="catalog__more">
@@ -121,6 +116,6 @@ export default function HomeScreen(homeProps: HomePropsType): JSX.Element {
 
         <Footer/>
       </div>
-    </html>
+    </>
   );
 }

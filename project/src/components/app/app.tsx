@@ -8,16 +8,26 @@ import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import PrivateRoute from '../private-route/private-route';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import NotFoundScreen from '../../pages/not-found/not-found-screen';
-import {AppPropsType} from '../../types/types';
+import {MoviesType, MovieType, ReviewsType} from '../../types/types';
 
+export type AppPropsType = {
+  featuredMovie: MovieType;
+  movies: MoviesType;
+  reviews: ReviewsType;
+}
 
-function App(appProps: AppPropsType): JSX.Element {
+function App({featuredMovie, movies, reviews}: AppPropsType): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={PageRoute.Home}
-          element={<HomeScreen {...appProps.home}/>}
+          element={
+            <HomeScreen
+              featuredMovie={featuredMovie}
+              movies={movies}
+            />
+          }
         />
         <Route
           path={PageRoute.SignIn}

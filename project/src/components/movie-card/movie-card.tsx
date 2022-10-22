@@ -1,11 +1,19 @@
-export default function MovieCard (): JSX.Element {
+import {MovieType} from '../../types/types';
+import {PageRoute} from '../../const';
+import {Link} from 'react-router-dom';
+
+type MovieCardPropsType = {
+  movie: MovieType;
+}
+
+export default function MovieCard(props: MovieCardPropsType): JSX.Element {
   return (
     <article className="small-film-card catalog__films-card">
       <div className="small-film-card__image">
-        <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175"/>
+        <img src={props.movie.previewImage} alt={props.movie.name} width="280" height="175"/>
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href="film-page.html">Bohemian Rhapsody</a>
+        <Link className="small-film-card__link" to={`${PageRoute.Movie}/${props.movie.id}`}>{props.movie.name}</Link>
       </h3>
     </article>
   );
