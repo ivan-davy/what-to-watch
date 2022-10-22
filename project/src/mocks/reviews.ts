@@ -1,6 +1,6 @@
-import {ReviewsType} from '../types/types';
+import {ReviewType} from '../types/types';
 
-export const reviewsMock: ReviewsType = [
+export const reviewsMock: ReviewType[] = [
   {
     'id': 1,
     'user': {

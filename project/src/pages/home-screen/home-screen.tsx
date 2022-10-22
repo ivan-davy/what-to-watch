@@ -1,11 +1,11 @@
-import MovieCard from '../../components/movie-card/movie-card';
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
-import {MoviesType, MovieType} from '../../types/types';
+import {MovieType} from '../../types/types';
+import MovieList from '../../components/movie-list/movie-list';
 
 export type HomeScreenPropsType = {
   featuredMovie: MovieType;
-  movies: MoviesType;
+  movies: MovieType[];
 }
 
 export default function HomeScreen({featuredMovie, movies}: HomeScreenPropsType): JSX.Element {
@@ -105,9 +105,7 @@ export default function HomeScreen({featuredMovie, movies}: HomeScreenPropsType)
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {movies.map((movie: MovieType) => <MovieCard movie={movie} key={movie.id}/>)}
-          </div>
+          <MovieList movies={movies}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>

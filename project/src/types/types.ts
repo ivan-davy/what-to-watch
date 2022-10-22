@@ -18,8 +18,6 @@ export type MovieType = {
   isFavorite: boolean;
 }
 
-export type MoviesType = MovieType[]
-
 export type ReviewType = {
   comment: string;
   date: string;
@@ -31,4 +29,3 @@ export type ReviewType = {
   };
 }
 
-export type ReviewsType = ReviewType[]

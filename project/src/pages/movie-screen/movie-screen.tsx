@@ -3,7 +3,7 @@ import Footer from '../../components/footer/footer';
 
 export default function MovieScreen(): JSX.Element {
   return (
-    <body>
+    <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
@@ -150,9 +150,8 @@ export default function MovieScreen(): JSX.Element {
             </article>
           </div>
         </section>
-
         <Footer/>
       </div>
-    </body>
+    </>
   );
 }

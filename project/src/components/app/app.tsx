@@ -8,15 +8,16 @@ import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import PrivateRoute from '../private-route/private-route';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import NotFoundScreen from '../../pages/not-found/not-found-screen';
-import {MoviesType, MovieType, ReviewsType} from '../../types/types';
+import {MovieType, ReviewType} from '../../types/types';
 
 export type AppPropsType = {
   featuredMovie: MovieType;
-  movies: MoviesType;
-  reviews: ReviewsType;
+  movies: MovieType[];
+  reviews: ReviewType[];
+  myListMovies: MovieType[];
 }
 
-function App({featuredMovie, movies, reviews}: AppPropsType): JSX.Element {
+function App({featuredMovie, movies, reviews, myListMovies}: AppPropsType): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -36,8 +37,8 @@ function App({featuredMovie, movies, reviews}: AppPropsType): JSX.Element {
         <Route
           path={PageRoute.MyList}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <MyListScreen />
+            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+              <MyListScreen myListMovies={myListMovies}/>
             </PrivateRoute>
           }
         />
