@@ -39,7 +39,7 @@ export default function MovieScreen({movies}: MovieScreenPropType): JSX.Element 
 
   return (
     <>
-      <section className="film-card film-card--full" style={{background: movie.backgroundColor}}>
+      <section className="film-card film-card--full" style={{background: `${movie.backgroundColor}80`}}>
         <div className="film-card__hero">
           <div className="film-card__bg">
             <img src={movie.backgroundImage} alt={movie.name}/>

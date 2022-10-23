@@ -69,7 +69,9 @@ export default function HomeScreen({featuredMovie, movies, myListMoviesQty}: Hom
         </div>
       </section>
 
-      <div className="page-content">
+      <div className="page-content"
+        style={{backgroundImage: `linear-gradient(-180deg, ${featuredMovie.backgroundColor} -500%, #000000 100%)`}}
+      >
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 

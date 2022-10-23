@@ -29,3 +29,7 @@ export type ReviewType = {
   };
 }
 
+export type NewReviewType = {
+  comment: string;
+  rating: number | null;
+}
