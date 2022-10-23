@@ -6,14 +6,15 @@ import MovieList from '../../components/movie-list/movie-list';
 export type HomeScreenPropsType = {
   featuredMovie: MovieType;
   movies: MovieType[];
+  myListMoviesQty: number;
 }
 
-export default function HomeScreen({featuredMovie, movies}: HomeScreenPropsType): JSX.Element {
+export default function HomeScreen({featuredMovie, movies, myListMoviesQty}: HomeScreenPropsType): JSX.Element {
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt={featuredMovie.name}/>
+          <img src={featuredMovie.backgroundImage} alt={featuredMovie.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -36,7 +37,7 @@ export default function HomeScreen({featuredMovie, movies}: HomeScreenPropsType)
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={`${featuredMovie.name} poster`} width="218"
+              <img src={featuredMovie.posterImage} alt={`${featuredMovie.name} poster`} width="218"
                 height="327"
               />
             </div>
@@ -60,7 +61,7 @@ export default function HomeScreen({featuredMovie, movies}: HomeScreenPropsType)
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">9</span>
+                  <span className="film-card__count">{myListMoviesQty}</span>
                 </button>
               </div>
             </div>

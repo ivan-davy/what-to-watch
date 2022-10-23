@@ -640,7 +640,7 @@ main {
   z-index: 1;
   color: #EEE5B5;
   padding-bottom: 78px;
-  background: #E1B0B2; }
+  background: #FFFFFF; }
   .film-card--full {
     padding-bottom: 45px;
     min-height: 100vh; }
@@ -902,7 +902,7 @@ main {
 .film-rating__meta {
   margin: 0;
   font-size: 19px;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.9);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex; }

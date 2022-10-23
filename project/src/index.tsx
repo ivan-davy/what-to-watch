@@ -17,7 +17,7 @@ const root = ReactDOM.createRoot(
 );
 
 const store: StoreType = {
-  featuredMovie: moviesMock[0],
+  featuredMovie: moviesMock[1],
   movies: moviesMock,
   reviews: reviewsMock,
   myListMovies: moviesMock.slice(0, 5)

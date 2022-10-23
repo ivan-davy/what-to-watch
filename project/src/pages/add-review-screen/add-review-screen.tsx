@@ -1,11 +1,24 @@
 import Logo from '../../components/logo/logo';
+import {MovieType} from '../../types/types';
+import {useParams} from 'react-router-dom';
+import NotFoundScreen from '../not-found/not-found-screen';
+import {PageRoute} from '../../const';
 
-export default function AddReviewScreen(): JSX.Element {
+export type AddReviewScreenPropType = {
+  movies: MovieType[];
+}
+
+export default function AddReviewScreen({movies}: AddReviewScreenPropType): JSX.Element {
+  const params = useParams();
+  const movie = movies.find((item: MovieType) => item.id.toString() === params.id);
+  if (movie === undefined) {
+    return <NotFoundScreen />;
+  }
   return (
-    <section className="film-card film-card--full">
+    <section className="film-card film-card--full" style={{background: movie.backgroundColor}}>
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+          <img src={movie.backgroundImage} alt={movie.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -16,7 +29,7 @@ export default function AddReviewScreen(): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">The Grand Budapest Hotel</a>
+                <a href={`${PageRoute.Movie}/${movie.id}`} className="breadcrumbs__link">{movie.name}</a>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -37,7 +50,7 @@ export default function AddReviewScreen(): JSX.Element {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218"
+          <img src={movie.posterImage} alt={`${movie.name} poster`} width="218"
             height="327"
           />
         </div>
@@ -53,7 +66,7 @@ export default function AddReviewScreen(): JSX.Element {
               <input className="rating__input" id="star-9" type="radio" name="rating" value="9"/>
               <label className="rating__label" htmlFor="star-9">Rating 9</label>
 
-              <input className="rating__input" id="star-8" type="radio" name="rating" value="8" checked/>
+              <input className="rating__input" id="star-8" type="radio" name="rating" value="8"/>
               <label className="rating__label" htmlFor="star-8">Rating 8</label>
 
               <input className="rating__input" id="star-7" type="radio" name="rating" value="7"/>
@@ -79,7 +92,7 @@ export default function AddReviewScreen(): JSX.Element {
             </div>
           </div>
 
-          <div className="add-review__text">
+          <div className="add-review__text" style={{backgroundColor: '#FFFFFF', opacity: '65%'}}>
             <textarea className="add-review__textarea" name="review-text" id="review-text"
               placeholder="Review text"
             >

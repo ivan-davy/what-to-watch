@@ -27,6 +27,7 @@ function App({featuredMovie, movies, reviews, myListMovies}: AppPropsType): JSX.
             <HomeScreen
               featuredMovie={featuredMovie}
               movies={movies}
+              myListMoviesQty={myListMovies.length}
             />
           }
         />
@@ -44,19 +45,19 @@ function App({featuredMovie, movies, reviews, myListMovies}: AppPropsType): JSX.
         />
         <Route
           path={`${PageRoute.Movie}/:id`}
-          element={<MovieScreen />}
+          element={<MovieScreen movies={movies}/>}
         />
         <Route
           path={`${PageRoute.Movie}/:id${PageRoute.AddReview}`}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <AddReviewScreen />
+            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+              <AddReviewScreen movies={movies}/>
             </PrivateRoute>
           }
         />
         <Route
           path={`${PageRoute.Player}/:id`}
-          element={<PlayerScreen />}
+          element={<PlayerScreen movies={movies}/>}
         />
         <Route
           path='*'
