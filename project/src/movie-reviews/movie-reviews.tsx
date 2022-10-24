@@ -9,7 +9,9 @@ const getReview = (review: ReviewType): JSX.Element => (
 
       <footer className="review__details">
         <cite className="review__author">{review.user.name}</cite>
-        <time className="review__date" dateTime="2016-12-24">{review.date}</time>
+        <time className="review__date" dateTime={review.date}>
+          {(new Date(review.date)).toLocaleDateString('en-uk')}
+        </time>
       </footer>
     </blockquote>
 
