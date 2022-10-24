@@ -17,10 +17,10 @@ const root = ReactDOM.createRoot(
 );
 
 const store: StoreType = {
-  featuredMovie: moviesMock[3],
+  featuredMovie: moviesMock[6],
   movies: moviesMock,
   reviews: reviewsMock,
-  myListMovies: moviesMock.slice(0, 3)
+  myListMovies: moviesMock.slice(0, 7)
 };
 
 root.render(

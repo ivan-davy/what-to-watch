@@ -45,7 +45,7 @@ export const moviesMock: MovieType[] = [
     'id': 2,
     'isFavorite': false,
     'videoLink': 'https://11.react.pages.academy/static/film/video/bubbles.mp4',
-    'previewVideoLink': 'https://11.react.pages.academy/static/film/video/dog.mp4'
+    'previewVideoLink': 'https://11.react.pages.academy/static/film/video/traffic.mp4'
   },
   {
     'name': 'Legend',
@@ -114,7 +114,7 @@ export const moviesMock: MovieType[] = [
     'id': 5,
     'isFavorite': false,
     'videoLink': 'https://11.react.pages.academy/static/film/video/matrix.mp4',
-    'previewVideoLink': 'https://11.react.pages.academy/static/film/video/dog.mp4'
+    'previewVideoLink': 'https://11.react.pages.academy/static/film/video/traffic.mp4'
   },
   {
     'name': 'Matrix',
@@ -137,7 +137,7 @@ export const moviesMock: MovieType[] = [
     'id': 6,
     'isFavorite': false,
     'videoLink': 'https://11.react.pages.academy/static/film/video/bike.mp4',
-    'previewVideoLink': 'https://11.react.pages.academy/static/film/video/dog.mp4'
+    'previewVideoLink': 'https://11.react.pages.academy/static/film/video/traffic.mp4'
   },
   {
     'name': 'Pulp Fiction',
@@ -183,6 +183,6 @@ export const moviesMock: MovieType[] = [
     'id': 8,
     'isFavorite': false,
     'videoLink': 'https://11.react.pages.academy/static/film/video/bike.mp4',
-    'previewVideoLink': 'https://11.react.pages.academy/static/film/video/dog.mp4'
+    'previewVideoLink': 'https://11.react.pages.academy/static/film/video/traffic.mp4'
   },
 ];

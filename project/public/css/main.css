@@ -1307,8 +1307,8 @@ main {
   transition: 0.2s transform, 0.2s -webkit-transform; }
   .small-film-card:hover {
     z-index: 3;
-    -webkit-transform: scale(1.2);
-            transform: scale(1.2); }
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1); }
   .small-film-card img {
     vertical-align: top;
     width: 100%;

@@ -50,7 +50,7 @@ function App({featuredMovie, movies, reviews, myListMovies}: AppPropsType): JSX.
         <Route
           path={`${PageRoute.Movie}/:id${PageRoute.AddReview}`}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
               <AddReviewScreen movies={movies}/>
             </PrivateRoute>
           }
