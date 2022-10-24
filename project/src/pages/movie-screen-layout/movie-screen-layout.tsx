@@ -1,6 +1,6 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
-import {useParams} from 'react-router-dom';
+import {Outlet, useParams} from 'react-router-dom';
 import {MovieType} from '../../types/types';
 import NotFoundScreen from '../not-found/not-found-screen';
 import {Link} from 'react-router-dom';
@@ -9,32 +9,15 @@ import MovieList from '../../components/movie-list/movie-list';
 
 export type MovieScreenPropType = {
   movies: MovieType[];
+  myListMoviesQty: number;
 }
 
-export default function MovieScreen({movies}: MovieScreenPropType): JSX.Element {
+export default function MovieScreenLayout({movies, myListMoviesQty}: MovieScreenPropType): JSX.Element {
   const params = useParams();
   const movie = movies.find((item:MovieType) => item.id.toString() === params.id);
   if (movie === undefined) {
     return <NotFoundScreen />;
   }
-  const prettyRating = (rating: number) => {
-    if (rating >= 0 && rating < 3) {
-      return 'Bad';
-    }
-    if (rating >= 3 && rating < 5) {
-      return 'Mediocre';
-    }
-    if (rating >= 5 && rating < 8) {
-      return 'Good';
-    }
-    if (rating >= 8 && rating < 10) {
-      return 'Very good';
-    }
-    if (rating === 10) {
-      return 'Awesome';
-    }
-    return 'NaN';
-  };
   const similarMovies = movies.slice(0, 4);
 
   return (
@@ -82,7 +65,7 @@ export default function MovieScreen({movies}: MovieScreenPropType): JSX.Element 
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">9</span>
+                  <span className="film-card__count">{myListMoviesQty}</span>
                 </button>
                 <Link to={`.${PageRoute.AddReview}`} className="btn film-card__button">Add review</Link>
               </div>
@@ -91,46 +74,7 @@ export default function MovieScreen({movies}: MovieScreenPropType): JSX.Element 
         </div>
 
         <div className="film-card__wrap film-card__translate-top">
-          <div className="film-card__info">
-            <div className="film-card__poster film-card__poster--big">
-              <img src={movie.posterImage} alt={`${movie.name} poster`} width="218"
-                height="327"
-              />
-            </div>
-
-            <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="#" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">{movie.rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">{prettyRating(movie.rating)}</span>
-                  <span className="film-rating__count">{movie.scoresCount} ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{movie.description}</p>
-
-                <p className="film-card__director"><strong>Director: {movie.director}</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: {movie.starring.join(', ')} and others</strong>
-                </p>
-              </div>
-            </div>
-          </div>
+          <Outlet/>
         </div>
       </section>
 
