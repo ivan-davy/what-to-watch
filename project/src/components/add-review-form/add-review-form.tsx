@@ -14,10 +14,10 @@ export default function AddReviewForm({reviewedMovieId}: AddReviewFormPropsType)
   const [formState, setFormState] = React.useState(defaultReview);
   const handleFormChange = (evt: SyntheticEvent) => {
     const target = evt.target as HTMLTextAreaElement | HTMLInputElement;
-    if (target.tagName === 'TEXTAREA') {
+    if (target.name === 'review-text') {
       setFormState({...formState, comment: target.value});
     }
-    if (target.tagName === 'INPUT') {
+    if (target.name === 'rating') {
       setFormState({...formState, rating: parseInt(target.value, 10)});
     }
   };

@@ -4,6 +4,8 @@ import App from './components/app/app';
 import {moviesMock} from './mocks/movies';
 import {reviewsMock} from './mocks/reviews';
 import {MovieType, ReviewType} from './types/types';
+import {Provider} from 'react-redux';
+import {store} from './store';
 
 export type StoreType = {
   featuredMovie: MovieType;
@@ -16,7 +18,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
-const store: StoreType = {
+const storeTemp: StoreType = {
   featuredMovie: moviesMock[11],
   movies: moviesMock,
   reviews: reviewsMock,
@@ -24,12 +26,14 @@ const store: StoreType = {
 };
 
 root.render(
-  <React.StrictMode>
-    <App
-      featuredMovie={store.featuredMovie}
-      movies={store.movies}
-      reviews={store.reviews}
-      myListMovies={store.myListMovies}
-    />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <App
+        featuredMovie={storeTemp.featuredMovie}
+        movies={storeTemp.movies}
+        reviews={storeTemp.reviews}
+        myListMovies={storeTemp.myListMovies}
+      />
+    </React.StrictMode>
+  </Provider>
 );
