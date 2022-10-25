@@ -3,6 +3,8 @@ import Footer from '../../components/footer/footer';
 import {MovieType} from '../../types/types';
 import MovieList from '../../components/movie-list/movie-list';
 import GenresList from '../../components/genres-list/genres-list';
+import {useNavigate} from 'react-router-dom';
+import {PageRoute} from '../../const';
 
 export type HomeScreenPropsType = {
   featuredMovie: MovieType;
@@ -11,6 +13,7 @@ export type HomeScreenPropsType = {
 }
 
 export default function HomeScreen({featuredMovie, movies, myListMoviesQty}: HomeScreenPropsType): JSX.Element {
+  const navigate = useNavigate();
   return (
     <>
       <section className="film-card">
@@ -51,7 +54,7 @@ export default function HomeScreen({featuredMovie, movies, myListMoviesQty}: Hom
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button onClick={() => navigate(`${PageRoute.Player}/${featuredMovie.id}`)} className="btn btn--play film-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>

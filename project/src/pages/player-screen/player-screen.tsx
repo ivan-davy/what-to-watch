@@ -1,5 +1,5 @@
 import {MovieType} from '../../types/types';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import NotFoundScreen from '../not-found/not-found-screen';
 
 export type PlayerScreenPropsType = {
@@ -8,6 +8,7 @@ export type PlayerScreenPropsType = {
 
 export default function PlayerScreen({movies}: PlayerScreenPropsType): JSX.Element {
   const params = useParams();
+  const navigate = useNavigate();
   const movie = movies.find((item:MovieType) => item.id.toString() === params.id);
   if (movie === undefined) {
     return <NotFoundScreen />;
@@ -16,7 +17,7 @@ export default function PlayerScreen({movies}: PlayerScreenPropsType): JSX.Eleme
     <div className="player">
       <video src="#" className="player__video" poster={movie.backgroundImage}></video>
 
-      <button type="button" className="player__exit">Exit</button>
+      <button onClick={() => navigate('/')} type="button" className="player__exit">Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">
