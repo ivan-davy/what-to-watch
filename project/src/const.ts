@@ -21,15 +21,4 @@ export enum MovieScreenTab {
   Reviews
 }
 
-export enum GenreFilter {
-  All = 'All genres',
-  Comedy = 'Comedy',
-  Crime = 'Crime',
-  Documentary = 'Documentary',
-  Drama = 'Drama',
-  Horror = 'Horror',
-  KidsFamily = 'Kids & Family',
-  Romance = 'Romance',
-  SciFi = 'Sci-Fi',
-  Thriller = 'Thriller'
-}
+export const allGenresFilterName = 'All Genres';

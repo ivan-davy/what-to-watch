@@ -5,7 +5,7 @@ import {moviesMock} from './mocks/movies';
 import {reviewsMock} from './mocks/reviews';
 import {MovieType, ReviewType} from './types/types';
 import {Provider} from 'react-redux';
-import {store} from './store';
+import {store} from './store/store';
 
 export type StoreType = {
   featuredMovie: MovieType;

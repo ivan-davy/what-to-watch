@@ -1,6 +1,11 @@
 import {createAction} from '@reduxjs/toolkit';
 
-export const genreReset = createAction('genreHome/reset');
-export const genreChange = createAction('genreHome/change');
+export const genreResetAction = createAction('genreHome/reset');
+export const genreChangeAction = createAction('genreHome-change', (newGenre) => ({
+  payload: newGenre as string,
+}));
+
 //export const getAllMovies = createAction('moviesHome/getAll');
 export const getMoviesByGenre = createAction('moviesHome/getByGenre');
+
+

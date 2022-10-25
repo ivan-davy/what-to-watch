@@ -1,19 +1,19 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {moviesMock} from '../mocks/movies';
-import {genreChange, genreReset} from './action';
-import {GenreFilter} from '../const';
+import {genreChangeAction, genreResetAction} from './action';
+import {allGenresFilterName} from '../const';
 
 const initialState = {
-  selectedGenreHome: 'All',
+  selectedGenreHome: allGenresFilterName,
   movies: moviesMock.slice(0, 7),
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(genreReset, (state) => {
-      state.selectedGenreHome = GenreFilter.All;
+    .addCase(genreResetAction, (state) => {
+      state.selectedGenreHome = allGenresFilterName;
     })
-    .addCase(genreChange, (state, action) => {
+    .addCase(genreChangeAction, (state, action) => {
       state.selectedGenreHome = action.payload;
     });
 });
