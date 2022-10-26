@@ -9,8 +9,6 @@ export type VideoPlayerPropsType = {
 
 export default function VideoPlayer({movie, muted, autoPlay}: VideoPlayerPropsType): JSX.Element {
   const [, setIsLoading] = useState(true);
-  const [isPlaying] = useState(autoPlay);
-
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -24,12 +22,11 @@ export default function VideoPlayer({movie, muted, autoPlay}: VideoPlayerPropsTy
         setIsLoading(false);
       }
     });
-    if (isPlaying) {
+    if (autoPlay) {
       setTimeout(() => {
         if (videoRef.current !== null) {
           videoRef.current.play();
         }
-
       }, 1000);
       return;
     }
@@ -37,7 +34,7 @@ export default function VideoPlayer({movie, muted, autoPlay}: VideoPlayerPropsTy
     return () => {
       isVideoPlayerMounted = false;
     };
-  }, [isPlaying]);
+  }, [autoPlay]);
 
   return (
     <video src={movie.previewVideoLink} poster={movie.previewImage} ref={videoRef} muted={muted}/>

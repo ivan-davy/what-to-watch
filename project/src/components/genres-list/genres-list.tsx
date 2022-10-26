@@ -1,7 +1,7 @@
 import {MovieType} from '../../types/types';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {genreChangeAction} from '../../store/action';
-import {allGenresFilterName} from '../../const';
+import {ALL_GENRES_FILTER_NAME} from '../../const';
 
 export type GenresListPropsType = {
   movies: MovieType[];
@@ -10,7 +10,7 @@ export type GenresListPropsType = {
 
 export default function GenresList({movies}: GenresListPropsType): JSX.Element {
   const orderedGenresList: string[] = [];
-  orderedGenresList.push(allGenresFilterName);
+  orderedGenresList.push(ALL_GENRES_FILTER_NAME);
   movies.forEach((movie) => {
     if (!orderedGenresList.includes(movie.genre)) {
       orderedGenresList.push(movie.genre);

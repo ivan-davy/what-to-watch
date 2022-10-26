@@ -85,9 +85,6 @@ export default function HomeScreen({featuredMovie, movies, myListMoviesQty}: Hom
 
           <MovieList movies={movies}/>
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
         </section>
 
         <Footer/>

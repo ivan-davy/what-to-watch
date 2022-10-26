@@ -1,16 +1,25 @@
 import {MovieType} from '../../types/types';
 import MovieCard from '../movie-card/movie-card';
-import {BaseSyntheticEvent, useState} from 'react';
+import {BaseSyntheticEvent, useEffect, useState} from 'react';
 import {useAppSelector} from '../../hooks/store-hooks';
-import {allGenresFilterName} from '../../const';
+import {ALL_GENRES_FILTER_NAME, MAX_MOVIES_SHOWN_HOME} from '../../const';
+import ShowMore from '../show-more/show-more';
 
 export type MovieListPropsType = {
   movies: MovieType[];
 }
 
 export default function MovieList({movies}: MovieListPropsType): JSX.Element {
-  const [activeId, setActiveId] = useState<string | null>(null);
   const selectedGenre = useAppSelector((state) => state.selectedGenreHome);
+  const moviesFiltered: MovieType[] = [];
+  movies.forEach((movie: MovieType) => {
+    if (selectedGenre === ALL_GENRES_FILTER_NAME || selectedGenre === movie.genre) {
+      moviesFiltered.push(movie);
+    }
+  });
+
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [moviesShown, setMoviesShown] = useState<number>(Math.min(moviesFiltered.length, MAX_MOVIES_SHOWN_HOME));
 
   const handleMouseOver = (evt: BaseSyntheticEvent) => {
     const target = evt.target as Element;
@@ -22,14 +31,19 @@ export default function MovieList({movies}: MovieListPropsType): JSX.Element {
     }
   };
 
+  const increaseMoviesShown = () => {
+    setMoviesShown(Math.min(moviesFiltered.length, moviesShown + MAX_MOVIES_SHOWN_HOME));
+  };
+
+  useEffect(() => {
+    setMoviesShown(Math.min(moviesFiltered.length, MAX_MOVIES_SHOWN_HOME));
+  }, [selectedGenre]);
+
   return (
-    <div className="catalog__films-list" onMouseOver={handleMouseOver} onMouseOut={() => setActiveId(null)}>
-      {movies.map((movie: MovieType) => {
-        if (selectedGenre === allGenresFilterName || selectedGenre === movie.genre) {
-          return <MovieCard movie={movie} isActive={movie.id.toString() === activeId} key={movie.id}/>;
-        }
-        return null;
-      })}
-    </div>
-  );
+    <>
+      <div className="catalog__films-list" onMouseOver={handleMouseOver} onMouseOut={() => setActiveId(null)}>
+        {moviesFiltered.slice(0, moviesShown).map((movie: MovieType) => <MovieCard movie={movie} isActive={movie.id.toString() === activeId} key={movie.id}/>)}
+      </div>
+      {moviesShown < moviesFiltered.length ? <ShowMore onClick={increaseMoviesShown}/> : null}
+    </>);
 }
