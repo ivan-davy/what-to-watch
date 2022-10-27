@@ -4,6 +4,7 @@ import {BaseSyntheticEvent, useEffect, useState} from 'react';
 import {useAppSelector} from '../../hooks/store-hooks';
 import {ALL_GENRES_FILTER_NAME, MAX_MOVIES_SHOWN_HOME} from '../../const';
 import ShowMore from '../show-more/show-more';
+import LoadingScreen from '../loading/loading';
 
 export type MovieListPropsType = {
   movies: MovieType[];
@@ -11,6 +12,7 @@ export type MovieListPropsType = {
 
 export default function MovieList({movies}: MovieListPropsType): JSX.Element {
   const selectedGenre = useAppSelector((state) => state.home.selectedGenre);
+  const isDataLoading = useAppSelector((state) => state.isDataLoading);
   const moviesFiltered: MovieType[] = [];
   movies.forEach((movie: MovieType) => {
     if (selectedGenre === ALL_GENRES_FILTER_NAME || selectedGenre === movie.genre) {
@@ -37,7 +39,11 @@ export default function MovieList({movies}: MovieListPropsType): JSX.Element {
 
   useEffect(() => {
     setMoviesShown(Math.min(moviesFiltered.length, MAX_MOVIES_SHOWN_HOME));
-  }, [selectedGenre]);
+  }, [selectedGenre, movies]);
+
+  if (isDataLoading) {
+    return <LoadingScreen/>;
+  }
 
   return (
     <>

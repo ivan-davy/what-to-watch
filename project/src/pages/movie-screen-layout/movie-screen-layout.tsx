@@ -7,6 +7,7 @@ import {PageRoute} from '../../const';
 import MovieList from '../../components/movie-list/movie-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {fetchActiveMovieDataAction} from '../../store/api-actions';
+import LoadingScreen from '../../components/loading/loading';
 
 
 export default function MovieScreenLayout(): JSX.Element {
@@ -19,9 +20,14 @@ export default function MovieScreenLayout(): JSX.Element {
   const movie = useAppSelector((state) => state.active.movie);
   const similar = useAppSelector((state) => state.active.similar);
   const myListMoviesQty = useAppSelector((state) => state.myList.length);
+  const isDataLoading = useAppSelector((state) => state.isDataLoading);
 
   if (movie === undefined) {
     return <NotFoundScreen />;
+  }
+
+  if (isDataLoading) {
+    return <LoadingScreen/>;
   }
 
   return (
