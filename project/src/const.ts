@@ -8,6 +8,16 @@ export enum PageRoute {
   AddReview = '/review',
   Player = '/player'
 }
+export enum ApiRoute {
+  Movies = '/films',
+  Movie = '/film',
+  Similar = '/similar',
+  Featured = '/promo',
+  MyList = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout',
+}
 
 export enum AuthorizationStatus {
   Auth = 'AUTH',

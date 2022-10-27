@@ -1,7 +1,7 @@
 import {MovieType} from '../../types/types';
 import {PageRoute} from '../../const';
 import {Link} from 'react-router-dom';
-import VideoPlayer from '../video-player/video-player';
+import VideoPlayerMini from '../video-player/video-player-mini';
 
 type MovieCardPropsType = {
   movie: MovieType;
@@ -14,7 +14,7 @@ export default function MovieCard({movie, isActive}: MovieCardPropsType): JSX.El
       <div className="small-film-card__image">
         {
           isActive ?
-            <VideoPlayer movie={movie} muted autoPlay/> :
+            <VideoPlayerMini movie={movie} muted autoPlay/> :
             <img src={movie.previewImage} alt={movie.name} width="280" height="175"/>
         }
 

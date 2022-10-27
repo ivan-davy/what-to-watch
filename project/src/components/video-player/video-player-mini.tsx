@@ -7,7 +7,7 @@ export type VideoPlayerPropsType = {
   autoPlay: boolean;
 }
 
-export default function VideoPlayer({movie, muted, autoPlay}: VideoPlayerPropsType): JSX.Element {
+export default function VideoPlayerMini({movie, muted, autoPlay}: VideoPlayerPropsType): JSX.Element {
   const [, setIsLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
