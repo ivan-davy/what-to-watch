@@ -1,11 +1,16 @@
 import {createAction} from '@reduxjs/toolkit';
 import {AuthorizationStatus} from '../const';
-import {MovieType} from '../types/types';
+import {ActiveMovieDataType, HomeDataType} from '../types/types';
+import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
 
-export const genreResetAction = createAction('genreHome/reset');
 export const genreChangeAction = createAction('genreHome/change', (newGenre) => ({
   payload: newGenre as string,
 }));
-export const loadMoviesAction = createAction<MovieType[]>('movies/apiLoadMovies');
-export const loadMovieAction = createAction<MovieType>('movies/apiLoadMovie');
+
+export const loadMoviesHomeAction = createAction<Omit<HomeDataType, 'selectedGenre'>>('data/apiGetMoviesHome');
+export const loadActiveMovieDataAction = createAction<ActiveMovieDataType>('data/apiGetMovieById');
+
+export const setLoadingStatusAction = createAction<boolean>('data/setApiStatus');
+
+
 export const requireAuthorizationAction = createAction<AuthorizationStatus>('user/requireAuthorization');

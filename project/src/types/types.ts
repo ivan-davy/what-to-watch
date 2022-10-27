@@ -1,3 +1,5 @@
+import {AuthorizationStatus} from '../const';
+
 export type MovieType = {
   id: number;
   name: string;
@@ -32,4 +34,23 @@ export type ReviewType = {
 export type NewReviewType = {
   comment: string;
   rating: number | null;
+}
+
+export type StateType = {
+  active: ActiveMovieDataType;
+  home: HomeDataType;
+  authStatus: AuthorizationStatus;
+  isDataLoading: boolean;
+}
+
+export type ActiveMovieDataType = {
+  movie: MovieType;
+  similar: MovieType[];
+  reviews: ReviewType[];
+}
+
+export type HomeDataType = {
+  featuredMovie: MovieType;
+  selectedGenre: string;
+  movies: MovieType[];
 }

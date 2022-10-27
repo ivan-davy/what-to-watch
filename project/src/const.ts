@@ -1,3 +1,5 @@
+import {MovieType} from './types/types';
+
 export enum PageRoute {
   Home = '/',
   SignIn = '/login',
@@ -34,3 +36,24 @@ export enum MovieScreenTab {
 export const ALL_GENRES_FILTER_NAME = 'All Genres';
 
 export const MAX_MOVIES_SHOWN_HOME = 8;
+
+export const PLACEHOLDER_MOVIE: MovieType = {
+  id: -1,
+  name: '',
+  posterImage: '',
+  previewImage: '',
+  backgroundImage: '',
+  backgroundColor: '',
+  videoLink: '',
+  previewVideoLink: '',
+  description: '',
+  rating: 0,
+  scoresCount: 0,
+  director: '',
+  starring: [],
+  runTime: 0,
+  genre: '',
+  released: 0,
+  isFavorite: false,
+};
+
