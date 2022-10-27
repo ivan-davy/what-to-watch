@@ -4,7 +4,7 @@ import {getToken} from './token';
 const BASE_URL = 'https://11.react.pages.academy/wtw';
 const REQUEST_TIMEOUT = 5000;
 
-export const createAPI = (): AxiosInstance => {
+export const createApi = (): AxiosInstance => {
   const api = axios.create({
     baseURL: BASE_URL,
     timeout: REQUEST_TIMEOUT,

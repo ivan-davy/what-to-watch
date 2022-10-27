@@ -1,18 +1,15 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
-import {MovieType} from '../../types/types';
 import MovieList from '../../components/movie-list/movie-list';
 import GenresList from '../../components/genres-list/genres-list';
 import {useNavigate} from 'react-router-dom';
 import {PageRoute} from '../../const';
+import {useAppSelector} from '../../hooks/store-hooks';
 
-export type HomeScreenPropsType = {
-  featuredMovie: MovieType;
-  movies: MovieType[];
-  myListMoviesQty: number;
-}
-
-export default function HomeScreen({featuredMovie, movies, myListMoviesQty}: HomeScreenPropsType): JSX.Element {
+export default function HomeScreen(): JSX.Element {
+  const featuredMovie = useAppSelector((state) => state.home.featuredMovie);
+  const movies = useAppSelector((state) => state.home.movies);
+  const myListMoviesQty = useAppSelector((state) => state.myList.length);
   const navigate = useNavigate();
   return (
     <>

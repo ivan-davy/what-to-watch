@@ -1,25 +1,28 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import {Outlet, useNavigate, useParams} from 'react-router-dom';
-import {MovieType} from '../../types/types';
 import NotFoundScreen from '../not-found/not-found-screen';
 import {Link} from 'react-router-dom';
 import {PageRoute} from '../../const';
 import MovieList from '../../components/movie-list/movie-list';
+import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
+import {fetchActiveMovieDataAction} from '../../store/api-actions';
 
-export type MovieScreenPropType = {
-  movies: MovieType[];
-  myListMoviesQty: number;
-}
 
-export default function MovieScreenLayout({movies, myListMoviesQty}: MovieScreenPropType): JSX.Element {
+export default function MovieScreenLayout(): JSX.Element {
   const params = useParams();
   const navigate = useNavigate();
-  const movie = movies.find((item:MovieType) => item.id.toString() === params.id);
+  const dispatch = useAppDispatch();
+
+  dispatch(fetchActiveMovieDataAction(params.id as string));
+
+  const movie = useAppSelector((state) => state.active.movie);
+  const similar = useAppSelector((state) => state.active.similar);
+  const myListMoviesQty = useAppSelector((state) => state.myList.length);
+
   if (movie === undefined) {
     return <NotFoundScreen />;
   }
-  const similarMovies = movies.slice(0, 4);
 
   return (
     <>
@@ -83,7 +86,7 @@ export default function MovieScreenLayout({movies, myListMoviesQty}: MovieScreen
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <MovieList movies={similarMovies}/>
+          <MovieList movies={similar}/>
         </section>
         <Footer/>
       </div>

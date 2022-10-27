@@ -8,33 +8,27 @@ import PrivateRoute from '../private-route/private-route';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import NotFoundScreen from '../../pages/not-found/not-found-screen';
 import MovieScreenLayout from '../../pages/movie-screen-layout/movie-screen-layout';
-import {MovieType, ReviewType} from '../../types/types';
 import MovieTabs from '../movie-tabs/movie-tabs';
+import {useAppSelector} from '../../hooks/store-hooks';
 
-export type AppPropsType = {
-  featuredMovie: MovieType;
-  movies: MovieType[];
-  reviews: ReviewType[];
-  myListMovies: MovieType[];
-}
 
-function App({featuredMovie, movies, reviews, myListMovies}: AppPropsType): JSX.Element {
+function App(): JSX.Element {
+  //const featuredMovie = useAppSelector((state) => state.home.featuredMovie);
+  const movies = useAppSelector((state) => state.home.movies);
+  const myListMovies = useAppSelector((state) => state.myList);
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={PageRoute.Home}
           element={
-            <HomeScreen
-              featuredMovie={featuredMovie}
-              movies={movies}
-              myListMoviesQty={myListMovies.length}
-            />
+            <HomeScreen/>
           }
         />
         <Route
           path={PageRoute.SignIn}
-          element={<SignInScreen />}
+          element={<SignInScreen/>}
         />
         <Route
           path={PageRoute.MyList}
@@ -46,11 +40,11 @@ function App({featuredMovie, movies, reviews, myListMovies}: AppPropsType): JSX.
         />
         <Route
           path={`${PageRoute.Movie}/:id`}
-          element={<MovieScreenLayout movies={movies} myListMoviesQty={myListMovies.length}/>}
+          element={<MovieScreenLayout/>}
         >
-          <Route path={''} element={<MovieTabs movies={movies} tab={MovieScreenTab.Overview}/>}/>
-          <Route path={`${PageRoute.Movie}/:id${PageRoute.Details}`} element={<MovieTabs movies={movies} tab={MovieScreenTab.Details}/>}/>
-          <Route path={`${PageRoute.Movie}/:id${PageRoute.Reviews}`} element={<MovieTabs movies={movies} tab={MovieScreenTab.Reviews}/>}/>
+          <Route path={''} element={<MovieTabs tab={MovieScreenTab.Overview}/>}/>
+          <Route path={`${PageRoute.Movie}/:id${PageRoute.Details}`} element={<MovieTabs tab={MovieScreenTab.Details}/>}/>
+          <Route path={`${PageRoute.Movie}/:id${PageRoute.Reviews}`} element={<MovieTabs tab={MovieScreenTab.Reviews}/>}/>
         </Route>
         <Route
           path={`${PageRoute.Movie}/:id${PageRoute.AddReview}`}

@@ -39,6 +39,7 @@ export type NewReviewType = {
 export type StateType = {
   active: ActiveMovieDataType;
   home: HomeDataType;
+  myList: MovieType[];
   authStatus: AuthorizationStatus;
   isDataLoading: boolean;
 }

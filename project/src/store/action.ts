@@ -13,4 +13,4 @@ export const loadActiveMovieDataAction = createAction<ActiveMovieDataType>('data
 export const setLoadingStatusAction = createAction<boolean>('data/setApiStatus');
 
 
-export const requireAuthorizationAction = createAction<AuthorizationStatus>('user/requireAuthorization');
+export const requireAuthorizationAction = createAction<AuthorizationStatus>('user/requireAuth');

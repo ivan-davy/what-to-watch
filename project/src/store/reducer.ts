@@ -19,6 +19,7 @@ const initialState: StateType = {
     selectedGenre: ALL_GENRES_FILTER_NAME,
     movies: [],
   },
+  myList: [],
   authStatus: AuthorizationStatus.Unknown,
   isDataLoading: false
 };

@@ -1,30 +1,30 @@
-import {MovieType} from '../../types/types';
-import {Link, useParams} from 'react-router-dom';
+import {MovieType, ReviewType} from '../../types/types';
+import {Link} from 'react-router-dom';
 import {MovieScreenTab, PageRoute} from '../../const';
 import MovieOverview from '../movie-overview/movie-overview';
 import MovieDetails from '../movie-details/movie-details';
 import MovieReviews from '../../movie-reviews/movie-reviews';
-import {reviewsMock} from '../../mocks/reviews';
+import {useAppSelector} from '../../hooks/store-hooks';
 
 export type MovieTabsPropsData = {
-  movies: MovieType[];
   tab: number;
 }
 
-const renderTab = (movie: MovieType, tab: number) => {
+const renderTab = (tab: number, movie: MovieType, reviews: ReviewType[]) => {
   switch (tab) {
     case MovieScreenTab.Overview:
       return <MovieOverview {...movie}/>;
     case MovieScreenTab.Details:
       return <MovieDetails {...movie}/>;
     case MovieScreenTab.Reviews:
-      return <MovieReviews {...reviewsMock.slice(0, 3)}/>;
+      return <MovieReviews {...reviews}/>;
   }
 };
 
-export default function MovieTabs({movies, tab}: MovieTabsPropsData): JSX.Element {
-  const params = useParams();
-  const movie: MovieType | undefined = movies.find((item:MovieType) => item.id.toString() === params.id) as MovieType;
+export default function MovieTabs({tab}: MovieTabsPropsData): JSX.Element {
+  const movie: MovieType | null = useAppSelector((state) => state.active.movie);
+  const reviews: ReviewType[] = useAppSelector((state) => state.active.reviews);
+
   return (
     <div className="film-card__info">
       <div className="film-card__poster film-card__poster--big">
@@ -48,7 +48,7 @@ export default function MovieTabs({movies, tab}: MovieTabsPropsData): JSX.Elemen
           </ul>
         </nav>
 
-        {renderTab(movie, tab)}
+        {renderTab(tab, movie, reviews)}
 
       </div>
     </div>

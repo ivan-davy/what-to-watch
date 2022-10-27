@@ -10,7 +10,7 @@ export type MovieListPropsType = {
 }
 
 export default function MovieList({movies}: MovieListPropsType): JSX.Element {
-  const selectedGenre = useAppSelector((state) => state.selectedGenreHome);
+  const selectedGenre = useAppSelector((state) => state.home.selectedGenre);
   const moviesFiltered: MovieType[] = [];
   movies.forEach((movie: MovieType) => {
     if (selectedGenre === ALL_GENRES_FILTER_NAME || selectedGenre === movie.genre) {

@@ -7,7 +7,6 @@ export type GenresListPropsType = {
   movies: MovieType[];
 }
 
-
 export default function GenresList({movies}: GenresListPropsType): JSX.Element {
   const orderedGenresList: string[] = [];
   orderedGenresList.push(ALL_GENRES_FILTER_NAME);
@@ -17,7 +16,7 @@ export default function GenresList({movies}: GenresListPropsType): JSX.Element {
     }
   });
 
-  const selectedGenre = useAppSelector((state) => state.selectedGenreHome);
+  const selectedGenre = useAppSelector((state) => state.home.selectedGenre);
   const dispatch = useAppDispatch();
 
   const getGenreElement = (genre: string): JSX.Element => (
