@@ -18,11 +18,14 @@ export default function MovieScreenLayout(): JSX.Element {
   const movie = useAppSelector((state) => state.active.movie);
   const similar = useAppSelector((state) => state.active.similar);
   const myListMoviesQty = useAppSelector((state) => state.myList.length);
-  const isDataLoading = useAppSelector((state) => state.isDataLoading);
+  const isDataLoading = useAppSelector((state) => state.api.isDataLoading);
 
   if (params.id !== movie.id.toString()) {
     dispatch(fetchActiveMovieDataAction(params.id as string));
   }
+
+  // eslint-disable-next-line no-console
+  console.log(1);
 
   if (isDataLoading) {
     return <LoadingSpinner/>;

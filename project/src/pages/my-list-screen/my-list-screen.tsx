@@ -1,13 +1,11 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
-import {MovieType} from '../../types/types';
 import MovieList from '../../components/movie-list/movie-list';
+import {MovieType} from '../../types/types';
 
-export type MyListScreenPropsType = {
-  myListMovies: MovieType[];
-}
+export default function MyListScreen(): JSX.Element {
+  const myListMovies: MovieType[] = [];
 
-export default function MyListScreen({myListMovies}: MyListScreenPropsType): JSX.Element {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

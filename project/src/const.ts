@@ -57,3 +57,10 @@ export const PLACEHOLDER_MOVIE: MovieType = {
   isFavorite: false,
 };
 
+export const SHOW_ERROR_TIME_LIMIT = 5000;
+
+export enum StatusCode {
+  BadRequest = 400,
+  Unauthorized = 401,
+  NotFound = 404
+}

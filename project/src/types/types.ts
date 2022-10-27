@@ -40,8 +40,7 @@ export type StateType = {
   active: ActiveMovieDataType;
   home: HomeDataType;
   myList: MovieType[];
-  authStatus: AuthorizationStatus;
-  isDataLoading: boolean;
+  api: ApiDataType;
 }
 
 export type ActiveMovieDataType = {
@@ -55,3 +54,21 @@ export type HomeDataType = {
   selectedGenre: string;
   movies: MovieType[];
 }
+
+export type ApiDataType = {
+  authStatus: AuthorizationStatus;
+  isDataLoading: boolean;
+  error: string | null;
+}
+
+export type AuthDataType = {
+  login: string;
+  password: string;
+};
+
+export type UserDataType = {
+  id: number;
+  email: string;
+  token: string;
+};
+

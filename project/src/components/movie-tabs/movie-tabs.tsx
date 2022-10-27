@@ -36,13 +36,13 @@ export default function MovieTabs({tab}: MovieTabsPropsData): JSX.Element {
       <div className="film-card__desc">
         <nav className="film-nav film-card__nav">
           <ul className="film-nav__list">
-            <li className={`film-nav__item ${tab === 0 ? 'film-nav__item--active' : ''}`}>
+            <li className={`film-nav__item ${tab === MovieScreenTab.Overview ? 'film-nav__item--active' : ''}`}>
               <Link to={`${PageRoute.Movie}/${movie.id}`} className="film-nav__link">Overview</Link>
             </li>
-            <li className={`film-nav__item ${tab === 1 ? 'film-nav__item--active' : ''}`}>
+            <li className={`film-nav__item ${tab === MovieScreenTab.Details ? 'film-nav__item--active' : ''}`}>
               <Link to={`${PageRoute.Movie}/${movie.id}${PageRoute.Details}`} className="film-nav__link">Details</Link>
             </li>
-            <li className={`film-nav__item ${tab === 2 ? 'film-nav__item--active' : ''}`}>
+            <li className={`film-nav__item ${tab === MovieScreenTab.Reviews ? 'film-nav__item--active' : ''}`}>
               <Link to={`${PageRoute.Movie}/${movie.id}${PageRoute.Reviews}`} className="film-nav__link">Reviews</Link>
             </li>
           </ul>

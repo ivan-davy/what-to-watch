@@ -10,12 +10,19 @@ import NotFoundScreen from '../../pages/not-found/not-found-screen';
 import MovieScreenLayout from '../../pages/movie-screen-layout/movie-screen-layout';
 import MovieTabs from '../movie-tabs/movie-tabs';
 import {useAppSelector} from '../../hooks/store-hooks';
+import LoadingSpinner from '../loading/loading-spinner';
 
 
 function App(): JSX.Element {
-  //const featuredMovie = useAppSelector((state) => state.home.featuredMovie);
   const movies = useAppSelector((state) => state.home.movies);
-  const myListMovies = useAppSelector((state) => state.myList);
+  const authStatus = useAppSelector((state) => state.api.authStatus);
+  const isDataLoading = useAppSelector((state) => state.api.isDataLoading);
+
+  if (authStatus === AuthorizationStatus.Unknown || isDataLoading) {
+    return (
+      <LoadingSpinner/>
+    );
+  }
 
   return (
     <BrowserRouter>
@@ -33,8 +40,8 @@ function App(): JSX.Element {
         <Route
           path={PageRoute.MyList}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <MyListScreen myListMovies={myListMovies}/>
+            <PrivateRoute authorizationStatus={authStatus}>
+              <MyListScreen/>
             </PrivateRoute>
           }
         />
@@ -49,7 +56,7 @@ function App(): JSX.Element {
         <Route
           path={`${PageRoute.Movie}/:id${PageRoute.AddReview}`}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <PrivateRoute authorizationStatus={authStatus}>
               <AddReviewScreen movies={movies}/>
             </PrivateRoute>
           }

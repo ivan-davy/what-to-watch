@@ -11,6 +11,6 @@ export const loadsHomeMovieDataAction = createAction<Omit<HomeDataType, 'selecte
 export const loadActiveMovieDataAction = createAction<ActiveMovieDataType>('data/apiGetMovieById');
 
 export const setLoadingStatusAction = createAction<boolean>('data/setApiStatus');
-
+export const setErrorAction = createAction<string | null>('game/setError');
 
 export const requireAuthorizationAction = createAction<AuthorizationStatus>('user/requireAuth');
