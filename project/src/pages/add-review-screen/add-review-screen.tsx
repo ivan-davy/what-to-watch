@@ -4,6 +4,7 @@ import {useParams} from 'react-router-dom';
 import NotFoundScreen from '../not-found/not-found-screen';
 import {PageRoute} from '../../const';
 import AddReviewForm from '../../components/add-review-form/add-review-form';
+import {Link} from 'react-router-dom';
 
 export type AddReviewScreenPropType = {
   movies: MovieType[];
@@ -30,7 +31,7 @@ export default function AddReviewScreen({movies}: AddReviewScreenPropType): JSX.
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href={`${PageRoute.Movie}/${movie.id}`} className="breadcrumbs__link">{movie.name}</a>
+                <Link to={`${PageRoute.Movie}/${movie.id}`} className="breadcrumbs__link">{movie.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>

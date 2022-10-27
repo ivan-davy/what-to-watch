@@ -7,7 +7,7 @@ export const genreChangeAction = createAction('genreHome/change', (newGenre) => 
   payload: newGenre as string,
 }));
 
-export const loadMoviesHomeAction = createAction<Omit<HomeDataType, 'selectedGenre'>>('data/apiGetMoviesHome');
+export const loadsHomeMovieDataAction = createAction<Omit<HomeDataType, 'selectedGenre'>>('data/apiGetMoviesHome');
 export const loadActiveMovieDataAction = createAction<ActiveMovieDataType>('data/apiGetMovieById');
 
 export const setLoadingStatusAction = createAction<boolean>('data/setApiStatus');

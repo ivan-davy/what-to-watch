@@ -6,7 +6,7 @@ import {ActiveMovieDataType, HomeDataType, MovieType, ReviewType} from '../types
 import {ApiRoute, AuthorizationStatus, PLACEHOLDER_MOVIE} from '../const';
 import {
   loadActiveMovieDataAction,
-  loadMoviesHomeAction,
+  loadsHomeMovieDataAction,
   requireAuthorizationAction,
   setLoadingStatusAction
 } from './action';
@@ -29,7 +29,7 @@ export const fetchMoviesHomeAction = createAsyncThunk<void, undefined, {
     homeData.movies = (await api.get<MovieType[]>(ApiRoute.Movies)).data;
     homeData.featuredMovie = (await api.get<MovieType>(ApiRoute.Featured)).data;
 
-    dispatch(loadMoviesHomeAction(homeData));
+    dispatch(loadsHomeMovieDataAction(homeData));
     dispatch(setLoadingStatusAction(false));
   },
 );

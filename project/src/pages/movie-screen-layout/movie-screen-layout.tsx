@@ -3,11 +3,11 @@ import Footer from '../../components/footer/footer';
 import {Outlet, useNavigate, useParams} from 'react-router-dom';
 import NotFoundScreen from '../not-found/not-found-screen';
 import {Link} from 'react-router-dom';
-import {PageRoute} from '../../const';
+import {PageRoute, PLACEHOLDER_MOVIE} from '../../const';
 import MovieList from '../../components/movie-list/movie-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {fetchActiveMovieDataAction} from '../../store/api-actions';
-import LoadingScreen from '../../components/loading/loading';
+import LoadingSpinner from '../../components/loading/loading-spinner';
 
 
 export default function MovieScreenLayout(): JSX.Element {
@@ -15,21 +15,21 @@ export default function MovieScreenLayout(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  dispatch(fetchActiveMovieDataAction(params.id as string));
-
   const movie = useAppSelector((state) => state.active.movie);
   const similar = useAppSelector((state) => state.active.similar);
   const myListMoviesQty = useAppSelector((state) => state.myList.length);
   const isDataLoading = useAppSelector((state) => state.isDataLoading);
 
-  if (movie === undefined) {
-    return <NotFoundScreen />;
+  if (params.id !== movie.id.toString()) {
+    dispatch(fetchActiveMovieDataAction(params.id as string));
   }
 
   if (isDataLoading) {
-    return <LoadingScreen/>;
+    return <LoadingSpinner/>;
   }
-
+  if (movie === PLACEHOLDER_MOVIE) {
+    return <NotFoundScreen />;
+  }
   return (
     <>
       <section className="film-card film-card--full" style={{background: `${movie.backgroundColor}80`}}>

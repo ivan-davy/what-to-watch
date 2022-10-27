@@ -4,7 +4,7 @@ import {BaseSyntheticEvent, useEffect, useState} from 'react';
 import {useAppSelector} from '../../hooks/store-hooks';
 import {ALL_GENRES_FILTER_NAME, MAX_MOVIES_SHOWN_HOME} from '../../const';
 import ShowMore from '../show-more/show-more';
-import LoadingScreen from '../loading/loading';
+import LoadingSpinner from '../loading/loading-spinner';
 
 export type MovieListPropsType = {
   movies: MovieType[];
@@ -42,7 +42,7 @@ export default function MovieList({movies}: MovieListPropsType): JSX.Element {
   }, [selectedGenre, movies]);
 
   if (isDataLoading) {
-    return <LoadingScreen/>;
+    return <LoadingSpinner/>;
   }
 
   return (

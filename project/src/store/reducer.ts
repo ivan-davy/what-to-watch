@@ -2,8 +2,8 @@ import {createReducer} from '@reduxjs/toolkit';
 import {
   genreChangeAction,
   loadActiveMovieDataAction,
-  loadMoviesHomeAction,
-  requireAuthorizationAction
+  loadsHomeMovieDataAction,
+  requireAuthorizationAction, setLoadingStatusAction
 } from './action';
 import {ALL_GENRES_FILTER_NAME, AuthorizationStatus, PLACEHOLDER_MOVIE} from '../const';
 import {StateType} from '../types/types';
@@ -29,7 +29,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(genreChangeAction, (state, action) => {
       state.home.selectedGenre = action.payload;
     })
-    .addCase(loadMoviesHomeAction, (state, action) => {
+    .addCase(loadsHomeMovieDataAction, (state, action) => {
       state.home.featuredMovie = action.payload.featuredMovie;
       state.home.movies = action.payload.movies;
     })
@@ -38,6 +38,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorizationAction, (state, action) => {
       state.authStatus = action.payload;
+    })
+    .addCase(setLoadingStatusAction, (state, action) => {
+      state.isDataLoading = action.payload;
     });
 });
 
