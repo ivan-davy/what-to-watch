@@ -15,7 +15,6 @@ export default function AddReviewForm(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const activeMovie = useAppSelector((state) => state.active.movie);
-  const error = useAppSelector((state) => state.api.error);
 
   const handleFormChange = (evt: SyntheticEvent) => {
     const target = evt.target as HTMLTextAreaElement | HTMLInputElement;
@@ -29,9 +28,12 @@ export default function AddReviewForm(): JSX.Element {
 
   const handleFormSubmit = (evt: BaseSyntheticEvent) => {
     evt.preventDefault();
-    dispatch(postUserReviewAction(formState));
-    if (!error) {
+    try {
+      dispatch(postUserReviewAction(formState));
       navigate(`${PageRoute.Movie}/${activeMovie.id}`);
+    } catch {
+      // eslint-disable-next-line no-console
+      console.log('err');
     }
   };
 

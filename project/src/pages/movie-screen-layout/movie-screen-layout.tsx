@@ -1,13 +1,12 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import {Link, Outlet, useNavigate, useParams} from 'react-router-dom';
-import NotFoundScreen from '../not-found/not-found-screen';
-import {AuthorizationStatus, PageRoute, PLACEHOLDER_MOVIE} from '../../const';
+import {AuthorizationStatus, PageRoute} from '../../const';
 import MovieList from '../../components/movie-list/movie-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {fetchActiveMovieDataAction} from '../../store/api-actions';
 import User from '../../components/user/user';
-
+import {useEffect} from 'react';
 
 export default function MovieScreenLayout(): JSX.Element {
   const params = useParams();
@@ -19,13 +18,16 @@ export default function MovieScreenLayout(): JSX.Element {
   const myListMoviesQty: number | undefined = useAppSelector((state) => state.user?.myList.length);
   const authStatus = useAppSelector((state) => state.api.authStatus);
 
-  if (params.id !== movie.id.toString()) {
-    dispatch(fetchActiveMovieDataAction(params.id as string));
-  }
+  useEffect(() => {
+    if (params.id !== movie.id.toString()) {
+      try {
+        dispatch(fetchActiveMovieDataAction(params.id as string));
+      } catch (err) {
+        navigate('/error');
+      }
+    }
+  });
 
-  if (movie.id === PLACEHOLDER_MOVIE.id) {
-    return <NotFoundScreen/>;
-  }
   return (
     <>
       <section className="film-card film-card--full" style={{background: `${movie.backgroundColor}80`}}>

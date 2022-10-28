@@ -2,6 +2,8 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch} from '../types/state';
 import {State} from '../types/state';
 import {AxiosInstance} from 'axios';
+import {SIMILAR_SHOWN_QTY} from '../const';
+
 import {
   ActiveMovieDataType,
   AuthDataType,
@@ -11,7 +13,7 @@ import {
   ReviewType,
   UserDataType
 } from '../types/types';
-import {ApiRoute, AuthorizationStatus, PLACEHOLDER_MOVIE, SHOW_ERROR_TIME_LIMIT} from '../const';
+import {ApiRoute, AuthorizationStatus, PLACEHOLDER_MOVIE} from '../const';
 import {
   loadActiveMovieDataAction,
   loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction,
@@ -19,7 +21,6 @@ import {
   setLoadingStatusAction, updateUserReviewsAction
 } from './action';
 import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
-import {setErrorAction} from './action';
 import {store} from './store';
 import {dropToken, saveToken} from '../api/token';
 
@@ -53,7 +54,6 @@ export const fetchActiveMovieDataAction = createAsyncThunk<void, string, {
   'api/getActiveMovieData',
   async (movieId, {dispatch, extra: api}) => {
     dispatch(setLoadingStatusAction(true));
-
     const activeData: ActiveMovieDataType = {
       movie: PLACEHOLDER_MOVIE,
       similar: [],
@@ -61,11 +61,12 @@ export const fetchActiveMovieDataAction = createAsyncThunk<void, string, {
     };
 
     activeData.movie = (await api.get<MovieType>(`${ApiRoute.Movies}/${movieId}`)).data;
-    activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`)).data;
+    activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
+      .data.slice(0, SIMILAR_SHOWN_QTY);
     activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Reviews}/${movieId}`)).data;
-
-
     dispatch(loadActiveMovieDataAction(activeData));
+    // eslint-disable-next-line no-console
+    console.log('load stop');
     dispatch(setLoadingStatusAction(false));
   },
 );
@@ -134,7 +135,7 @@ export const loginAction = createAsyncThunk<void, AuthDataType, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'user/login',
+  'api/login',
   async ({login: email, password}, {dispatch, extra: api}) => {
     const {data} = await api.post<Omit<UserDataType, 'myList'>>(ApiRoute.Login, {email, password});
 
@@ -158,20 +159,10 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'user/logout',
+  'api/logout',
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(ApiRoute.Logout);
     dropToken();
     dispatch(requireAuthorizationAction(AuthorizationStatus.NoAuth));
-  },
-);
-
-export const clearErrorAction = createAsyncThunk(
-  'game/clearError',
-  () => {
-    setTimeout(
-      () => store.dispatch(setErrorAction(null)),
-      SHOW_ERROR_TIME_LIMIT,
-    );
   },
 );

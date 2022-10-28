@@ -1,6 +1,5 @@
 import Logo from '../../components/logo/logo';
 import {useParams} from 'react-router-dom';
-import NotFoundScreen from '../not-found/not-found-screen';
 import {PageRoute} from '../../const';
 import AddReviewForm from '../../components/add-review-form/add-review-form';
 import {Link} from 'react-router-dom';
@@ -11,14 +10,10 @@ import {fetchActiveMovieDataAction} from '../../store/api-actions';
 export default function AddReviewScreen(): JSX.Element {
   const params = useParams();
   const movie = useAppSelector((state) => state.active.movie);
-  const error = useAppSelector((state) => state.api.error);
   const dispatch = useAppDispatch();
 
   if (params.id !== undefined && params.id !== movie.id.toString()) {
     dispatch(fetchActiveMovieDataAction(params.id.toString()));
-  }
-  if (error) {
-    return <NotFoundScreen/>;
   }
 
   return (

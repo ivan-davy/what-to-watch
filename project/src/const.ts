@@ -8,7 +8,7 @@ export enum PageRoute {
   Details = '/details',
   Reviews = '/reviews',
   AddReview = '/review',
-  Player = '/player'
+  Player = '/player',
 }
 export enum ApiRoute {
   Movies = '/films',
@@ -57,10 +57,9 @@ export const PLACEHOLDER_MOVIE: MovieType = {
   isFavorite: false,
 };
 
-export const SHOW_ERROR_TIME_LIMIT = 5000;
-
 export enum StatusCode {
   BadRequest = 400,
   Unauthorized = 401,
   NotFound = 404
 }
+export const SIMILAR_SHOWN_QTY = 4;
