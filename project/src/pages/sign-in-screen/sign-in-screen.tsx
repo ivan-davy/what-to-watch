@@ -20,13 +20,13 @@ export default function SignInScreen(): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-
     if (loginRef.current !== null && passwordRef.current !== null) {
       onSubmit({
         login: loginRef.current.value,
         password: passwordRef.current.value,
       });
     }
+    navigate(PageRoute.Home);
   };
 
   return (
@@ -53,7 +53,7 @@ export default function SignInScreen(): JSX.Element {
             </div>
           </div>
           <div className="sign-in__submit">
-            <button onClick={() => navigate(PageRoute.Home)} className="sign-in__btn" type="submit">Sign in</button>
+            <button className="sign-in__btn" type="submit">Sign in</button>
           </div>
         </form>
       </div>

@@ -3,13 +3,15 @@ import Footer from '../../components/footer/footer';
 import MovieList from '../../components/movie-list/movie-list';
 import GenresList from '../../components/genres-list/genres-list';
 import {useNavigate} from 'react-router-dom';
-import {PageRoute} from '../../const';
+import {AuthorizationStatus, PageRoute} from '../../const';
 import {useAppSelector} from '../../hooks/store-hooks';
+import User from '../../components/user/user';
 
 export default function HomeScreen(): JSX.Element {
   const featuredMovie = useAppSelector((state) => state.home.featuredMovie);
   const movies = useAppSelector((state) => state.home.movies);
-  const myListMoviesQty = useAppSelector((state) => state.myList.length);
+  const myListMoviesQty = useAppSelector((state) => state.user?.myList.length);
+  const authStatus = useAppSelector((state) => state.api.authStatus);
   const navigate = useNavigate();
   return (
     <>
@@ -21,18 +23,8 @@ export default function HomeScreen(): JSX.Element {
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
-          <Logo />
-
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
-            </li>
-          </ul>
+          <Logo/>
+          <User/>
         </header>
 
         <div className="film-card__wrap">
@@ -57,13 +49,15 @@ export default function HomeScreen(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">{myListMoviesQty}</span>
-                </button>
+                {authStatus === AuthorizationStatus.Auth ?
+                  <button className="btn btn--list film-card__button" type="button">
+                    <svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref="#add"></use>
+                    </svg>
+                    <span>My list</span>
+                    <span className="film-card__count">{myListMoviesQty}</span>
+                  </button> :
+                  null}
               </div>
             </div>
           </div>

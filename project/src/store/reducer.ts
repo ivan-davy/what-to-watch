@@ -2,7 +2,7 @@ import {createReducer} from '@reduxjs/toolkit';
 import {
   genreChangeAction,
   loadActiveMovieDataAction,
-  loadsHomeMovieDataAction,
+  loadHomeMovieDataAction, loadMyListMoveisAction, loadUserDataAction,
   requireAuthorizationAction, setErrorAction, setLoadingStatusAction
 } from './action';
 import {ALL_GENRES_FILTER_NAME, AuthorizationStatus, PLACEHOLDER_MOVIE} from '../const';
@@ -19,7 +19,14 @@ const initialState: StateType = {
     selectedGenre: ALL_GENRES_FILTER_NAME,
     movies: [],
   },
-  myList: [],
+  user: {
+    id: null,
+    name: null,
+    email: null,
+    avatarUrl: null,
+    token: null,
+    myList: []
+  },
   api: {
     authStatus: AuthorizationStatus.Unknown,
     isDataLoading: false,
@@ -32,12 +39,18 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(genreChangeAction, (state, action) => {
       state.home.selectedGenre = action.payload;
     })
-    .addCase(loadsHomeMovieDataAction, (state, action) => {
+    .addCase(loadHomeMovieDataAction, (state, action) => {
       state.home.featuredMovie = action.payload.featuredMovie;
       state.home.movies = action.payload.movies;
     })
     .addCase(loadActiveMovieDataAction, (state, action) => {
       state.active = action.payload;
+    })
+    .addCase(loadUserDataAction, (state, action) => {
+      state.user = action.payload;
+    })
+    .addCase(loadMyListMoveisAction, (state, action) => {
+      state.user.myList = action.payload;
     })
     .addCase(requireAuthorizationAction, (state, action) => {
       state.api.authStatus = action.payload;

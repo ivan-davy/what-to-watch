@@ -1,13 +1,13 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
-import {Outlet, useNavigate, useParams} from 'react-router-dom';
+import {Link, Outlet, useNavigate, useParams} from 'react-router-dom';
 import NotFoundScreen from '../not-found/not-found-screen';
-import {Link} from 'react-router-dom';
-import {PageRoute, PLACEHOLDER_MOVIE} from '../../const';
+import {AuthorizationStatus, PageRoute, PLACEHOLDER_MOVIE} from '../../const';
 import MovieList from '../../components/movie-list/movie-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {fetchActiveMovieDataAction} from '../../store/api-actions';
 import LoadingSpinner from '../../components/loading/loading-spinner';
+import User from '../../components/user/user';
 
 
 export default function MovieScreenLayout(): JSX.Element {
@@ -17,21 +17,19 @@ export default function MovieScreenLayout(): JSX.Element {
 
   const movie = useAppSelector((state) => state.active.movie);
   const similar = useAppSelector((state) => state.active.similar);
-  const myListMoviesQty = useAppSelector((state) => state.myList.length);
+  const myListMoviesQty: number | undefined = useAppSelector((state) => state.user?.myList.length);
   const isDataLoading = useAppSelector((state) => state.api.isDataLoading);
+  const authStatus = useAppSelector((state) => state.api.authStatus);
 
   if (params.id !== movie.id.toString()) {
     dispatch(fetchActiveMovieDataAction(params.id as string));
   }
 
-  // eslint-disable-next-line no-console
-  console.log(1);
-
   if (isDataLoading) {
     return <LoadingSpinner/>;
   }
-  if (movie === PLACEHOLDER_MOVIE) {
-    return <NotFoundScreen />;
+  if (movie.id === PLACEHOLDER_MOVIE.id) {
+    return <NotFoundScreen/>;
   }
   return (
     <>
@@ -44,18 +42,8 @@ export default function MovieScreenLayout(): JSX.Element {
           <h1 className="visually-hidden">WTW</h1>
 
           <header className="page-header film-card__head">
-            <Logo />
-
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-                </div>
-              </li>
-              <li className="user-block__item">
-                <Link to='' className="user-block__link">Sign out</Link>
-              </li>
-            </ul>
+            <Logo/>
+            <User/>
           </header>
 
           <div className="film-card__wrap">
@@ -73,14 +61,18 @@ export default function MovieScreenLayout(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">{myListMoviesQty}</span>
-                </button>
-                <Link to={`.${PageRoute.AddReview}`} className="btn film-card__button">Add review</Link>
+                {authStatus === AuthorizationStatus.Auth ?
+                  <>
+                    <button className="btn btn--list film-card__button" type="button">
+                      <svg viewBox="0 0 19 20" width="19" height="20">
+                        <use xlinkHref="#add"></use>
+                      </svg>
+                      <span>My list</span>
+                      <span className="film-card__count">{myListMoviesQty}</span>
+                    </button>
+                    <Link to={`.${PageRoute.AddReview}`} className="btn film-card__button">Add review</Link>
+                  </> :
+                  null}
               </div>
             </div>
           </div>

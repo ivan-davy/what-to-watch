@@ -6,7 +6,7 @@ import {ActiveMovieDataType, AuthDataType, HomeDataType, MovieType, ReviewType, 
 import {ApiRoute, AuthorizationStatus, PLACEHOLDER_MOVIE, SHOW_ERROR_TIME_LIMIT} from '../const';
 import {
   loadActiveMovieDataAction,
-  loadsHomeMovieDataAction,
+  loadHomeMovieDataAction, loadMyListMoveisAction, loadUserDataAction,
   requireAuthorizationAction,
   setLoadingStatusAction
 } from './action';
@@ -32,7 +32,7 @@ export const fetchMoviesHomeAction = createAsyncThunk<void, undefined, {
     homeData.movies = (await api.get<MovieType[]>(ApiRoute.Movies)).data;
     homeData.featuredMovie = (await api.get<MovieType>(ApiRoute.Featured)).data;
 
-    dispatch(loadsHomeMovieDataAction(homeData));
+    dispatch(loadHomeMovieDataAction(homeData));
     dispatch(setLoadingStatusAction(false));
   },
 );
@@ -62,6 +62,22 @@ export const fetchActiveMovieDataAction = createAsyncThunk<void, string, {
   },
 );
 
+export const fetchMyListMoviesAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'api/getActiveMovieData',
+  async (_, {dispatch, extra: api}) => {
+    dispatch(setLoadingStatusAction(true));
+
+    const myListMovies = (await api.get<MovieType[]>(`${ApiRoute.MyList}`)).data;
+
+    dispatch(loadMyListMoveisAction(myListMovies));
+    dispatch(setLoadingStatusAction(false));
+  },
+);
+
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: State;
@@ -85,10 +101,20 @@ export const loginAction = createAsyncThunk<void, AuthDataType, {
 }>(
   'user/login',
   async ({login: email, password}, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<UserDataType>(ApiRoute.Login, {email, password});
-    saveToken(token);
+    const {data} = await api.post<Omit<UserDataType, 'myList'>>(ApiRoute.Login, {email, password});
+
+    const userData: UserDataType = {
+      id: data.id,
+      name: data.name,
+      avatarUrl: data.avatarUrl,
+      email: data.email,
+      token: data.token,
+      myList: [],
+    };
+
+    dispatch(loadUserDataAction(userData));
+    saveToken(userData.token as string);
     dispatch(requireAuthorizationAction(AuthorizationStatus.Auth));
-    //dispatch(redirectToRoute(PageRoute.Result));
   },
 );
 
