@@ -2,18 +2,27 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch} from '../types/state';
 import {State} from '../types/state';
 import {AxiosInstance} from 'axios';
-import {ActiveMovieDataType, AuthDataType, HomeDataType, MovieType, ReviewType, UserDataType} from '../types/types';
+import {
+  ActiveMovieDataType,
+  AuthDataType,
+  HomeDataType,
+  MovieType,
+  NewReviewType,
+  ReviewType,
+  UserDataType
+} from '../types/types';
 import {ApiRoute, AuthorizationStatus, PLACEHOLDER_MOVIE, SHOW_ERROR_TIME_LIMIT} from '../const';
 import {
   loadActiveMovieDataAction,
   loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction,
   requireAuthorizationAction,
-  setLoadingStatusAction
+  setLoadingStatusAction, updateUserReviewsAction
 } from './action';
 import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
 import {setErrorAction} from './action';
 import {store} from './store';
 import {dropToken, saveToken} from '../api/token';
+import {useAppSelector} from '../hooks/store-hooks';
 
 export const fetchMoviesHomeAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -54,10 +63,27 @@ export const fetchActiveMovieDataAction = createAsyncThunk<void, string, {
 
     activeData.movie = (await api.get<MovieType>(`${ApiRoute.Movies}/${movieId}`)).data;
     activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`)).data;
-    activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Comments}/${movieId}`)).data;
+    activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Reviews}/${movieId}`)).data;
 
 
     dispatch(loadActiveMovieDataAction(activeData));
+    dispatch(setLoadingStatusAction(false));
+  },
+);
+
+export const postUserReviewAction = createAsyncThunk<void, NewReviewType, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'api/postUserReview',
+  async (userReview, {dispatch, extra: api}) => {
+    dispatch(setLoadingStatusAction(true));
+    const activeId = useAppSelector((state) => state.active.movie.id);
+    console.log(activeId);
+    const updatedReviews = (await api.post<ReviewType[]>(`${ApiRoute.Reviews}/${activeId}`)).data;
+    console.log(updatedReviews);
+    dispatch(updateUserReviewsAction(updatedReviews));
     dispatch(setLoadingStatusAction(false));
   },
 );

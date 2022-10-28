@@ -1,17 +1,24 @@
-import React, {SyntheticEvent} from 'react';
+import React, {BaseSyntheticEvent, SyntheticEvent} from 'react';
 import {NewReviewType} from '../../types/types';
-
-export type AddReviewFormPropsType = {
-  reviewedMovieId: number;
-}
+import {postUserReviewAction} from '../../store/api-actions';
+import {useNavigate} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
+import {PageRoute} from '../../const';
+import LoadingSpinner from '../loading/loading-spinner';
 
 const defaultReview: NewReviewType = {
   comment: '',
   rating: null
 };
 
-export default function AddReviewForm({reviewedMovieId}: AddReviewFormPropsType): JSX.Element {
+export default function AddReviewForm(): JSX.Element {
   const [formState, setFormState] = React.useState(defaultReview);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const activeMovie = useAppSelector((state) => state.active.movie);
+  const error = useAppSelector((state) => state.api.error);
+  const isLoading = useAppSelector((state) => state.api.error);
+
   const handleFormChange = (evt: SyntheticEvent) => {
     const target = evt.target as HTMLTextAreaElement | HTMLInputElement;
     if (target.name === 'review-text') {
@@ -21,6 +28,18 @@ export default function AddReviewForm({reviewedMovieId}: AddReviewFormPropsType)
       setFormState({...formState, rating: parseInt(target.value, 10)});
     }
   };
+
+  const handleFormSubmit = (evt: BaseSyntheticEvent) => {
+    evt.preventDefault();
+    dispatch(postUserReviewAction(formState));
+    if (isLoading) {
+      return <LoadingSpinner/>;
+    }
+    if (!error) {
+      navigate(`${PageRoute.Movie}/${activeMovie.id}`);
+    }
+  };
+
   return (
     <form action="#" className="add-review__form" onChange={handleFormChange}>
       <div className="rating">
@@ -63,7 +82,12 @@ export default function AddReviewForm({reviewedMovieId}: AddReviewFormPropsType)
         >
         </textarea>
         <div className="add-review__submit">
-          <button className="add-review__btn" type="submit">Post</button>
+          <button onClick={handleFormSubmit}
+            className="add-review__btn"
+            type="submit"
+            disabled={!(formState.comment.length > 50 && formState.comment.length < 400 && formState.rating !== null)}
+          >Post
+          </button>
         </div>
 
       </div>

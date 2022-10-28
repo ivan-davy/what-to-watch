@@ -3,7 +3,7 @@ import {
   genreChangeAction,
   loadActiveMovieDataAction,
   loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction,
-  requireAuthorizationAction, setErrorAction, setLoadingStatusAction
+  requireAuthorizationAction, setErrorAction, setLoadingStatusAction, updateUserReviewsAction
 } from './action';
 import {ALL_GENRES_FILTER_NAME, AuthorizationStatus, PLACEHOLDER_MOVIE} from '../const';
 import {StateType} from '../types/types';
@@ -45,6 +45,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadActiveMovieDataAction, (state, action) => {
       state.active = action.payload;
+    })
+    .addCase(updateUserReviewsAction, (state, action) => {
+      state.active.reviews = action.payload;
     })
     .addCase(loadUserDataAction, (state, action) => {
       state.user = action.payload;

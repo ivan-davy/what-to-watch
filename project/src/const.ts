@@ -16,7 +16,7 @@ export enum ApiRoute {
   Similar = '/similar',
   Featured = '/promo',
   MyList = '/favorite',
-  Comments = '/comments',
+  Reviews = '/comments',
   Login = '/login',
   Logout = '/logout',
 }
