@@ -10,7 +10,7 @@ const REQUEST_TIMEOUT = 5000;
 
 const StatusCodeMapping: Record<number, boolean> = {
   [StatusCode.BadRequest]: true,
-  [StatusCode.Unauthorized]: true,
+  [StatusCode.Unauthorized]: false,
   [StatusCode.NotFound]: true
 };
 
