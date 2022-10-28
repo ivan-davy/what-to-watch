@@ -22,7 +22,6 @@ import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
 import {setErrorAction} from './action';
 import {store} from './store';
 import {dropToken, saveToken} from '../api/token';
-import {useAppSelector} from '../hooks/store-hooks';
 
 export const fetchMoviesHomeAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -79,10 +78,8 @@ export const postUserReviewAction = createAsyncThunk<void, NewReviewType, {
   'api/postUserReview',
   async (userReview, {dispatch, extra: api}) => {
     dispatch(setLoadingStatusAction(true));
-    const activeId = useAppSelector((state) => state.active.movie.id);
-    console.log(activeId);
-    const updatedReviews = (await api.post<ReviewType[]>(`${ApiRoute.Reviews}/${activeId}`)).data;
-    console.log(updatedReviews);
+    const activeId = store.getState().active.movie.id;
+    const updatedReviews = (await api.post<ReviewType[]>(`${ApiRoute.Reviews}/${activeId}`, userReview)).data;
     dispatch(updateUserReviewsAction(updatedReviews));
     dispatch(setLoadingStatusAction(false));
   },

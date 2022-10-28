@@ -4,7 +4,6 @@ import {postUserReviewAction} from '../../store/api-actions';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {PageRoute} from '../../const';
-import LoadingSpinner from '../loading/loading-spinner';
 
 const defaultReview: NewReviewType = {
   comment: '',
@@ -17,7 +16,6 @@ export default function AddReviewForm(): JSX.Element {
   const dispatch = useAppDispatch();
   const activeMovie = useAppSelector((state) => state.active.movie);
   const error = useAppSelector((state) => state.api.error);
-  const isLoading = useAppSelector((state) => state.api.error);
 
   const handleFormChange = (evt: SyntheticEvent) => {
     const target = evt.target as HTMLTextAreaElement | HTMLInputElement;
@@ -32,16 +30,13 @@ export default function AddReviewForm(): JSX.Element {
   const handleFormSubmit = (evt: BaseSyntheticEvent) => {
     evt.preventDefault();
     dispatch(postUserReviewAction(formState));
-    if (isLoading) {
-      return <LoadingSpinner/>;
-    }
     if (!error) {
       navigate(`${PageRoute.Movie}/${activeMovie.id}`);
     }
   };
 
   return (
-    <form action="#" className="add-review__form" onChange={handleFormChange}>
+    <form className="add-review__form" onChange={handleFormChange}>
       <div className="rating">
         <div className="rating__stars">
           <input className="rating__input" id="star-10" type="radio" name="rating" value="10"/>

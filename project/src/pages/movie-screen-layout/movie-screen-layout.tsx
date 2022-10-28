@@ -6,7 +6,6 @@ import {AuthorizationStatus, PageRoute, PLACEHOLDER_MOVIE} from '../../const';
 import MovieList from '../../components/movie-list/movie-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {fetchActiveMovieDataAction} from '../../store/api-actions';
-import LoadingSpinner from '../../components/loading/loading-spinner';
 import User from '../../components/user/user';
 
 
@@ -18,16 +17,12 @@ export default function MovieScreenLayout(): JSX.Element {
   const movie = useAppSelector((state) => state.active.movie);
   const similar = useAppSelector((state) => state.active.similar);
   const myListMoviesQty: number | undefined = useAppSelector((state) => state.user?.myList.length);
-  const isDataLoading = useAppSelector((state) => state.api.isDataLoading);
   const authStatus = useAppSelector((state) => state.api.authStatus);
 
   if (params.id !== movie.id.toString()) {
     dispatch(fetchActiveMovieDataAction(params.id as string));
   }
 
-  if (isDataLoading) {
-    return <LoadingSpinner/>;
-  }
   if (movie.id === PLACEHOLDER_MOVIE.id) {
     return <NotFoundScreen/>;
   }
