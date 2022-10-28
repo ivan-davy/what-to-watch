@@ -7,6 +7,7 @@ import {PageRoute} from '../../const';
 
 export default function User(): JSX.Element {
   const authStatus = useAppSelector((state) => state.api.authStatus);
+  const userData = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -20,7 +21,7 @@ export default function User(): JSX.Element {
       <ul className="user-block">
         <li className="user-block__item">
           <div className="user-block__avatar">
-            <img onClick={() => navigate(PageRoute.MyList)} src="./img/avt.png" alt="User avatar" width="40" height="40"/>
+            <img onClick={() => navigate(PageRoute.MyList)} src={userData.avatarUrl as string} alt="User avatar" width="40" height="40"/>
           </div>
         </li>
         <li className="user-block__item">

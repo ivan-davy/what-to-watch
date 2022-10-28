@@ -6,7 +6,7 @@ import {ActiveMovieDataType, AuthDataType, HomeDataType, MovieType, ReviewType, 
 import {ApiRoute, AuthorizationStatus, PLACEHOLDER_MOVIE, SHOW_ERROR_TIME_LIMIT} from '../const';
 import {
   loadActiveMovieDataAction,
-  loadHomeMovieDataAction, loadMyListMoveisAction, loadUserDataAction,
+  loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction,
   requireAuthorizationAction,
   setLoadingStatusAction
 } from './action';
@@ -73,7 +73,7 @@ export const fetchMyListMoviesAction = createAsyncThunk<void, undefined, {
 
     const myListMovies = (await api.get<MovieType[]>(`${ApiRoute.MyList}`)).data;
 
-    dispatch(loadMyListMoveisAction(myListMovies));
+    dispatch(loadMyListMoviesAction(myListMovies));
     dispatch(setLoadingStatusAction(false));
   },
 );
@@ -86,7 +86,19 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   'user/checkAuth',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(ApiRoute.Login);
+      const {data} = await api.get<Omit<UserDataType, 'myList'>>(ApiRoute.Login);
+
+      const userData: UserDataType = {
+        id: data.id,
+        name: data.name,
+        avatarUrl: data.avatarUrl,
+        email: data.email,
+        token: data.token,
+        myList: [],
+      };
+
+      dispatch(loadUserDataAction(userData));
+      saveToken(userData.token as string);
       dispatch(requireAuthorizationAction(AuthorizationStatus.Auth));
     } catch {
       dispatch(requireAuthorizationAction(AuthorizationStatus.NoAuth));

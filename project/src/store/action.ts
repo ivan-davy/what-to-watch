@@ -9,7 +9,7 @@ export const genreChangeAction = createAction('genreHome/change', (newGenre) => 
 
 export const loadHomeMovieDataAction = createAction<Omit<HomeDataType, 'selectedGenre'>>('data/apiGetMoviesHome');
 export const loadActiveMovieDataAction = createAction<ActiveMovieDataType>('data/apiGetMovieById');
-export const loadMyListMoveisAction = createAction<MovieType[]>('data/apiGetMyList');
+export const loadMyListMoviesAction = createAction<MovieType[]>('data/apiGetMyList');
 export const loadUserDataAction = createAction<UserDataType>('data/apiGetUserData');
 
 export const setLoadingStatusAction = createAction<boolean>('data/setApiStatus');

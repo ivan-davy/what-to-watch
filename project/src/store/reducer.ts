@@ -2,7 +2,7 @@ import {createReducer} from '@reduxjs/toolkit';
 import {
   genreChangeAction,
   loadActiveMovieDataAction,
-  loadHomeMovieDataAction, loadMyListMoveisAction, loadUserDataAction,
+  loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction,
   requireAuthorizationAction, setErrorAction, setLoadingStatusAction
 } from './action';
 import {ALL_GENRES_FILTER_NAME, AuthorizationStatus, PLACEHOLDER_MOVIE} from '../const';
@@ -49,7 +49,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loadUserDataAction, (state, action) => {
       state.user = action.payload;
     })
-    .addCase(loadMyListMoveisAction, (state, action) => {
+    .addCase(loadMyListMoviesAction, (state, action) => {
       state.user.myList = action.payload;
     })
     .addCase(requireAuthorizationAction, (state, action) => {

@@ -57,7 +57,7 @@ function App(): JSX.Element {
           path={`${PageRoute.Movie}/:id${PageRoute.AddReview}`}
           element={
             <PrivateRoute authorizationStatus={authStatus}>
-              <AddReviewScreen movies={movies}/>
+              <AddReviewScreen/>
             </PrivateRoute>
           }
         />

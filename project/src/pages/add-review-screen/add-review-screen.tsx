@@ -1,22 +1,30 @@
 import Logo from '../../components/logo/logo';
-import {MovieType} from '../../types/types';
-import {useParams} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import NotFoundScreen from '../not-found/not-found-screen';
-import {PageRoute} from '../../const';
+import {AuthorizationStatus, PageRoute} from '../../const';
 import AddReviewForm from '../../components/add-review-form/add-review-form';
 import {Link} from 'react-router-dom';
 import User from '../../components/user/user';
+import LoadingSpinner from '../../components/loading/loading-spinner';
+import {useAppSelector} from '../../hooks/store-hooks';
 
-export type AddReviewScreenPropType = {
-  movies: MovieType[];
-}
+export default function AddReviewScreen(): JSX.Element {
+  const navigate = useNavigate();
 
-export default function AddReviewScreen({movies}: AddReviewScreenPropType): JSX.Element {
-  const params = useParams();
-  const movie = movies.find((item: MovieType) => item.id.toString() === params.id);
+  const movie = useAppSelector((state) => state.active.movie);
+  const isDataLoading = useAppSelector((state) => state.api.isDataLoading);
+  const authStatus = useAppSelector((state) => state.api.authStatus);
+
+  if (isDataLoading) {
+    return <LoadingSpinner/>;
+  }
+  if (authStatus !== AuthorizationStatus.Auth) {
+    navigate(PageRoute.SignIn);
+  }
   if (movie === undefined) {
     return <NotFoundScreen />;
   }
+
   return (
     <section className="film-card film-card--full" style={{background: movie.backgroundColor}}>
       <div className="film-card__header">
