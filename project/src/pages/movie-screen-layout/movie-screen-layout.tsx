@@ -1,12 +1,13 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import {Link, Outlet, useNavigate, useParams} from 'react-router-dom';
-import {AuthorizationStatus, PageRoute} from '../../const';
+import {AuthorizationStatus, PageRoute, StatusCode} from '../../const';
 import MovieList from '../../components/movie-list/movie-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {fetchActiveMovieDataAction} from '../../store/api-actions';
 import User from '../../components/user/user';
 import {useEffect} from 'react';
+import {resetErrorAction} from '../../store/action';
 
 export default function MovieScreenLayout(): JSX.Element {
   const params = useParams();
@@ -17,16 +18,18 @@ export default function MovieScreenLayout(): JSX.Element {
   const similar = useAppSelector((state) => state.active.similar);
   const myListMoviesQty: number | undefined = useAppSelector((state) => state.user?.myList.length);
   const authStatus = useAppSelector((state) => state.api.authStatus);
+  const error = useAppSelector((state) => state.api.error);
 
   useEffect(() => {
     if (params.id !== movie.id.toString()) {
-      try {
-        dispatch(fetchActiveMovieDataAction(params.id as string));
-      } catch (err) {
-        navigate('/error');
-      }
+      dispatch(fetchActiveMovieDataAction(params.id as string));
     }
+    if (error === StatusCode.NotFound) {
+      navigate('/not-found');
+    }
+    dispatch(resetErrorAction());
   });
+
 
   return (
     <>
