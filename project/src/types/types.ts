@@ -58,7 +58,7 @@ export type HomeDataType = {
 export type ApiDataType = {
   authStatus: AuthorizationStatus;
   isDataLoading: boolean;
-  error: string | null;
+  error: number | null;
 }
 
 export type AuthDataType = {

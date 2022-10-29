@@ -17,7 +17,7 @@ import {ApiRoute, AuthorizationStatus, PLACEHOLDER_MOVIE} from '../const';
 import {
   loadActiveMovieDataAction,
   loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction,
-  requireAuthorizationAction,
+  requireAuthorizationAction, setErrorAction,
   setLoadingStatusAction, updateUserReviewsAction
 } from './action';
 import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
@@ -55,19 +55,22 @@ export const fetchActiveMovieDataAction = createAsyncThunk<void, string, {
   async (movieId, {dispatch, extra: api}) => {
     dispatch(setLoadingStatusAction(true));
     const activeData: ActiveMovieDataType = {
-      movie: PLACEHOLDER_MOVIE,
+      movie: {...PLACEHOLDER_MOVIE, id: parseInt(movieId, 10)},
       similar: [],
       reviews: [],
     };
-
-    activeData.movie = (await api.get<MovieType>(`${ApiRoute.Movies}/${movieId}`)).data;
-    activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
-      .data.slice(0, SIMILAR_SHOWN_QTY);
-    activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Reviews}/${movieId}`)).data;
-    dispatch(loadActiveMovieDataAction(activeData));
-    // eslint-disable-next-line no-console
-    console.log('load stop');
-    dispatch(setLoadingStatusAction(false));
+    try {
+      activeData.movie = (await api.get<MovieType>(`${ApiRoute.Movies}/${movieId}`)).data;
+      activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
+        .data.slice(0, SIMILAR_SHOWN_QTY);
+      activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Reviews}/${movieId}`)).data;
+    } catch (err) {
+      dispatch(setErrorAction(err as number));
+      throw err;
+    } finally {
+      dispatch(loadActiveMovieDataAction(activeData));
+      dispatch(setLoadingStatusAction(false));
+    }
   },
 );
 

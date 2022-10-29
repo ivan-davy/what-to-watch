@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {MovieScreenTab, PageRoute} from '../../const';
 import MovieOverview from '../movie-overview/movie-overview';
 import MovieDetails from '../movie-details/movie-details';
-import MovieReviews from '../../movie-reviews/movie-reviews';
+import MovieReviews from '../movie-reviews/movie-reviews';
 import {useAppSelector} from '../../hooks/store-hooks';
 
 export type MovieTabsPropsData = {

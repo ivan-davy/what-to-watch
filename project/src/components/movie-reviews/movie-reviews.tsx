@@ -1,4 +1,4 @@
-import {ReviewType} from '../types/types';
+import {ReviewType} from '../../types/types';
 
 const getReview = (review: ReviewType): JSX.Element => (
   <div className="review" key={review.id}>

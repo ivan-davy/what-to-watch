@@ -3,7 +3,7 @@ import {
   genreChangeAction,
   loadActiveMovieDataAction,
   loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction,
-  requireAuthorizationAction, setErrorAction, setLoadingStatusAction, updateUserReviewsAction
+  requireAuthorizationAction, resetErrorAction, setErrorAction, setLoadingStatusAction, updateUserReviewsAction
 } from './action';
 import {ALL_GENRES_FILTER_NAME, AuthorizationStatus, PLACEHOLDER_MOVIE} from '../const';
 import {StateType} from '../types/types';
@@ -63,6 +63,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setErrorAction, (state, action) => {
       state.api.error = action.payload;
+    })
+    .addCase(resetErrorAction, (state) => {
+      state.api.error = null;
     });
 });
 
