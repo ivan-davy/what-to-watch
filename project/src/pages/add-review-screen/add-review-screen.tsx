@@ -1,33 +1,31 @@
 import Logo from '../../components/logo/logo';
-import {useNavigate, useParams} from 'react-router-dom';
-import {PageRoute, PLACEHOLDER_MOVIE} from '../../const';
+import {useParams} from 'react-router-dom';
+import {PageRoute} from '../../const';
 import AddReviewForm from '../../components/add-review-form/add-review-form';
 import {Link} from 'react-router-dom';
 import User from '../../components/user/user';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {fetchActiveMovieDataAction} from '../../store/api-actions';
-import {useEffect} from 'react';
 
-export default function AddReviewScreen(): JSX.Element {
+export default function AddReviewScreen(): JSX.Element | null {
   const params = useParams();
-  const movie = useAppSelector((state) => state.active.movie);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (params.id !== movie.id.toString()) {
-      dispatch(fetchActiveMovieDataAction(params.id as string));
-    }
-    if (movie.id === PLACEHOLDER_MOVIE.id) {
-      navigate('/not-found');
-    }
-  });
+  const movie = useAppSelector((state) => state.active.movie);
+  if (!movie || movie.id.toString() !== params.id) {
+    dispatch(fetchActiveMovieDataAction(params.id as string));
+  }
+
+  const isLoading: boolean = useAppSelector((state) => state.api.isDataLoading);
+  if (isLoading) {
+    return null;
+  }
 
   return (
-    <section className="film-card film-card--full" style={{background: movie.backgroundColor}}>
+    <section className="film-card film-card--full" style={{background: movie?.backgroundColor}}>
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={movie.backgroundImage} alt={movie.name}/>
+          <img src={movie?.backgroundImage} alt={movie?.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -38,7 +36,7 @@ export default function AddReviewScreen(): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={`${PageRoute.Movie}/${movie.id}`} className="breadcrumbs__link">{movie.name}</Link>
+                <Link to={`${PageRoute.Movie}/${movie?.id as number}`} className="breadcrumbs__link">{movie?.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -50,7 +48,7 @@ export default function AddReviewScreen(): JSX.Element {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={movie.posterImage} alt={`${movie.name} poster`} width="218"
+          <img src={movie?.posterImage} alt={`${movie?.name as string} poster`} width="218"
             height="327"
           />
         </div>

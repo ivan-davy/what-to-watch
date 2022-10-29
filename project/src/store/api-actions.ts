@@ -2,7 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch} from '../types/state';
 import {State} from '../types/state';
 import {AxiosInstance} from 'axios';
-import {SIMILAR_SHOWN_QTY} from '../const';
+import {FormStatus, SIMILAR_SHOWN_QTY} from '../const';
 
 import {
   ActiveMovieDataType,
@@ -13,7 +13,7 @@ import {
   ReviewType,
   UserDataType
 } from '../types/types';
-import {ApiRoute, AuthorizationStatus, PLACEHOLDER_MOVIE} from '../const';
+import {ApiRoute, AuthorizationStatus} from '../const';
 import {
   loadActiveMovieDataAction,
   loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction,
@@ -23,6 +23,8 @@ import {
 import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
 import {store} from './store';
 import {dropToken, saveToken} from '../api/token';
+import {useNavigate} from 'react-router-dom';
+import React from 'react';
 
 export const fetchMoviesHomeAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -35,7 +37,7 @@ export const fetchMoviesHomeAction = createAsyncThunk<void, undefined, {
 
     const homeData: Omit<HomeDataType, 'selectedGenre'> = {
       movies: [],
-      featuredMovie: PLACEHOLDER_MOVIE
+      featuredMovie: null,
     };
 
     homeData.movies = (await api.get<MovieType[]>(ApiRoute.Movies)).data;
@@ -55,36 +57,44 @@ export const fetchActiveMovieDataAction = createAsyncThunk<void, string, {
   async (movieId, {dispatch, extra: api}) => {
     dispatch(setLoadingStatusAction(true));
     const activeData: ActiveMovieDataType = {
-      movie: {...PLACEHOLDER_MOVIE, id: parseInt(movieId, 10)},
-      similar: [],
-      reviews: [],
+      movie: null,
+      similar: null,
+      reviews: null,
     };
+
+    const navigate = useNavigate();
 
     try {
       activeData.movie = (await api.get<MovieType>(`${ApiRoute.Movies}/${movieId}`)).data;
       activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
         .data.slice(0, SIMILAR_SHOWN_QTY);
       activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Reviews}/${movieId}`)).data;
-    } finally {
       dispatch(loadActiveMovieDataAction(activeData));
       dispatch(setLoadingStatusAction(false));
+    } catch (err) {
+      dispatch(setLoadingStatusAction(false));
+      navigate('/not-found');
+      throw err;
     }
   },
 );
 
-export const postUserReviewAction = createAsyncThunk<void, NewReviewType, {
+export const postUserReviewAction = createAsyncThunk<void, {userReview: NewReviewType; setFormSubmitStateCb: React.Dispatch<React.SetStateAction<number>>}, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'api/postUserReview',
-  async (userReview, {dispatch, extra: api}) => {
-    dispatch(setLoadingStatusAction(true));
-    const activeId = store.getState().active.movie.id;
-    const updatedReviews = (await api.post<ReviewType[]>(`${ApiRoute.Reviews}/${activeId}`, userReview)).data;
-    dispatch(updateUserReviewsAction(updatedReviews));
-    dispatch(setLoadingStatusAction(false));
-  },
+  async (formData, {dispatch, extra: api}) => {
+    const activeId = store.getState().active.movie?.id;
+    try {
+      const updatedReviews = (await api.post<ReviewType[]>(`${ApiRoute.Reviews}/${activeId as number}`, formData.userReview)).data;
+      dispatch(updateUserReviewsAction(updatedReviews));
+      formData.setFormSubmitStateCb(FormStatus.Submitted);
+    } catch (err) {
+      formData.setFormSubmitStateCb(FormStatus.Available);
+    }
+  }
 );
 
 export const fetchMyListMoviesAction = createAsyncThunk<void, undefined, {

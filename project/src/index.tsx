@@ -5,6 +5,7 @@ import {Provider} from 'react-redux';
 import {store} from './store/store';
 import {fetchMoviesHomeAction, checkAuthAction} from './store/api-actions';
 import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

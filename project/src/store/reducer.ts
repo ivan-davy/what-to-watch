@@ -5,17 +5,17 @@ import {
   loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction,
   requireAuthorizationAction, setLoadingStatusAction, updateUserReviewsAction
 } from './action';
-import {ALL_GENRES_FILTER_NAME, AuthorizationStatus, PLACEHOLDER_MOVIE} from '../const';
+import {ALL_GENRES_FILTER_NAME, AuthorizationStatus} from '../const';
 import {StateType} from '../types/types';
 
 const initialState: StateType = {
   active: {
-    movie: PLACEHOLDER_MOVIE,
+    movie: null,
     similar: [],
     reviews: [],
   },
   home: {
-    featuredMovie: PLACEHOLDER_MOVIE,
+    featuredMovie: null,
     selectedGenre: ALL_GENRES_FILTER_NAME,
     movies: [],
   },

@@ -23,12 +23,12 @@ const renderTab = (tab: number, movie: MovieType, reviews: ReviewType[]) => {
 
 export default function MovieTabs({tab}: MovieTabsPropsData): JSX.Element {
   const movie: MovieType | null = useAppSelector((state) => state.active.movie);
-  const reviews: ReviewType[] = useAppSelector((state) => state.active.reviews);
+  const reviews: ReviewType[] | null = useAppSelector((state) => state.active.reviews);
 
   return (
     <div className="film-card__info">
       <div className="film-card__poster film-card__poster--big">
-        <img src={movie.posterImage} alt={`${movie.name} poster`} width="218"
+        <img src={movie?.posterImage} alt={`${movie?.name as string} poster`} width="218"
           height="327"
         />
       </div>
@@ -37,18 +37,18 @@ export default function MovieTabs({tab}: MovieTabsPropsData): JSX.Element {
         <nav className="film-nav film-card__nav">
           <ul className="film-nav__list">
             <li className={`film-nav__item ${tab === MovieScreenTab.Overview ? 'film-nav__item--active' : ''}`}>
-              <Link to={`${PageRoute.Movie}/${movie.id}`} className="film-nav__link">Overview</Link>
+              <Link to={`${PageRoute.Movie}/${movie?.id as number}`} className="film-nav__link">Overview</Link>
             </li>
             <li className={`film-nav__item ${tab === MovieScreenTab.Details ? 'film-nav__item--active' : ''}`}>
-              <Link to={`${PageRoute.Movie}/${movie.id}${PageRoute.Details}`} className="film-nav__link">Details</Link>
+              <Link to={`${PageRoute.Movie}/${movie?.id as number}${PageRoute.Details}`} className="film-nav__link">Details</Link>
             </li>
             <li className={`film-nav__item ${tab === MovieScreenTab.Reviews ? 'film-nav__item--active' : ''}`}>
-              <Link to={`${PageRoute.Movie}/${movie.id}${PageRoute.Reviews}`} className="film-nav__link">Reviews</Link>
+              <Link to={`${PageRoute.Movie}/${movie?.id as number}${PageRoute.Reviews}`} className="film-nav__link">Reviews</Link>
             </li>
           </ul>
         </nav>
 
-        {renderTab(tab, movie, reviews)}
+        {renderTab(tab, movie as MovieType, reviews as ReviewType[])}
 
       </div>
     </div>

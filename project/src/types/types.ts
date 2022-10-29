@@ -44,13 +44,13 @@ export type StateType = {
 }
 
 export type ActiveMovieDataType = {
-  movie: MovieType;
-  similar: MovieType[];
-  reviews: ReviewType[];
+  movie: MovieType | null;
+  similar: MovieType[] | null;
+  reviews: ReviewType[] | null;
 }
 
 export type HomeDataType = {
-  featuredMovie: MovieType;
+  featuredMovie: MovieType | null;
   selectedGenre: string;
   movies: MovieType[];
 }
