@@ -15,7 +15,5 @@ export const loadUserDataAction = createAction<UserDataType>('data/apiGetUserDat
 export const updateUserReviewsAction = createAction<ReviewType[]>('data/apiPostUserReview');
 
 export const setLoadingStatusAction = createAction<boolean>('data/setApiStatus');
-export const setErrorAction = createAction<number | null>('game/setError');
-export const resetErrorAction = createAction('game/resetError');
 
 export const requireAuthorizationAction = createAction<AuthorizationStatus>('user/requireAuth');

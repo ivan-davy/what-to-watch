@@ -3,7 +3,7 @@ import {
   genreChangeAction,
   loadActiveMovieDataAction,
   loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction,
-  requireAuthorizationAction, resetErrorAction, setErrorAction, setLoadingStatusAction, updateUserReviewsAction
+  requireAuthorizationAction, setLoadingStatusAction, updateUserReviewsAction
 } from './action';
 import {ALL_GENRES_FILTER_NAME, AuthorizationStatus, PLACEHOLDER_MOVIE} from '../const';
 import {StateType} from '../types/types';
@@ -30,7 +30,6 @@ const initialState: StateType = {
   api: {
     authStatus: AuthorizationStatus.Unknown,
     isDataLoading: false,
-    error: null
   }
 };
 
@@ -60,12 +59,6 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setLoadingStatusAction, (state, action) => {
       state.api.isDataLoading = action.payload;
-    })
-    .addCase(setErrorAction, (state, action) => {
-      state.api.error = action.payload;
-    })
-    .addCase(resetErrorAction, (state) => {
-      state.api.error = null;
     });
 });
 

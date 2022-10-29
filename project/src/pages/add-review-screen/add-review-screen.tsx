@@ -1,18 +1,16 @@
 import Logo from '../../components/logo/logo';
 import {useNavigate, useParams} from 'react-router-dom';
-import {PageRoute, StatusCode} from '../../const';
+import {PageRoute, PLACEHOLDER_MOVIE} from '../../const';
 import AddReviewForm from '../../components/add-review-form/add-review-form';
 import {Link} from 'react-router-dom';
 import User from '../../components/user/user';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {fetchActiveMovieDataAction} from '../../store/api-actions';
 import {useEffect} from 'react';
-import {resetErrorAction} from '../../store/action';
 
 export default function AddReviewScreen(): JSX.Element {
   const params = useParams();
   const movie = useAppSelector((state) => state.active.movie);
-  const error = useAppSelector((state) => state.api.error);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -20,10 +18,9 @@ export default function AddReviewScreen(): JSX.Element {
     if (params.id !== movie.id.toString()) {
       dispatch(fetchActiveMovieDataAction(params.id as string));
     }
-    if (error === StatusCode.NotFound) {
+    if (movie.id === PLACEHOLDER_MOVIE.id) {
       navigate('/not-found');
     }
-    dispatch(resetErrorAction());
   });
 
   return (

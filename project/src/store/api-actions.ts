@@ -17,7 +17,7 @@ import {ApiRoute, AuthorizationStatus, PLACEHOLDER_MOVIE} from '../const';
 import {
   loadActiveMovieDataAction,
   loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction,
-  requireAuthorizationAction, setErrorAction,
+  requireAuthorizationAction,
   setLoadingStatusAction, updateUserReviewsAction
 } from './action';
 import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
@@ -59,14 +59,12 @@ export const fetchActiveMovieDataAction = createAsyncThunk<void, string, {
       similar: [],
       reviews: [],
     };
+
     try {
       activeData.movie = (await api.get<MovieType>(`${ApiRoute.Movies}/${movieId}`)).data;
       activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
         .data.slice(0, SIMILAR_SHOWN_QTY);
       activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Reviews}/${movieId}`)).data;
-    } catch (err) {
-      dispatch(setErrorAction(err as number));
-      throw err;
     } finally {
       dispatch(loadActiveMovieDataAction(activeData));
       dispatch(setLoadingStatusAction(false));
