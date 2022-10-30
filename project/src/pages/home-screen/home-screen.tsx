@@ -89,7 +89,7 @@ export default function HomeScreen(): JSX.Element | null {
             <GenresList movies={movies}/>
           </ul>
 
-          <MovieList movies={movies}/>
+          <MovieList movies={movies} isAtHome/>
 
         </section>
 
