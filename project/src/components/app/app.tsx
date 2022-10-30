@@ -1,6 +1,6 @@
 import HomeScreen from '../../pages/home-screen/home-screen';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import {AuthorizationStatus, PageRoute, MovieScreenTab} from '../../const';
+import {Route, Routes} from 'react-router-dom';
+import {PageRoute, MovieScreenTab} from '../../const';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import MyListScreen from '../../pages/my-list-screen/my-list-screen';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
@@ -10,22 +10,17 @@ import NotFoundScreen from '../../pages/not-found/not-found-screen';
 import MovieScreenLayout from '../../pages/movie-screen-layout/movie-screen-layout';
 import MovieTabs from '../movie-tabs/movie-tabs';
 import {useAppSelector} from '../../hooks/store-hooks';
-import LoadingSpinner from '../loading/loading-spinner';
+import {MovieType} from '../../types/types';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 
 function App(): JSX.Element {
-  const movies = useAppSelector((state) => state.home.movies);
+  const movies: MovieType[] | null = useAppSelector((state) => state.home.movies);
   const authStatus = useAppSelector((state) => state.api.authStatus);
-  const isDataLoading = useAppSelector((state) => state.api.isDataLoading);
-
-  if (authStatus === AuthorizationStatus.Unknown || isDataLoading) {
-    return (
-      <LoadingSpinner/>
-    );
-  }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={PageRoute.Home}
@@ -70,7 +65,7 @@ function App(): JSX.Element {
           element={<NotFoundScreen />}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

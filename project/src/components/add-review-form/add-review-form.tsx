@@ -1,9 +1,8 @@
 import React, {BaseSyntheticEvent, SyntheticEvent} from 'react';
 import {NewReviewType} from '../../types/types';
 import {postUserReviewAction} from '../../store/api-actions';
-import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
-import {useNavigate} from 'react-router-dom';
-import {FormStatus, PageRoute} from '../../const';
+import {useAppDispatch} from '../../hooks/store-hooks';
+import {FormStatus} from '../../const';
 
 const defaultReview: NewReviewType = {
   comment: '',
@@ -13,9 +12,7 @@ const defaultReview: NewReviewType = {
 export default function AddReviewForm(): JSX.Element {
   const [formState, setFormState] = React.useState(defaultReview);
   const [formSubmitState, setFormSubmitState] = React.useState(FormStatus.Available);
-  const activeMovieId = useAppSelector((state) => state.active.movie?.id);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleFormChange = (evt: SyntheticEvent) => {
     const target = evt.target as HTMLTextAreaElement | HTMLInputElement;
@@ -32,10 +29,6 @@ export default function AddReviewForm(): JSX.Element {
     setFormSubmitState(FormStatus.Disabled);
     dispatch(postUserReviewAction({userReview: formState, setFormSubmitStateCb: setFormSubmitState}));
   };
-
-  if (formSubmitState === FormStatus.Submitted) {
-    navigate(`${PageRoute.Movie}/${activeMovieId as number}`);
-  }
 
   return (
     <form className="add-review__form" onChange={handleFormChange}>

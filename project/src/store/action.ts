@@ -11,9 +11,9 @@ export const loadHomeMovieDataAction = createAction<Omit<HomeDataType, 'selected
 export const loadActiveMovieDataAction = createAction<ActiveMovieDataType>('data/apiGetMovieById');
 export const loadMyListMoviesAction = createAction<MovieType[]>('data/apiGetMyList');
 export const loadUserDataAction = createAction<UserDataType>('data/apiGetUserData');
-
 export const updateUserReviewsAction = createAction<ReviewType[]>('data/apiPostUserReview');
 
-export const setLoadingStatusAction = createAction<boolean>('data/setApiStatus');
+export const setLoadingStatusAction = createAction<boolean>('api/setStatus');
+export const redirectToRouteAction = createAction<string>('api/redirectToRoute');
+export const requireAuthorizationAction = createAction<AuthorizationStatus>('api/userRequireAuth');
 
-export const requireAuthorizationAction = createAction<AuthorizationStatus>('user/requireAuth');

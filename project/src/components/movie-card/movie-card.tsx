@@ -1,7 +1,7 @@
 import {MovieType} from '../../types/types';
 import {PageRoute} from '../../const';
 import {Link} from 'react-router-dom';
-import VideoPlayerMini from '../video-player/video-player-mini';
+import VideoPlayerMini from '../video-player-mini/video-player-mini';
 
 type MovieCardPropsType = {
   movie: MovieType;

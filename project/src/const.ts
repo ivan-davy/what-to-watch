@@ -7,6 +7,7 @@ export enum PageRoute {
   Reviews = '/reviews',
   AddReview = '/review',
   Player = '/player',
+  NotFound = '/not-found',
 }
 export enum ApiRoute {
   Movies = '/films',

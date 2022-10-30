@@ -8,23 +8,27 @@ import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import User from '../../components/user/user';
 import {useEffect} from 'react';
 import {fetchMoviesHomeAction} from '../../store/api-actions';
+import LoadingSpinner from '../../components/loading/loading-spinner';
 
 
 export default function HomeScreen(): JSX.Element | null {
   const featuredMovie = useAppSelector((state) => state.home.featuredMovie);
   const movies = useAppSelector((state) => state.home.movies);
-  const myListMoviesQty = useAppSelector((state) => state.user?.myList.length);
+  const myListMoviesQty = useAppSelector((state) => state.user.myList?.length);
   const authStatus = useAppSelector((state) => state.api.authStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!featuredMovie || !movies) {
-      dispatch(fetchMoviesHomeAction());
-    }
-  }, [dispatch, featuredMovie, movies]);
+    dispatch(fetchMoviesHomeAction());
+  }, []);
 
-  if (!movies) {
+  if (authStatus === AuthorizationStatus.Unknown) {
+    return (
+      <LoadingSpinner/>
+    );
+  }
+  if (!movies.length) {
     return null;
   }
 

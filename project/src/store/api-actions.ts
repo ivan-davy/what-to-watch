@@ -2,7 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch} from '../types/state';
 import {State} from '../types/state';
 import {AxiosInstance} from 'axios';
-import {FormStatus, SIMILAR_SHOWN_QTY} from '../const';
+import {FormStatus, PageRoute, SIMILAR_SHOWN_QTY} from '../const';
 
 import {
   ActiveMovieDataType,
@@ -16,14 +16,13 @@ import {
 import {ApiRoute, AuthorizationStatus} from '../const';
 import {
   loadActiveMovieDataAction,
-  loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction,
+  loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction, redirectToRouteAction,
   requireAuthorizationAction,
   setLoadingStatusAction, updateUserReviewsAction
 } from './action';
 import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
 import {store} from './store';
 import {dropToken, saveToken} from '../api/token';
-import {useNavigate} from 'react-router-dom';
 import React from 'react';
 
 export const fetchMoviesHomeAction = createAsyncThunk<void, undefined, {
@@ -33,8 +32,8 @@ export const fetchMoviesHomeAction = createAsyncThunk<void, undefined, {
 }>(
   'api/getMoviesHome',
   async (_, {dispatch, extra: api}) => {
-    dispatch(setLoadingStatusAction(true));
-
+    // eslint-disable-next-line no-console
+    console.log('Movies fetched');
     const homeData: Omit<HomeDataType, 'selectedGenre'> = {
       movies: [],
       featuredMovie: null,
@@ -44,7 +43,6 @@ export const fetchMoviesHomeAction = createAsyncThunk<void, undefined, {
     homeData.featuredMovie = (await api.get<MovieType>(ApiRoute.Featured)).data;
 
     dispatch(loadHomeMovieDataAction(homeData));
-    dispatch(setLoadingStatusAction(false));
   },
 );
 
@@ -58,13 +56,12 @@ export const fetchActiveMovieDataAction = createAsyncThunk<void, string, {
     dispatch(setLoadingStatusAction(true));
     const activeData: ActiveMovieDataType = {
       movie: null,
-      similar: null,
-      reviews: null,
+      similar: [],
+      reviews: [],
     };
-
-    const navigate = useNavigate();
-
     try {
+      // eslint-disable-next-line no-console
+      console.log('Movie fetched');
       activeData.movie = (await api.get<MovieType>(`${ApiRoute.Movies}/${movieId}`)).data;
       activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
         .data.slice(0, SIMILAR_SHOWN_QTY);
@@ -73,7 +70,7 @@ export const fetchActiveMovieDataAction = createAsyncThunk<void, string, {
       dispatch(setLoadingStatusAction(false));
     } catch (err) {
       dispatch(setLoadingStatusAction(false));
-      navigate('/not-found');
+      dispatch(redirectToRouteAction(PageRoute.NotFound));
       throw err;
     }
   },
@@ -91,6 +88,7 @@ export const postUserReviewAction = createAsyncThunk<void, {userReview: NewRevie
       const updatedReviews = (await api.post<ReviewType[]>(`${ApiRoute.Reviews}/${activeId as number}`, formData.userReview)).data;
       dispatch(updateUserReviewsAction(updatedReviews));
       formData.setFormSubmitStateCb(FormStatus.Submitted);
+      dispatch(redirectToRouteAction(`${PageRoute.Movie}/${activeId as number}`));
     } catch (err) {
       formData.setFormSubmitStateCb(FormStatus.Available);
     }
@@ -120,6 +118,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
 }>(
   'user/checkAuth',
   async (_arg, {dispatch, extra: api}) => {
+    dispatch(setLoadingStatusAction(true));
     try {
       const {data} = await api.get<Omit<UserDataType, 'myList'>>(ApiRoute.Login);
 
@@ -137,6 +136,8 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
       dispatch(requireAuthorizationAction(AuthorizationStatus.Auth));
     } catch {
       dispatch(requireAuthorizationAction(AuthorizationStatus.NoAuth));
+    } finally {
+      dispatch(setLoadingStatusAction(false));
     }
   },
 );
