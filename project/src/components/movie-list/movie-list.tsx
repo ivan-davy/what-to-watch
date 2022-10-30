@@ -6,7 +6,7 @@ import {ALL_GENRES_FILTER_NAME, MAX_MOVIES_SHOWN_HOME} from '../../const';
 import ShowMore from '../show-more/show-more';
 
 export type MovieListPropsType = {
-  movies: MovieType[];
+  movies: MovieType[] | null;
   isAtHome?: boolean;
 }
 
@@ -15,7 +15,7 @@ export default function MovieList({movies, isAtHome = false}: MovieListPropsType
   const moviesFiltered: MovieType[] = [];
 
   if (isAtHome) {
-    movies.forEach((movie: MovieType) => {
+    movies?.forEach((movie: MovieType) => {
       if (selectedGenreHome === ALL_GENRES_FILTER_NAME || selectedGenreHome === movie.genre) {
         moviesFiltered.push(movie);
       }
@@ -54,6 +54,6 @@ export default function MovieList({movies, isAtHome = false}: MovieListPropsType
   }
   return (
     <div className="catalog__films-list" onMouseOver={handleMouseOver} onMouseOut={() => setActiveId(null)}>
-      {movies.map((movie: MovieType) => <MovieCard movie={movie} isActive={movie.id.toString() === activeId} key={movie.id}/>)}
+      {movies?.map((movie: MovieType) => <MovieCard movie={movie} isActive={movie.id.toString() === activeId} key={movie.id}/>)}
     </div>);
 }
