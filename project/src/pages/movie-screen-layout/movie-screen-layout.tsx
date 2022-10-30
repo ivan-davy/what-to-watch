@@ -23,13 +23,13 @@ export default function MovieScreenLayout(): JSX.Element | null {
   const authStatus: string = useAppSelector((state) => state.api.authStatus);
 
   const isLoading: boolean = useAppSelector((state) => state.api.isDataLoading);
-  if (isLoading) {
+  if (isLoading || !movie) {
     return null;
   }
 
   return (
     <>
-      <section className="film-card film-card--full" style={{background: `${movie?.backgroundColor as string}80`}}>
+      <section className="film-card film-card--full" style={{background: `${movie?.backgroundColor}80`}}>
         <div className="film-card__hero">
           <div className="film-card__bg">
             <img src={movie?.backgroundImage} alt={movie?.name}/>
@@ -51,7 +51,7 @@ export default function MovieScreenLayout(): JSX.Element | null {
               </p>
 
               <div className="film-card__buttons">
-                <button onClick={() => navigate(`${PageRoute.Player}/${movie?.id as number}`)} className="btn btn--play film-card__button" type="button">
+                <button onClick={() => navigate(`${PageRoute.Player}/${movie?.id}`)} className="btn btn--play film-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
