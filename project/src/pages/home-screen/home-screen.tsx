@@ -4,15 +4,30 @@ import MovieList from '../../components/movie-list/movie-list';
 import GenresList from '../../components/genres-list/genres-list';
 import {useNavigate} from 'react-router-dom';
 import {AuthorizationStatus, PageRoute} from '../../const';
-import {useAppSelector} from '../../hooks/store-hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import User from '../../components/user/user';
+import {useEffect} from 'react';
+import {fetchMoviesHomeAction} from '../../store/api-actions';
 
-export default function HomeScreen(): JSX.Element {
+
+export default function HomeScreen(): JSX.Element | null {
   const featuredMovie = useAppSelector((state) => state.home.featuredMovie);
   const movies = useAppSelector((state) => state.home.movies);
   const myListMoviesQty = useAppSelector((state) => state.user?.myList.length);
   const authStatus = useAppSelector((state) => state.api.authStatus);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!featuredMovie || !movies) {
+      dispatch(fetchMoviesHomeAction());
+    }
+  }, [dispatch, featuredMovie, movies]);
+
+  if (!movies) {
+    return null;
+  }
+
   return (
     <>
       <section className="film-card">
