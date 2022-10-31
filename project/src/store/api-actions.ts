@@ -1,38 +1,26 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AppDispatch} from '../types/state';
-import {State} from '../types/state';
+import {AppDispatch, State} from '../types/state';
 import {AxiosInstance} from 'axios';
-import {PageRoute, SIMILAR_SHOWN_QTY} from '../const';
-import {
-  ActiveMovieDataType,
-  AuthDataType,
-  HomeDataType,
-  MovieType,
-  NewReviewType,
-  ReviewType,
-  UserDataType
-} from '../types/types';
-import {ApiRoute, AuthorizationStatus} from '../const';
-import {
-  loadActiveMovieDataAction,
-  loadHomeMovieDataAction, loadMyListMoviesAction, loadUserDataAction, redirectToRouteAction,
-  updateAuthStatusAction,
-  setLoadingStatusAction, updateUserReviewsAction
-} from './action';
+import {ApiRoute, AuthorizationStatus, SIMILAR_SHOWN_QTY} from '../const';
+import {AuthDataType, MovieType, NewReviewType, ReviewType,} from '../types/types';
+import {loadUserDataAction, setLoadingStatusAction, updateAuthStatusAction, updateUserReviewsAction} from './action';
 import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
-import {store} from './store';
 import {dropToken, saveToken} from '../api/token';
 import React from 'react';
 import {FormStatus} from '../components/add-review-form/add-review-form';
 
-export const fetchMoviesHomeAction = createAsyncThunk<void, undefined, {
+type FetchHomeDataReturnType = {
+  movies: MovieType[];
+  featuredMovie: MovieType | null;
+}
+export const fetchHomeDataAction = createAsyncThunk<FetchHomeDataReturnType, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'home/apiGetData',
   async (_, {dispatch, extra: api}) => {
-    const homeData: Omit<HomeDataType, 'selectedGenre'> = {
+    const homeData: FetchHomeDataReturnType = {
       movies: [],
       featuredMovie: null,
     };
@@ -40,37 +28,39 @@ export const fetchMoviesHomeAction = createAsyncThunk<void, undefined, {
     homeData.movies = (await api.get<MovieType[]>(ApiRoute.Movies)).data;
     homeData.featuredMovie = (await api.get<MovieType>(ApiRoute.Featured)).data;
 
-    dispatch(loadHomeMovieDataAction(homeData));
+    return homeData;
   },
 );
 
-export const fetchActiveMovieDataAction = createAsyncThunk<void, string, {
+type FetchActiveMovieDataType = {
+  movie: MovieType | null;
+  similar: MovieType[];
+  reviews: ReviewType[];
+}
+export const fetchActiveMovieDataAction = createAsyncThunk<FetchActiveMovieDataType, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'active/apiGetDataById',
   async (movieId, {dispatch, extra: api}) => {
-    const activeData: ActiveMovieDataType = {
+    const activeData: FetchActiveMovieDataType = {
       movie: null,
       similar: [],
       reviews: [],
     };
-    try {
-      activeData.movie = (await api.get<MovieType>(`${ApiRoute.Movies}/${movieId}`)).data;
-      activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
-        .data.slice(0, SIMILAR_SHOWN_QTY);
-      activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Reviews}/${movieId}`)).data;
-      dispatch(loadActiveMovieDataAction(activeData));
-      dispatch(setLoadingStatusAction(false));
-    } catch (err) {
-      dispatch(setLoadingStatusAction(false));
-      dispatch(redirectToRouteAction(PageRoute.NotFound));
-      throw err;
-    }
-  },
+
+    activeData.movie = (await api.get<MovieType>(`${ApiRoute.Movies}/${movieId}`)).data;
+    activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
+      .data.slice(0, SIMILAR_SHOWN_QTY);
+    activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Reviews}/${movieId}`)).data;
+
+    return activeData;
+  }
 );
 
+
+type PostUserReviewReturnType = ReviewType[];
 export const postUserReviewAction = createAsyncThunk<void, {userReview: NewReviewType; setFormSubmitStateCb: React.Dispatch<React.SetStateAction<number>>}, {
   dispatch: AppDispatch;
   state: State;
@@ -78,35 +68,36 @@ export const postUserReviewAction = createAsyncThunk<void, {userReview: NewRevie
 }>(
   'user/apiPostNewReview',
   async (formData, {dispatch, extra: api}) => {
-    const activeId = store.getState().active.movie?.id;
     try {
-      const updatedReviews = (await api.post<ReviewType[]>(`${ApiRoute.Reviews}/${activeId as number}`, formData.userReview)).data;
+      const updatedReviews: PostUserReviewReturnType = (await api.post<ReviewType[]>(`${ApiRoute.Reviews}/${activeId as number}`, formData.userReview)).data;
       dispatch(updateUserReviewsAction(updatedReviews));
       formData.setFormSubmitStateCb(FormStatus.Submitted);
-      dispatch(redirectToRouteAction(`${PageRoute.Movie}/${activeId as number}`));
     } catch (err) {
       formData.setFormSubmitStateCb(FormStatus.Available);
+      throw err;
     }
   }
 );
 
-export const fetchMyListMoviesAction = createAsyncThunk<void, undefined, {
+type FetchMyListMoviesReturnType = MovieType[];
+export const fetchMyListMoviesAction = createAsyncThunk<FetchMyListMoviesReturnType, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/apiGetMyList',
-  async (_, {dispatch, extra: api}) => {
-    dispatch(setLoadingStatusAction(true));
+  async (_, {dispatch, extra: api}) =>
+    (await api.get<MovieType[]>(`${ApiRoute.MyList}`)).data);
 
-    const myListMovies = (await api.get<MovieType[]>(`${ApiRoute.MyList}`)).data;
-
-    dispatch(loadMyListMoviesAction(myListMovies));
-    dispatch(setLoadingStatusAction(false));
-  },
-);
-
-export const checkAuthAction = createAsyncThunk<void, undefined, {
+type CheckAuthActionReturnType = {
+  id: number;
+  name: string;
+  avatarUrl: string;
+  email: string;
+  token: string;
+  myList: MovieType[];
+}
+export const checkAuthAction = createAsyncThunk<CheckAuthActionReturnType, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -114,26 +105,23 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   'user/apiCheckUserAuth',
   async (_arg, {dispatch, extra: api}) => {
     dispatch(setLoadingStatusAction(true));
-    try {
-      const {data} = await api.get<Omit<UserDataType, 'myList'>>(ApiRoute.Login);
+    const userData: Omit<CheckAuthActionReturnType, 'myList'> = (await api.get<Omit<UserDataType, 'myList'>>(ApiRoute.Login)).data;
+    const myListMovies = (await api.get<MovieType[]>(`${ApiRoute.MyList}`)).data;
 
-      const userData: UserDataType = {
-        id: data.id,
-        name: data.name,
-        avatarUrl: data.avatarUrl,
-        email: data.email,
-        token: data.token,
-        myList: [],
-      };
+    const completeUserData: CheckAuthActionReturnType = {
+      id: userData.id,
+      name: userData.name,
+      avatarUrl: userData.avatarUrl,
+      email: userData.email,
+      token: userData.token,
+      myList: myListMovies,
+    };
 
-      dispatch(loadUserDataAction(userData));
-      saveToken(userData.token as string);
-      dispatch(updateAuthStatusAction(AuthorizationStatus.Auth));
-    } catch {
-      dispatch(updateAuthStatusAction(AuthorizationStatus.NoAuth));
-    } finally {
-      dispatch(setLoadingStatusAction(false));
-    }
+    dispatch(loadUserDataAction(userData));
+    saveToken(completeUserData.token as string);
+    dispatch(updateAuthStatusAction(AuthorizationStatus.Auth));
+
+    return completeUserData;
   },
 );
 

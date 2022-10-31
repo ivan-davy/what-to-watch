@@ -2,7 +2,7 @@ import {store} from '../store/store';
 import {MovieType, ReviewType} from './types';
 import {AuthorizationStatus} from '../const';
 
-export type HomeProcessType = {
+export type HomeType = {
   home: {
     featuredMovie: MovieType | null;
     movies: MovieType[];
@@ -10,7 +10,7 @@ export type HomeProcessType = {
   };
 }
 
-export type ActiveProcessType = {
+export type ActiveType = {
   active: {
     movie: MovieType | null;
     similar: MovieType[];
@@ -18,7 +18,7 @@ export type ActiveProcessType = {
   };
 }
 
-export type UserProcessType = {
+export type UserType = {
   user: {
     id: number | null;
     name: string | null;
@@ -29,7 +29,7 @@ export type UserProcessType = {
   };
 };
 
-export type ServiceProcessType = {
+export type ServiceType = {
   service: {
     isDataLoading: boolean;
     authStatus: string;

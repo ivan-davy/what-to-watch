@@ -7,7 +7,7 @@ export const genreChangeAction = createAction('genreHome/change', (newGenre) => 
   payload: newGenre as string,
 }));
 
-export const loadHomeMovieDataAction = createAction<Omit<HomeDataType, 'selectedGenre'>>('home/loadData');
+export const loadHomeDataAction = createAction<Omit<HomeDataType, 'selectedGenre'>>('home/loadData');
 
 export const loadActiveMovieDataAction = createAction<ActiveMovieDataType>('active/loadDataById');
 export const updateUserReviewsAction = createAction<ReviewType[]>('active/updateReviews');

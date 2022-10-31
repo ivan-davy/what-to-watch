@@ -1,17 +1,17 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {AuthorizationStatus, Namespace} from '../../const';
-import {ServiceProcessType} from '../../types/state';
+import {ServiceType} from '../../types/state';
 import {setLoadingStatusAction} from '../action';
 import {checkAuthAction, loginAction, logoutAction} from '../api-actions';
 
-const initialState: ServiceProcessType = {
+const initialState: ServiceType = {
   service: {
     authStatus: AuthorizationStatus.Unknown,
     isDataLoading: false,
   }
 };
 
-export const serviceProcess = createSlice({
+export const service = createSlice({
   name: Namespace.Service,
   initialState,
   reducers: {},
