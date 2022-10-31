@@ -43,8 +43,9 @@ export enum StatusCode {
 }
 export const SIMILAR_SHOWN_QTY = 4;
 
-export enum FormStatus {
-  Available,
-  Disabled,
-  Submitted,
+export enum Namespace {
+  Home = 'HOME',
+  Active = 'ACTIVE',
+  User = 'USER',
+  Service = 'SERVICE'
 }

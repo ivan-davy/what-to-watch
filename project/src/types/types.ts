@@ -43,34 +43,16 @@ export type StateType = {
   user: UserDataType;
 }
 
-export type ActiveMovieDataType = {
-  movie: MovieType | null;
-  similar: MovieType[];
-  reviews: ReviewType[];
-}
 
-export type HomeDataType = {
-  featuredMovie: MovieType | null;
-  movies: MovieType[];
-  selectedGenre: string;
-}
 
-export type ApiDataType = {
-  authStatus: AuthorizationStatus;
-  isDataLoading: boolean;
-}
+
+
+
 
 export type AuthDataType = {
   login: string;
   password: string;
 };
 
-export type UserDataType = {
-  id: number | null;
-  name: string | null;
-  email: string | null;
-  token: string | null;
-  avatarUrl: string | null;
-  myList: MovieType[];
-};
+
 

@@ -2,12 +2,17 @@ import React, {BaseSyntheticEvent, SyntheticEvent} from 'react';
 import {NewReviewType} from '../../types/types';
 import {postUserReviewAction} from '../../store/api-actions';
 import {useAppDispatch} from '../../hooks/store-hooks';
-import {FormStatus} from '../../const';
 
 const defaultReview: NewReviewType = {
   comment: '',
   rating: null
 };
+
+export enum FormStatus {
+  Available,
+  Disabled,
+  Submitted,
+}
 
 export default function AddReviewForm(): JSX.Element {
   const [formState, setFormState] = React.useState(defaultReview);
