@@ -3,14 +3,14 @@ import {ReviewType} from '../../types/types';
 const getReview = (review: ReviewType): JSX.Element => (
   <div className="review" key={review.id}>
     <blockquote className="review__quote">
-      <p className="review__text">
+      <p className="review__text" style={{wordBreak: 'break-all'}}>
         {review.comment}
       </p>
 
       <footer className="review__details">
         <cite className="review__author">{review.user.name}</cite>
         <time className="review__date" dateTime={review.date}>
-          {(new Date(review.date)).toLocaleDateString('en-uk')}
+          {(new Date(review.date)).toLocaleDateString('en-us', {year: 'numeric', month: 'long', day: 'numeric' })}
         </time>
       </footer>
     </blockquote>
