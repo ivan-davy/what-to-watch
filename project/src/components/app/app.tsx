@@ -1,6 +1,6 @@
 import HomeScreen from '../../pages/home-screen/home-screen';
 import {Route, Routes} from 'react-router-dom';
-import {PageRoute, MovieScreenTab} from '../../const';
+import {AuthorizationStatus, MovieScreenTab, PageRoute} from '../../const';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import MyListScreen from '../../pages/my-list-screen/my-list-screen';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
@@ -19,10 +19,9 @@ import LoadingSpinner from '../loading/loading-spinner';
 function App(): JSX.Element {
   const movies: MovieType[] | null = useAppSelector((state) => state.home.movies);
   const authStatus = useAppSelector((state) => state.api.authStatus);
-  const isLoading = useAppSelector((state) => state.api.isDataLoading);
 
 
-  if (isLoading) {
+  if (authStatus === AuthorizationStatus.Unknown) {
     return (
       <LoadingSpinner/>
     );

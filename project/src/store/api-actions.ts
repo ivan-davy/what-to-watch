@@ -53,7 +53,6 @@ export const fetchActiveMovieDataAction = createAsyncThunk<void, string, {
 }>(
   'api/getActiveMovieData',
   async (movieId, {dispatch, extra: api}) => {
-    dispatch(setLoadingStatusAction(true));
     const activeData: ActiveMovieDataType = {
       movie: null,
       similar: [],

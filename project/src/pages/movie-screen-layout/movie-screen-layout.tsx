@@ -10,7 +10,7 @@ import {MovieType} from '../../types/types';
 import { useEffect } from 'react';
 import LoadingSpinner from '../../components/loading/loading-spinner';
 
-export default function MovieScreenLayout(): JSX.Element | null {
+export default function MovieScreenLayout(): JSX.Element {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -27,13 +27,10 @@ export default function MovieScreenLayout(): JSX.Element | null {
   const authStatus: string = useAppSelector((state) => state.api.authStatus);
   const isLoading: boolean = useAppSelector((state) => state.api.isDataLoading);
 
-  if (isLoading) {
+  if (isLoading || movie?.id.toString() !== params.id) {
     return (
       <LoadingSpinner/>
     );
-  }
-  if (!movie) {
-    return null;
   }
 
   return (

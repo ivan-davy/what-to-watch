@@ -11,7 +11,7 @@ import {fetchMoviesHomeAction} from '../../store/api-actions';
 import LoadingSpinner from '../../components/loading/loading-spinner';
 
 
-export default function HomeScreen(): JSX.Element | null {
+export default function HomeScreen(): JSX.Element {
   const featuredMovie = useAppSelector((state) => state.home.featuredMovie);
   const movies = useAppSelector((state) => state.home.movies);
   const myListMoviesQty = useAppSelector((state) => state.user.myList?.length);
@@ -23,13 +23,10 @@ export default function HomeScreen(): JSX.Element | null {
     dispatch(fetchMoviesHomeAction());
   }, []);
 
-  if (authStatus === AuthorizationStatus.Unknown) {
+  if (!movies.length || !featuredMovie) {
     return (
       <LoadingSpinner/>
     );
-  }
-  if (!movies.length) {
-    return null;
   }
 
   return (
@@ -49,7 +46,7 @@ export default function HomeScreen(): JSX.Element | null {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={featuredMovie?.posterImage} alt={`${featuredMovie?.name as string} poster`} width="218"
+              <img src={featuredMovie?.posterImage} alt={`${featuredMovie?.name} poster`} width="218"
                 height="327"
               />
             </div>
@@ -62,7 +59,7 @@ export default function HomeScreen(): JSX.Element | null {
               </p>
 
               <div className="film-card__buttons">
-                <button onClick={() => navigate(`${PageRoute.Player}/${featuredMovie?.id as number}`)} className="btn btn--play film-card__button" type="button">
+                <button onClick={() => navigate(`${PageRoute.Player}/${featuredMovie?.id}`)} className="btn btn--play film-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -84,7 +81,7 @@ export default function HomeScreen(): JSX.Element | null {
       </section>
 
       <div className="page-content"
-        style={{backgroundImage: `linear-gradient(-180deg, ${featuredMovie?.backgroundColor as string} -500%, #000000 100%)`}}
+        style={{backgroundImage: `linear-gradient(-180deg, ${featuredMovie?.backgroundColor} -500%, #000000 100%)`}}
       >
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>

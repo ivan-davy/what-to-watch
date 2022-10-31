@@ -10,7 +10,7 @@ import {useEffect} from 'react';
 import {MovieType} from '../../types/types';
 import LoadingSpinner from '../../components/loading/loading-spinner';
 
-export default function AddReviewScreen(): JSX.Element | null {
+export default function AddReviewScreen(): JSX.Element {
   const params = useParams();
   const dispatch = useAppDispatch();
 
@@ -23,13 +23,10 @@ export default function AddReviewScreen(): JSX.Element | null {
   const movie: MovieType | null = useAppSelector((state) => state.active.movie);
   const isLoading: boolean = useAppSelector((state) => state.api.isDataLoading);
 
-  if (isLoading) {
+  if (isLoading || movie?.id.toString() !== params.id) {
     return (
       <LoadingSpinner/>
     );
-  }
-  if (!movie) {
-    return null;
   }
 
   return (
@@ -47,7 +44,7 @@ export default function AddReviewScreen(): JSX.Element | null {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={`${PageRoute.Movie}/${movie.id}`} className="breadcrumbs__link">{movie?.name}</Link>
+                <Link to={`${PageRoute.Movie}/${movie?.id as number}`} className="breadcrumbs__link">{movie?.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -59,7 +56,7 @@ export default function AddReviewScreen(): JSX.Element | null {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={movie?.posterImage} alt={`${movie.name} poster`} width="218"
+          <img src={movie?.posterImage} alt={`${movie?.name as string} poster`} width="218"
             height="327"
           />
         </div>
