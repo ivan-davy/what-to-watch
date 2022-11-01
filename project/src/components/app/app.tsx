@@ -10,16 +10,13 @@ import NotFoundScreen from '../../pages/not-found/not-found-screen';
 import MovieScreenLayout from '../../pages/movie-screen-layout/movie-screen-layout';
 import MovieTabs from '../movie-tabs/movie-tabs';
 import {useAppSelector} from '../../hooks/store-hooks';
-import {MovieType} from '../../types/types';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 import LoadingSpinner from '../loading/loading-spinner';
 
 
 function App(): JSX.Element {
-  const movies: MovieType[] | null = useAppSelector((state) => state.home.movies);
   const authStatus = useAppSelector((state) => state.service.authStatus);
-
 
   if (authStatus === AuthorizationStatus.Unknown) {
     return (
@@ -65,7 +62,7 @@ function App(): JSX.Element {
         />
         <Route
           path={`${PageRoute.Player}/:id`}
-          element={<PlayerScreen movies={movies}/>}
+          element={<PlayerScreen/>}
         />
         <Route
           path='*'

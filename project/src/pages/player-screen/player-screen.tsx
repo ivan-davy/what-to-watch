@@ -1,21 +1,33 @@
 import {MovieType} from '../../types/types';
 import {useNavigate, useParams} from 'react-router-dom';
-import NotFoundScreen from '../not-found/not-found-screen';
+import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
+import {useEffect} from 'react';
+import {fetchActiveDataAction} from '../../store/api-actions';
+import LoadingSpinner from '../../components/loading/loading-spinner';
 
-export type PlayerScreenPropsType = {
-  movies: MovieType[] | null;
-}
-
-export default function PlayerScreen({movies}: PlayerScreenPropsType): JSX.Element {
+export default function PlayerScreen(): JSX.Element {
   const params = useParams();
   const navigate = useNavigate();
-  const movie = movies?.find((item:MovieType) => item.id.toString() === params.id);
-  if (movie === undefined) {
-    return <NotFoundScreen />;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (movie?.id.toString() !== params.id) {
+      dispatch(fetchActiveDataAction(params.id as string));
+    }
+  }, []);
+
+  const movie: MovieType | null = useAppSelector((state) => state.active.movie);
+  const isLoading: boolean = useAppSelector((state) => state.service.isDataLoading);
+
+  if (isLoading || movie?.id.toString() !== params.id) {
+    return (
+      <LoadingSpinner/>
+    );
   }
+
   return (
     <div className="player">
-      <video src="#" className="player__video" poster={movie.backgroundImage}></video>
+      <video src="#" className="player__video" poster={movie?.backgroundImage}></video>
 
       <button onClick={() => navigate('/')} type="button" className="player__exit">Exit</button>
 
@@ -35,7 +47,7 @@ export default function PlayerScreen({movies}: PlayerScreenPropsType): JSX.Eleme
             </svg>
             <span>Play</span>
           </button>
-          <div className="player__name">{movie.name}</div>
+          <div className="player__name">{movie?.name}</div>
 
           <button type="button" className="player__full-screen">
             <svg viewBox="0 0 27 27" width="27" height="27">
