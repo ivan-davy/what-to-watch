@@ -8,7 +8,7 @@ import {useAppSelector} from '../../hooks/store-hooks';
 
 export default function MyListScreen(): JSX.Element {
   const myListMovies = useAppSelector((state) => state.user.myList);
-  const authStatus = useAppSelector((state) => state.api.authStatus);
+  const authStatus = useAppSelector((state) => state.service.authStatus);
   const navigate = useNavigate();
 
   if (authStatus !== AuthorizationStatus.Auth) {

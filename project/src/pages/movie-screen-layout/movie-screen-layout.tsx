@@ -4,7 +4,7 @@ import {Link, Outlet, useNavigate, useParams} from 'react-router-dom';
 import {AuthorizationStatus, PageRoute} from '../../const';
 import MovieList from '../../components/movie-list/movie-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
-import {fetchActiveMovieDataAction} from '../../store/api-actions';
+import {fetchActiveDataAction} from '../../store/api-actions';
 import User from '../../components/user/user';
 import {MovieType} from '../../types/types';
 import { useEffect } from 'react';
@@ -17,15 +17,15 @@ export default function MovieScreenLayout(): JSX.Element {
 
   useEffect(() => {
     if (movie?.id.toString() !== params.id) {
-      dispatch(fetchActiveMovieDataAction(params.id as string));
+      dispatch(fetchActiveDataAction(params.id as string));
     }
   }, []);
 
   const movie: MovieType | null = useAppSelector((state) => state.active.movie);
   const similar: MovieType[] = useAppSelector((state) => state.active.similar);
   const myListMoviesQty: number | undefined = useAppSelector((state) => state.user.myList.length);
-  const authStatus: string = useAppSelector((state) => state.api.authStatus);
-  const isLoading: boolean = useAppSelector((state) => state.api.isDataLoading);
+  const authStatus: string = useAppSelector((state) => state.service.authStatus);
+  const isLoading: boolean = useAppSelector((state) => state.service.isDataLoading);
 
   if (isLoading || movie?.id.toString() !== params.id) {
     return (

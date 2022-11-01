@@ -1,5 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AppDispatch, State} from '../types/state';
+import {ActiveType, AppDispatch, HomeType, State, UserType} from '../types/state';
 import {AxiosInstance} from 'axios';
 import {ApiRoute, FormStatus, SIMILAR_SHOWN_QTY} from '../const';
 import {AuthDataType, MovieType, NewReviewType, ReviewType,} from '../types/types';
@@ -8,10 +8,7 @@ import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
 import {dropToken, saveToken} from '../api/token';
 import React from 'react';
 
-type FetchHomeDataReturnType = {
-  movies: MovieType[];
-  featuredMovie: MovieType | null;
-}
+type FetchHomeDataReturnType = Omit<HomeType, 'selectedGenre'>;
 export const fetchHomeDataAction = createAsyncThunk<FetchHomeDataReturnType, undefined, {
   dispatch: AppDispatch;
   state: State;
@@ -32,12 +29,8 @@ export const fetchHomeDataAction = createAsyncThunk<FetchHomeDataReturnType, und
 );
 
 
-type FetchActiveDataReturnType = {
-  movie: MovieType | null;
-  similar: MovieType[];
-  reviews: ReviewType[];
-}
-export const fetchActiveMovieDataAction = createAsyncThunk<FetchActiveDataReturnType, string, {
+type FetchActiveDataReturnType = ActiveType;
+export const fetchActiveDataAction = createAsyncThunk<FetchActiveDataReturnType, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -96,14 +89,7 @@ export const fetchMyListMoviesAction = createAsyncThunk<FetchMyListMoviesReturnT
     (await api.get<MovieType[]>(`${ApiRoute.MyList}`)).data);
 
 
-type CheckAuthReturnType = {
-  id: number;
-  name: string;
-  avatarUrl: string;
-  email: string;
-  token: string;
-  myList: MovieType[];
-}
+type CheckAuthReturnType = UserType;
 export const checkAuthAction = createAsyncThunk<CheckAuthReturnType, undefined, {
   dispatch: AppDispatch;
   state: State;
@@ -123,21 +109,14 @@ export const checkAuthAction = createAsyncThunk<CheckAuthReturnType, undefined, 
       token: userData.token,
       myList: myListMovies,
     };
-    saveToken(completeUserData.token);
+    saveToken(completeUserData.token as string);
 
     return completeUserData;
   },
 );
 
 
-type LoginReturnType = {
-  id: number;
-  name: string;
-  avatarUrl: string;
-  email: string;
-  token: string;
-  myList: MovieType[];
-}
+type LoginReturnType = UserType;
 export const loginAction = createAsyncThunk<LoginReturnType, AuthDataType, {
   dispatch: AppDispatch;
   state: State;
@@ -156,7 +135,7 @@ export const loginAction = createAsyncThunk<LoginReturnType, AuthDataType, {
       myList: [],
     };
 
-    saveToken(userData.token);
+    saveToken(userData.token as string);
     return userData;
   },
 );
@@ -170,6 +149,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   'user/apiLogout',
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(ApiRoute.Logout);
+
     dropToken();
   },
 );

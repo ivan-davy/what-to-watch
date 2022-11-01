@@ -5,11 +5,9 @@ import {genreChangeAction} from '../action';
 import {fetchHomeDataAction} from '../api-actions';
 
 const initialState: HomeType = {
-  home: {
-    featuredMovie: null,
-    selectedGenre: ALL_GENRES_FILTER_NAME,
-    movies: [],
-  }
+  featuredMovie: null,
+  selectedGenre: ALL_GENRES_FILTER_NAME,
+  movies: [],
 };
 
 export const home = createSlice({
@@ -19,11 +17,13 @@ export const home = createSlice({
   extraReducers(builder) {
     builder
       .addCase(genreChangeAction, (state, action) => {
-        state.home.selectedGenre = action.payload;
-      })
+        state.selectedGenre = action.payload;
+      });
+
+    builder
       .addCase(fetchHomeDataAction.fulfilled, (state, action) => {
-        state.home.featuredMovie = action.payload.featuredMovie;
-        state.home.movies = action.payload.movies;
+        state.featuredMovie = action.payload.featuredMovie;
+        state.movies = action.payload.movies;
       });
   }
 });

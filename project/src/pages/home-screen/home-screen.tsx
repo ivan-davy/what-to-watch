@@ -7,7 +7,7 @@ import {AuthorizationStatus, PageRoute} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import User from '../../components/user/user';
 import {useEffect} from 'react';
-import {fetchMoviesHomeAction} from '../../store/api-actions';
+import {fetchHomeDataAction} from '../../store/api-actions';
 import LoadingSpinner from '../../components/loading/loading-spinner';
 
 
@@ -15,12 +15,12 @@ export default function HomeScreen(): JSX.Element {
   const featuredMovie = useAppSelector((state) => state.home.featuredMovie);
   const movies = useAppSelector((state) => state.home.movies);
   const myListMoviesQty = useAppSelector((state) => state.user.myList?.length);
-  const authStatus = useAppSelector((state) => state.api.authStatus);
+  const authStatus = useAppSelector((state) => state.service.authStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchMoviesHomeAction());
+    dispatch(fetchHomeDataAction());
   }, []);
 
   if (!movies.length || !featuredMovie) {

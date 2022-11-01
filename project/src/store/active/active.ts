@@ -1,14 +1,12 @@
 import {ActiveType} from '../../types/state';
 import {createSlice} from '@reduxjs/toolkit';
 import {Namespace} from '../../const';
-import {fetchActiveMovieDataAction, postUserReviewAction} from '../api-actions';
+import {fetchActiveDataAction, postUserReviewAction} from '../api-actions';
 
 const initialState: ActiveType = {
-  active: {
-    movie: null,
-    similar: [],
-    reviews: [],
-  },
+  movie: null,
+  similar: [],
+  reviews: [],
 };
 
 export const active = createSlice({
@@ -17,11 +15,13 @@ export const active = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchActiveMovieDataAction.fulfilled, (state, action) => {
-        state.active = action.payload;
-      })
+      .addCase(fetchActiveDataAction.fulfilled, (state, action) => {
+        state = action.payload;
+      });
+
+    builder
       .addCase(postUserReviewAction.fulfilled, (state, action) => {
-        state.active.reviews = action.payload;
+        state.reviews = action.payload;
       });
   }
 });

@@ -1,10 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {AuthorizationStatus, Namespace, PageRoute} from '../../const';
 import {ServiceType} from '../../types/state';
-import {redirectToRouteAction, setLoadingStatusAction, updateAuthStatusAction} from '../action';
+import {redirectToRouteAction, setLoadingStatusAction} from '../action';
 import {
   checkAuthAction,
-  fetchActiveMovieDataAction,
+  fetchActiveDataAction,
   fetchHomeDataAction, fetchMyListMoviesAction,
   loginAction,
   logoutAction
@@ -12,10 +12,8 @@ import {
 import {store} from '../store';
 
 const initialState: ServiceType = {
-  service: {
-    authStatus: AuthorizationStatus.Unknown,
-    isDataLoading: false,
-  }
+  authStatus: AuthorizationStatus.Unknown,
+  isDataLoading: false,
 };
 
 export const service = createSlice({
@@ -25,72 +23,67 @@ export const service = createSlice({
   extraReducers(builder) {
     builder
       .addCase(setLoadingStatusAction, (state, action) => {
-        state.service.isDataLoading = action.payload;
-      })
-      .addCase(checkAuthAction.fulfilled, (state) => {
-        state.service.authStatus = AuthorizationStatus.Auth;
-      })
-      .addCase(checkAuthAction.rejected, (state) => {
-        state.service.authStatus = AuthorizationStatus.NoAuth;
-      })
-      .addCase(loginAction.fulfilled, (state) => {
-        state.service.authStatus = AuthorizationStatus.Auth;
-      })
-      .addCase(loginAction.rejected, (state) => {
-        state.service.authStatus = AuthorizationStatus.NoAuth;
-      })
+        state.isDataLoading = action.payload;
+      });
+    builder
       .addCase(logoutAction.fulfilled, (state) => {
-        state.service.authStatus = AuthorizationStatus.NoAuth;
-      })
+        state.authStatus = AuthorizationStatus.NoAuth;
+      });
+    builder
       .addCase(fetchHomeDataAction.fulfilled, (state) => {
-        state.service.isDataLoading = false;
+        state.isDataLoading = false;
       })
       .addCase(fetchHomeDataAction.pending, (state) => {
-        state.service.isDataLoading = true;
+        state.isDataLoading = true;
+      });
+    builder
+      .addCase(fetchActiveDataAction.pending, (state) => {
+        state.isDataLoading = true;
       })
-      .addCase(fetchActiveMovieDataAction.pending, (state) => {
-        state.service.isDataLoading = true;
+      .addCase(fetchActiveDataAction.fulfilled, (state) => {
+        state.isDataLoading = false;
       })
-      .addCase(fetchActiveMovieDataAction.fulfilled, (state) => {
-        state.service.isDataLoading = false;
-      })
-      .addCase(fetchActiveMovieDataAction.rejected, (state) => {
-        state.service.isDataLoading = false;
+      .addCase(fetchActiveDataAction.rejected, (state) => {
+        state.isDataLoading = false;
         store.dispatch(redirectToRouteAction(PageRoute.NotFound));
-      })
+      });
+    builder
       .addCase(fetchMyListMoviesAction.pending, (state) => {
-        state.service.isDataLoading = true;
+        state.isDataLoading = true;
       })
       .addCase(fetchMyListMoviesAction.fulfilled, (state) => {
-        state.service.isDataLoading = false;
+        state.isDataLoading = false;
       })
       .addCase(fetchMyListMoviesAction.rejected, (state) => {
-        state.service.isDataLoading = false;
-      })
+        state.isDataLoading = false;
+      });
+    builder
       .addCase(checkAuthAction.pending, (state) => {
-        state.service.isDataLoading = true;
+        state.isDataLoading = true;
       })
       .addCase(checkAuthAction.fulfilled, (state) => {
-        state.service.authStatus = AuthorizationStatus.Auth;
-        state.service.isDataLoading = false;
+        state.authStatus = AuthorizationStatus.Auth;
+        state.isDataLoading = false;
       })
       .addCase(checkAuthAction.rejected, (state) => {
-        state.service.authStatus = AuthorizationStatus.NoAuth;
-        state.service.isDataLoading = false;
-      })
+        state.authStatus = AuthorizationStatus.NoAuth;
+        state.isDataLoading = false;
+      });
+    builder
       .addCase(loginAction.pending, (state) => {
-        state.service.isDataLoading = true;
+        state.isDataLoading = true;
       })
       .addCase(loginAction.fulfilled, (state) => {
-        state.service.authStatus = AuthorizationStatus.Auth;
-        state.service.isDataLoading = false;
+        state.authStatus = AuthorizationStatus.Auth;
+        state.isDataLoading = false;
       })
       .addCase(loginAction.rejected, (state) => {
-        state.service.authStatus = AuthorizationStatus.NoAuth;
-        state.service.isDataLoading = false;
-      })
+        state.authStatus = AuthorizationStatus.NoAuth;
+        state.isDataLoading = false;
+      });
+    builder
       .addCase(logoutAction.fulfilled, (state) => {
-        state.service.authStatus = AuthorizationStatus.NoAuth;
+        state.authStatus = AuthorizationStatus.NoAuth;
       });
   }
 });

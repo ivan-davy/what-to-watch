@@ -4,14 +4,12 @@ import {UserType} from '../../types/state';
 import {checkAuthAction, fetchMyListMoviesAction, loginAction} from '../api-actions';
 
 const initialState: UserType = {
-  user: {
-    id: null,
-    name: null,
-    email: null,
-    avatarUrl: null,
-    token: null,
-    myList: [],
-  },
+  id: null,
+  name: null,
+  email: null,
+  avatarUrl: null,
+  token: null,
+  myList: [],
 };
 
 export const user = createSlice({
@@ -21,13 +19,15 @@ export const user = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchMyListMoviesAction.fulfilled, (state, action) => {
-        state.user.myList = action.payload;
-      })
+        state.myList = action.payload;
+      });
+    builder
       .addCase(checkAuthAction.fulfilled, (state, action) => {
-        state.user = action.payload;
-      })
+        state = action.payload;
+      });
+    builder
       .addCase(loginAction.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state = action.payload;
       });
   }
 });

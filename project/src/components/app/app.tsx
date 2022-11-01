@@ -18,7 +18,7 @@ import LoadingSpinner from '../loading/loading-spinner';
 
 function App(): JSX.Element {
   const movies: MovieType[] | null = useAppSelector((state) => state.home.movies);
-  const authStatus = useAppSelector((state) => state.api.authStatus);
+  const authStatus = useAppSelector((state) => state.service.authStatus);
 
 
   if (authStatus === AuthorizationStatus.Unknown) {
