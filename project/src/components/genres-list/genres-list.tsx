@@ -25,5 +25,5 @@ export default function GenresList({movies}: GenresListPropsType): JSX.Element {
     </li>
   );
 
-  return <>{orderedGenresList.map((genre) => getGenreElement(genre))}</>;
+  return <>{orderedGenresList.slice(0, 10).map((genre) => getGenreElement(genre))}</>;
 }
