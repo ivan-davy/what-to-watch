@@ -1,23 +1,20 @@
 import React, {BaseSyntheticEvent, SyntheticEvent} from 'react';
 import {NewReviewType} from '../../types/types';
 import {postUserReviewAction} from '../../store/api-actions';
-import {useAppDispatch} from '../../hooks/store-hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
+import {FormStatus} from '../../const';
+import {StateType} from '../../types/state';
 
 const defaultReview: NewReviewType = {
   comment: '',
   rating: null
 };
 
-export enum FormStatus {
-  Available,
-  Disabled,
-  Submitted,
-}
-
 export default function AddReviewForm(): JSX.Element {
   const [formState, setFormState] = React.useState(defaultReview);
   const [formSubmitState, setFormSubmitState] = React.useState(FormStatus.Available);
   const dispatch = useAppDispatch();
+  const movieId = useAppSelector((state: StateType) => state.active.movie?.id) as number;
 
   const handleFormChange = (evt: SyntheticEvent) => {
     const target = evt.target as HTMLTextAreaElement | HTMLInputElement;
@@ -32,7 +29,7 @@ export default function AddReviewForm(): JSX.Element {
   const handleFormSubmit = (evt: BaseSyntheticEvent) => {
     evt.preventDefault();
     setFormSubmitState(FormStatus.Disabled);
-    dispatch(postUserReviewAction({userReview: formState, setFormSubmitStateCb: setFormSubmitState}));
+    dispatch(postUserReviewAction({userReview: formState, setFormSubmitStateCb: setFormSubmitState, activeId: movieId}));
   };
 
   return (

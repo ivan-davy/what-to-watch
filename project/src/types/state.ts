@@ -36,6 +36,8 @@ export type ServiceType = {
   };
 }
 
+export type StateType = HomeType & ActiveType & UserType & ServiceType;
+
 export type State = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;

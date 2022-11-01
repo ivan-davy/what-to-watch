@@ -1,9 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {HomeType} from '../../types/state';
 import {ALL_GENRES_FILTER_NAME, Namespace} from '../../const';
-import {genreChangeAction, setLoadingStatusAction} from '../action';
+import {genreChangeAction} from '../action';
 import {fetchHomeDataAction} from '../api-actions';
-import {store} from '../store';
 
 const initialState: HomeType = {
   home: {
@@ -25,10 +24,6 @@ export const home = createSlice({
       .addCase(fetchHomeDataAction.fulfilled, (state, action) => {
         state.home.featuredMovie = action.payload.featuredMovie;
         state.home.movies = action.payload.movies;
-        store.dispatch(setLoadingStatusAction(false));
-      })
-      .addCase(fetchHomeDataAction.pending, () => {
-        store.dispatch(setLoadingStatusAction(true));
       });
   }
 });

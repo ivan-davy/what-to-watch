@@ -1,13 +1,12 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state';
 import {AxiosInstance} from 'axios';
-import {ApiRoute, AuthorizationStatus, SIMILAR_SHOWN_QTY} from '../const';
+import {ApiRoute, FormStatus, SIMILAR_SHOWN_QTY} from '../const';
 import {AuthDataType, MovieType, NewReviewType, ReviewType,} from '../types/types';
-import {loadUserDataAction, setLoadingStatusAction, updateAuthStatusAction, updateUserReviewsAction} from './action';
+import {setLoadingStatusAction} from './action';
 import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
 import {dropToken, saveToken} from '../api/token';
 import React from 'react';
-import {FormStatus} from '../components/add-review-form/add-review-form';
 
 type FetchHomeDataReturnType = {
   movies: MovieType[];
@@ -32,19 +31,20 @@ export const fetchHomeDataAction = createAsyncThunk<FetchHomeDataReturnType, und
   },
 );
 
-type FetchActiveMovieDataType = {
+
+type FetchActiveDataReturnType = {
   movie: MovieType | null;
   similar: MovieType[];
   reviews: ReviewType[];
 }
-export const fetchActiveMovieDataAction = createAsyncThunk<FetchActiveMovieDataType, string, {
+export const fetchActiveMovieDataAction = createAsyncThunk<FetchActiveDataReturnType, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'active/apiGetDataById',
   async (movieId, {dispatch, extra: api}) => {
-    const activeData: FetchActiveMovieDataType = {
+    const activeData: FetchActiveDataReturnType = {
       movie: null,
       similar: [],
       reviews: [],
@@ -59,25 +59,31 @@ export const fetchActiveMovieDataAction = createAsyncThunk<FetchActiveMovieDataT
   }
 );
 
-
 type PostUserReviewReturnType = ReviewType[];
-export const postUserReviewAction = createAsyncThunk<void, {userReview: NewReviewType; setFormSubmitStateCb: React.Dispatch<React.SetStateAction<number>>}, {
+export const postUserReviewAction = createAsyncThunk<PostUserReviewReturnType, {
+  userReview: NewReviewType;
+  setFormSubmitStateCb: React.Dispatch<React.SetStateAction<number>>;
+  activeId: number;
+  }, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/apiPostNewReview',
   async (formData, {dispatch, extra: api}) => {
+    const activeId = formData.activeId;
     try {
-      const updatedReviews: PostUserReviewReturnType = (await api.post<ReviewType[]>(`${ApiRoute.Reviews}/${activeId as number}`, formData.userReview)).data;
-      dispatch(updateUserReviewsAction(updatedReviews));
+      const updatedReviews: ReviewType[] = (await api.post<PostUserReviewReturnType>(
+        `${ApiRoute.Reviews}/${activeId}`, formData.userReview)).data;
       formData.setFormSubmitStateCb(FormStatus.Submitted);
+      return updatedReviews;
     } catch (err) {
       formData.setFormSubmitStateCb(FormStatus.Available);
       throw err;
     }
   }
 );
+
 
 type FetchMyListMoviesReturnType = MovieType[];
 export const fetchMyListMoviesAction = createAsyncThunk<FetchMyListMoviesReturnType, undefined, {
@@ -89,7 +95,8 @@ export const fetchMyListMoviesAction = createAsyncThunk<FetchMyListMoviesReturnT
   async (_, {dispatch, extra: api}) =>
     (await api.get<MovieType[]>(`${ApiRoute.MyList}`)).data);
 
-type CheckAuthActionReturnType = {
+
+type CheckAuthReturnType = {
   id: number;
   name: string;
   avatarUrl: string;
@@ -97,7 +104,7 @@ type CheckAuthActionReturnType = {
   token: string;
   myList: MovieType[];
 }
-export const checkAuthAction = createAsyncThunk<CheckAuthActionReturnType, undefined, {
+export const checkAuthAction = createAsyncThunk<CheckAuthReturnType, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -105,10 +112,10 @@ export const checkAuthAction = createAsyncThunk<CheckAuthActionReturnType, undef
   'user/apiCheckUserAuth',
   async (_arg, {dispatch, extra: api}) => {
     dispatch(setLoadingStatusAction(true));
-    const userData: Omit<CheckAuthActionReturnType, 'myList'> = (await api.get<Omit<UserDataType, 'myList'>>(ApiRoute.Login)).data;
+    const userData = (await api.get<Omit<CheckAuthReturnType, 'myList'>>(ApiRoute.Login)).data;
     const myListMovies = (await api.get<MovieType[]>(`${ApiRoute.MyList}`)).data;
 
-    const completeUserData: CheckAuthActionReturnType = {
+    const completeUserData: CheckAuthReturnType = {
       id: userData.id,
       name: userData.name,
       avatarUrl: userData.avatarUrl,
@@ -116,25 +123,31 @@ export const checkAuthAction = createAsyncThunk<CheckAuthActionReturnType, undef
       token: userData.token,
       myList: myListMovies,
     };
-
-    dispatch(loadUserDataAction(userData));
-    saveToken(completeUserData.token as string);
-    dispatch(updateAuthStatusAction(AuthorizationStatus.Auth));
+    saveToken(completeUserData.token);
 
     return completeUserData;
   },
 );
 
-export const loginAction = createAsyncThunk<void, AuthDataType, {
+
+type LoginReturnType = {
+  id: number;
+  name: string;
+  avatarUrl: string;
+  email: string;
+  token: string;
+  myList: MovieType[];
+}
+export const loginAction = createAsyncThunk<LoginReturnType, AuthDataType, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/apiLogin',
   async ({login: email, password}, {dispatch, extra: api}) => {
-    const {data} = await api.post<Omit<UserDataType, 'myList'>>(ApiRoute.Login, {email, password});
+    const {data} = await api.post<Omit<LoginReturnType, 'myList'>>(ApiRoute.Login, {email, password});
 
-    const userData: UserDataType = {
+    const userData: LoginReturnType = {
       id: data.id,
       name: data.name,
       avatarUrl: data.avatarUrl,
@@ -143,11 +156,11 @@ export const loginAction = createAsyncThunk<void, AuthDataType, {
       myList: [],
     };
 
-    dispatch(loadUserDataAction(userData));
-    saveToken(userData.token as string);
-    dispatch(updateAuthStatusAction(AuthorizationStatus.Auth));
+    saveToken(userData.token);
+    return userData;
   },
 );
+
 
 export const logoutAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -158,6 +171,5 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(ApiRoute.Logout);
     dropToken();
-    dispatch(updateAuthStatusAction(AuthorizationStatus.NoAuth));
   },
 );

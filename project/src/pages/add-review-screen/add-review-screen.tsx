@@ -9,6 +9,7 @@ import {fetchActiveMovieDataAction} from '../../store/api-actions';
 import {useEffect} from 'react';
 import {MovieType} from '../../types/types';
 import LoadingSpinner from '../../components/loading/loading-spinner';
+import {StateType} from '../../types/state';
 
 export default function AddReviewScreen(): JSX.Element {
   const params = useParams();
@@ -20,8 +21,8 @@ export default function AddReviewScreen(): JSX.Element {
     }
   }, []);
 
-  const movie: MovieType | null = useAppSelector((state) => state.active.movie);
-  const isLoading: boolean = useAppSelector((state) => state.api.isDataLoading);
+  const movie: MovieType | null = useAppSelector((state: StateType) => state.active.movie);
+  const isLoading: boolean = useAppSelector((state: StateType) => state.service.isDataLoading);
 
   if (isLoading || movie?.id.toString() !== params.id) {
     return (

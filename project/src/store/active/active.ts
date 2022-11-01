@@ -1,9 +1,7 @@
 import {ActiveType} from '../../types/state';
 import {createSlice} from '@reduxjs/toolkit';
-import {Namespace, PageRoute} from '../../const';
-import {redirectToRouteAction, setLoadingStatusAction} from '../action';
-import {fetchActiveMovieDataAction} from '../api-actions';
-import {store} from '../store';
+import {Namespace} from '../../const';
+import {fetchActiveMovieDataAction, postUserReviewAction} from '../api-actions';
 
 const initialState: ActiveType = {
   active: {
@@ -19,16 +17,11 @@ export const active = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchActiveMovieDataAction.pending, () => {
-        store.dispatch(setLoadingStatusAction(true));
-      })
       .addCase(fetchActiveMovieDataAction.fulfilled, (state, action) => {
         state.active = action.payload;
-        store.dispatch(setLoadingStatusAction(false));
       })
-      .addCase(fetchActiveMovieDataAction.rejected, () => {
-        store.dispatch(setLoadingStatusAction(false));
-        store.dispatch(redirectToRouteAction(PageRoute.NotFound));
-      })
+      .addCase(postUserReviewAction.fulfilled, (state, action) => {
+        state.active.reviews = action.payload;
+      });
   }
 });

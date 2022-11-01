@@ -1,5 +1,3 @@
-import {AuthorizationStatus} from '../const';
-
 export type MovieType = {
   id: number;
   name: string;
@@ -36,23 +34,7 @@ export type NewReviewType = {
   rating: number | null;
 }
 
-export type StateType = {
-  active: ActiveMovieDataType;
-  home: HomeDataType;
-  api: ApiDataType;
-  user: UserDataType;
-}
-
-
-
-
-
-
-
 export type AuthDataType = {
   login: string;
   password: string;
 };
-
-
-
