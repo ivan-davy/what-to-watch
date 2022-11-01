@@ -25,10 +25,7 @@ export const service = createSlice({
       .addCase(setLoadingStatusAction, (state, action) => {
         state.isDataLoading = action.payload;
       });
-    builder
-      .addCase(logoutAction.fulfilled, (state) => {
-        state.authStatus = AuthorizationStatus.NoAuth;
-      });
+
     builder
       .addCase(fetchHomeDataAction.fulfilled, (state) => {
         state.isDataLoading = false;
@@ -36,6 +33,7 @@ export const service = createSlice({
       .addCase(fetchHomeDataAction.pending, (state) => {
         state.isDataLoading = true;
       });
+
     builder
       .addCase(fetchActiveDataAction.pending, (state) => {
         state.isDataLoading = true;
@@ -47,6 +45,7 @@ export const service = createSlice({
         state.isDataLoading = false;
         store.dispatch(redirectToRouteAction(PageRoute.NotFound));
       });
+
     builder
       .addCase(fetchMyListMoviesAction.pending, (state) => {
         state.isDataLoading = true;
@@ -57,6 +56,7 @@ export const service = createSlice({
       .addCase(fetchMyListMoviesAction.rejected, (state) => {
         state.isDataLoading = false;
       });
+
     builder
       .addCase(checkAuthAction.pending, (state) => {
         state.isDataLoading = true;
@@ -69,6 +69,7 @@ export const service = createSlice({
         state.authStatus = AuthorizationStatus.NoAuth;
         state.isDataLoading = false;
       });
+
     builder
       .addCase(loginAction.pending, (state) => {
         state.isDataLoading = true;
@@ -81,6 +82,7 @@ export const service = createSlice({
         state.authStatus = AuthorizationStatus.NoAuth;
         state.isDataLoading = false;
       });
+
     builder
       .addCase(logoutAction.fulfilled, (state) => {
         state.authStatus = AuthorizationStatus.NoAuth;

@@ -16,7 +16,9 @@ export const active = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchActiveDataAction.fulfilled, (state, action) => {
-        state = action.payload;
+        state.movie = action.payload.movie;
+        state.similar = action.payload.similar;
+        state.reviews = action.payload.reviews;
       });
 
     builder

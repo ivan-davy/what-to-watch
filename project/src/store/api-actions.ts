@@ -1,9 +1,9 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {ActiveType, AppDispatch, HomeType, State, UserType} from '../types/state';
 import {AxiosInstance} from 'axios';
-import {ApiRoute, FormStatus, SIMILAR_SHOWN_QTY} from '../const';
+import {ApiRoute, FormStatus, PageRoute, SIMILAR_SHOWN_QTY} from '../const';
 import {AuthDataType, MovieType, NewReviewType, ReviewType,} from '../types/types';
-import {setLoadingStatusAction} from './action';
+import {redirectToRouteAction, setLoadingStatusAction} from './action';
 import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
 import {dropToken, saveToken} from '../api/token';
 import React from 'react';
@@ -42,13 +42,18 @@ export const fetchActiveDataAction = createAsyncThunk<FetchActiveDataReturnType,
       similar: [],
       reviews: [],
     };
+    try {
+      activeData.movie = (await api.get<MovieType>(`${ApiRoute.Movies}/${movieId}`)).data;
+      activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
+        .data.slice(0, SIMILAR_SHOWN_QTY);
+      activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Reviews}/${movieId}`)).data;
 
-    activeData.movie = (await api.get<MovieType>(`${ApiRoute.Movies}/${movieId}`)).data;
-    activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
-      .data.slice(0, SIMILAR_SHOWN_QTY);
-    activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Reviews}/${movieId}`)).data;
+      return activeData;
+    } catch (err) {
+      dispatch(redirectToRouteAction(PageRoute.NotFound));
 
-    return activeData;
+      throw err;
+    }
   }
 );
 
@@ -69,9 +74,12 @@ export const postUserReviewAction = createAsyncThunk<PostUserReviewReturnType, {
       const updatedReviews: ReviewType[] = (await api.post<PostUserReviewReturnType>(
         `${ApiRoute.Reviews}/${activeId}`, formData.userReview)).data;
       formData.setFormSubmitStateCb(FormStatus.Submitted);
+      dispatch(redirectToRouteAction(`${PageRoute.Movie}/${activeId}`));
+
       return updatedReviews;
     } catch (err) {
       formData.setFormSubmitStateCb(FormStatus.Available);
+
       throw err;
     }
   }

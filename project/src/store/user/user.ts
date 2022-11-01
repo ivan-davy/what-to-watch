@@ -21,13 +21,25 @@ export const user = createSlice({
       .addCase(fetchMyListMoviesAction.fulfilled, (state, action) => {
         state.myList = action.payload;
       });
+
     builder
       .addCase(checkAuthAction.fulfilled, (state, action) => {
-        state = action.payload;
+        state.id = action.payload.id;
+        state.name = action.payload.name;
+        state.email = action.payload.email;
+        state.avatarUrl = action.payload.avatarUrl;
+        state.token = action.payload.token;
+        state.myList = action.payload.myList;
       });
+
     builder
       .addCase(loginAction.fulfilled, (state, action) => {
-        state = action.payload;
+        state.id = action.payload.id;
+        state.name = action.payload.name;
+        state.email = action.payload.email;
+        state.avatarUrl = action.payload.avatarUrl;
+        state.token = action.payload.token;
+        state.myList = action.payload.myList;
       });
   }
 });
