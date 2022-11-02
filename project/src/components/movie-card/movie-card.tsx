@@ -14,7 +14,7 @@ export default function MovieCard({movie, isActive}: MovieCardPropsType): JSX.El
       <div className="small-film-card__image">
         {
           isActive ?
-            <VideoPlayerMini movie={movie} muted autoPlay/> :
+            <VideoPlayerMini movie={movie} autoPlay/> :
             <img src={movie.previewImage} alt={movie.name} width="280" height="175"/>
         }
 

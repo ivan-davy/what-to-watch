@@ -1,13 +1,12 @@
 import {useEffect, useRef, useState} from 'react';
 import {MovieType} from '../../types/types';
 
-export type VideoPlayerPropsType = {
+export type VideoPlayerMiniPropsType = {
   movie: MovieType;
-  muted: boolean;
   autoPlay: boolean;
 }
 
-export default function VideoPlayerMini({movie, muted, autoPlay}: VideoPlayerPropsType): JSX.Element {
+export default function VideoPlayerMini({movie, autoPlay}: VideoPlayerMiniPropsType): JSX.Element {
   const [, setIsLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -37,6 +36,6 @@ export default function VideoPlayerMini({movie, muted, autoPlay}: VideoPlayerPro
   }, [autoPlay]);
 
   return (
-    <video src={movie.previewVideoLink} poster={movie.previewImage} ref={videoRef} muted={muted}/>
+    <video src={movie.previewVideoLink} poster={movie.previewImage} ref={videoRef} muted/>
   );
 }
