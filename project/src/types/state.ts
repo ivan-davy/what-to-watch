@@ -1,5 +1,6 @@
 import {store} from '../store/store';
 import {MovieType, ReviewType} from './types';
+import {AuthorizationStatus} from '../const';
 
 export type HomeType = {
   featuredMovie: MovieType | null;
@@ -24,7 +25,7 @@ export type UserType = {
 
 export type ServiceType = {
   isDataLoading: boolean;
-  authStatus: string;
+  authStatus: AuthorizationStatus;
 }
 
 export type State = ReturnType<typeof store.getState>;

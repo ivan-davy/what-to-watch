@@ -85,6 +85,23 @@ export const postUserReviewAction = createAsyncThunk<PostUserReviewReturnType, {
   }
 );
 
+type PostToggleMyListMovieReturnType = MovieType;
+export const postToggleMyListMovie = createAsyncThunk<PostToggleMyListMovieReturnType, {
+  movieId: number;
+  actionId: number;
+}, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/apiPostToggleMyListMovie',
+  async ({actionId, movieId}, {dispatch, extra: api}) => {
+    const updatedMovie: MovieType = (await api.post<PostToggleMyListMovieReturnType>(
+      `${ApiRoute.MyList}/${movieId}/${actionId}`)).data;
+    return updatedMovie;
+  }
+);
+
 
 type FetchMyListMoviesReturnType = MovieType[];
 export const fetchMyListMoviesAction = createAsyncThunk<FetchMyListMoviesReturnType, undefined, {

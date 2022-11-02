@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {HomeType} from '../../types/state';
 import {ALL_GENRES_FILTER_NAME, Namespace} from '../../const';
 import {genreChangeAction} from '../action';
-import {fetchHomeDataAction} from '../api-actions';
+import {fetchHomeDataAction, postToggleMyListMovie} from '../api-actions';
 
 const initialState: HomeType = {
   featuredMovie: null,
@@ -24,6 +24,13 @@ export const home = createSlice({
       .addCase(fetchHomeDataAction.fulfilled, (state, action) => {
         state.featuredMovie = action.payload.featuredMovie;
         state.movies = action.payload.movies;
+      });
+
+    builder
+      .addCase(postToggleMyListMovie.fulfilled, (state, action) => {
+        if (state.featuredMovie?.id === action.payload.id) {
+          state.featuredMovie = action.payload;
+        }
       });
   }
 });

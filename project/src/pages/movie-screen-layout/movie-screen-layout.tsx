@@ -1,7 +1,7 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
-import {Link, Outlet, useNavigate, useParams} from 'react-router-dom';
-import {AuthorizationStatus, PageRoute} from '../../const';
+import {Outlet, useNavigate, useParams} from 'react-router-dom';
+import {PageRoute} from '../../const';
 import MovieList from '../../components/movie-list/movie-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {fetchActiveDataAction} from '../../store/api-actions';
@@ -9,6 +9,7 @@ import User from '../../components/user/user';
 import {MovieType} from '../../types/types';
 import { useEffect } from 'react';
 import LoadingSpinner from '../../components/loading/loading-spinner';
+import MyListButton from '../../components/my-list-button/my-list-button';
 
 export default function MovieScreenLayout(): JSX.Element {
   const params = useParams();
@@ -23,8 +24,6 @@ export default function MovieScreenLayout(): JSX.Element {
 
   const movie: MovieType | null = useAppSelector((state) => state.active.movie);
   const similar: MovieType[] = useAppSelector((state) => state.active.similar);
-  const myListMoviesQty: number | undefined = useAppSelector((state) => state.user.myList.length);
-  const authStatus: string = useAppSelector((state) => state.service.authStatus);
   const isLoading: boolean = useAppSelector((state) => state.service.isDataLoading);
 
   if (isLoading || movie?.id.toString() !== params.id) {
@@ -66,18 +65,7 @@ export default function MovieScreenLayout(): JSX.Element {
                         </svg>
                         <span>Play</span>
                       </button>
-                      {authStatus === AuthorizationStatus.Auth ?
-                        <>
-                          <button className="btn btn--list film-card__button" type="button">
-                            <svg viewBox="0 0 19 20" width="19" height="20">
-                              <use xlinkHref="#add"></use>
-                            </svg>
-                            <span>My list</span>
-                            <span className="film-card__count">{myListMoviesQty}</span>
-                          </button>
-                          <Link to={`${PageRoute.Movie}/${movie.id}${PageRoute.AddReview}`} className="btn film-card__button">Add review</Link>
-                        </> :
-                        null}
+                      <MyListButton movie={movie}/>
                     </div>
                   </div>
                 </div>
