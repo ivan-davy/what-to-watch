@@ -39,10 +39,7 @@ export default function MyListScreen(): JSX.Element {
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-        <div className="catalog__films-list">
-          <MovieList movies={myListMovies}/>
-        </div>
+        <MovieList movies={myListMovies}/>
       </section>
       <Footer/>
     </div>
