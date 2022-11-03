@@ -75,3 +75,14 @@ export const makeFakeUserData = () => ({
   myList: [],
 });
 
+export const makeFakeUserReview = () => ({
+  comment: 'comment',
+  rating: 0,
+});
+
+export const makeAuthDataType = () => ({
+  login: 'login',
+  password: 'password',
+});
+
+

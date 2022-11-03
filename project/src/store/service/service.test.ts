@@ -1,4 +1,4 @@
-import {initialState, service} from './service';
+import {service, initialState} from './service';
 import {setLoadingStatusAction} from '../action';
 import {
   checkAuthAction,

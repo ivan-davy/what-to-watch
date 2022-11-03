@@ -28,59 +28,59 @@ export const service = createSlice({
 
     builder
       .addCase(fetchHomeDataAction.fulfilled, (state) => {
-        state.isDataLoading = false;
+        setLoadingStatusAction(false);
       })
       .addCase(fetchHomeDataAction.pending, (state) => {
-        state.isDataLoading = true;
+        setLoadingStatusAction(true);
       });
 
     builder
       .addCase(fetchActiveDataAction.pending, (state) => {
-        state.isDataLoading = true;
+        setLoadingStatusAction(true);
       })
       .addCase(fetchActiveDataAction.fulfilled, (state) => {
-        state.isDataLoading = false;
+        setLoadingStatusAction(false);
       })
       .addCase(fetchActiveDataAction.rejected, (state) => {
-        state.isDataLoading = false;
+        setLoadingStatusAction(false);
         store.dispatch(redirectToRouteAction(PageRoute.NotFound));
       });
 
     builder
       .addCase(fetchMyListMoviesAction.pending, (state) => {
-        state.isDataLoading = true;
+        setLoadingStatusAction(true);
       })
       .addCase(fetchMyListMoviesAction.fulfilled, (state) => {
-        state.isDataLoading = false;
+        setLoadingStatusAction(false);
       })
       .addCase(fetchMyListMoviesAction.rejected, (state) => {
-        state.isDataLoading = false;
+        setLoadingStatusAction(false);
       });
 
     builder
       .addCase(checkAuthAction.pending, (state) => {
-        state.isDataLoading = true;
+        setLoadingStatusAction(true);
       })
       .addCase(checkAuthAction.fulfilled, (state) => {
         state.authStatus = AuthorizationStatus.Auth;
-        state.isDataLoading = false;
+        setLoadingStatusAction(false);
       })
       .addCase(checkAuthAction.rejected, (state) => {
         state.authStatus = AuthorizationStatus.NoAuth;
-        state.isDataLoading = false;
+        setLoadingStatusAction(false);
       });
 
     builder
       .addCase(loginAction.pending, (state) => {
-        state.isDataLoading = true;
+        setLoadingStatusAction(true);
       })
       .addCase(loginAction.fulfilled, (state) => {
         state.authStatus = AuthorizationStatus.Auth;
-        state.isDataLoading = false;
+        setLoadingStatusAction(false);
       })
       .addCase(loginAction.rejected, (state) => {
         state.authStatus = AuthorizationStatus.NoAuth;
-        state.isDataLoading = false;
+        setLoadingStatusAction(false);
       });
 
     builder
