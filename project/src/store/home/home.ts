@@ -4,7 +4,7 @@ import {ALL_GENRES_FILTER_NAME, Namespace} from '../../const';
 import {genreChangeAction} from '../action';
 import {fetchHomeDataAction, postToggleMyListMovie} from '../api-actions';
 
-const initialState: HomeType = {
+export const initialState: HomeType = {
   featuredMovie: null,
   selectedGenre: ALL_GENRES_FILTER_NAME,
   movies: [],

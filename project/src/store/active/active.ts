@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {Namespace} from '../../const';
 import {fetchActiveDataAction, postToggleMyListMovie, postUserReviewAction} from '../api-actions';
 
-const initialState: ActiveType = {
+export const initialState: ActiveType = {
   movie: null,
   similar: [],
   reviews: [],

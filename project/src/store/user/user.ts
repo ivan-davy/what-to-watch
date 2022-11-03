@@ -3,7 +3,7 @@ import {Namespace} from '../../const';
 import {UserType} from '../../types/state';
 import {checkAuthAction, fetchMyListMoviesAction, loginAction, postToggleMyListMovie} from '../api-actions';
 
-const initialState: UserType = {
+export const initialState: UserType = {
   id: null,
   name: null,
   email: null,

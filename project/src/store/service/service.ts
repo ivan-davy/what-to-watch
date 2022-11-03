@@ -11,7 +11,7 @@ import {
 } from '../api-actions';
 import {store} from '../store';
 
-const initialState: ServiceType = {
+export const initialState: ServiceType = {
   authStatus: AuthorizationStatus.Unknown,
   isDataLoading: false,
 };
