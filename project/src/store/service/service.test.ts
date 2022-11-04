@@ -7,6 +7,7 @@ import {
   fetchMyListMoviesAction,
   loginAction, logoutAction
 } from '../api-actions';
+import {AuthorizationStatus} from '../../const';
 
 describe('Reducer: service', () => {
   it('without additional parameters should return initial state', () => {
@@ -70,12 +71,12 @@ describe('Reducer: service', () => {
 
   it('should change isDataLoading flag to false and authStatus to true while checkAuthAction is fulfilled', () => {
     expect(service.reducer(initialState, {type: checkAuthAction.fulfilled}))
-      .toEqual({authStatus: true, isDataLoading: false});
+      .toEqual({authStatus: AuthorizationStatus.Auth, isDataLoading: false});
   });
 
   it('should change isDataLoading flag to false and authStatus to false while checkAuthAction is rejected', () => {
     expect(service.reducer(initialState, {type: checkAuthAction.rejected}))
-      .toEqual({authStatus: false, isDataLoading: false});
+      .toEqual({authStatus: AuthorizationStatus.NoAuth, isDataLoading: false});
   });
 
 
@@ -86,18 +87,18 @@ describe('Reducer: service', () => {
 
   it('should change isDataLoading flag to false and authStatus to true while loginAction is fulfilled', () => {
     expect(service.reducer(initialState, {type: loginAction.fulfilled}))
-      .toEqual({authStatus: true, isDataLoading: false});
+      .toEqual({authStatus: AuthorizationStatus.Auth, isDataLoading: false});
   });
 
   it('should change isDataLoading flag to false and authStatus to false while loginAction is rejected', () => {
     expect(service.reducer(initialState, {type: loginAction.rejected}))
-      .toEqual({authStatus: false, isDataLoading: false});
+      .toEqual({authStatus: AuthorizationStatus.NoAuth, isDataLoading: false});
   });
 
 
   it('should change  authStatus to false while logoutAction is fulfilled', () => {
-    expect(service.reducer(initialState, {type: logoutAction.rejected}))
-      .toEqual({...initialState, authStatus: false});
+    expect(service.reducer(initialState, {type: logoutAction.fulfilled}))
+      .toEqual({...initialState, authStatus: AuthorizationStatus.NoAuth});
   });
 });
 

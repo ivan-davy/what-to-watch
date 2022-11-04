@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {AuthorizationStatus, Namespace, PageRoute} from '../../const';
+import {AuthorizationStatus, Namespace} from '../../const';
 import {ServiceType} from '../../types/state';
-import {redirectToRouteAction, setLoadingStatusAction} from '../action';
+import {setLoadingStatusAction} from '../action';
 import {
   checkAuthAction,
   fetchActiveDataAction,
@@ -9,7 +9,6 @@ import {
   loginAction,
   logoutAction
 } from '../api-actions';
-import {store} from '../store';
 
 export const initialState: ServiceType = {
   authStatus: AuthorizationStatus.Unknown,
@@ -27,11 +26,11 @@ export const service = createSlice({
       });
 
     builder
+      .addCase(fetchHomeDataAction.pending, (state) => {
+        state.isDataLoading = true;
+      })
       .addCase(fetchHomeDataAction.fulfilled, (state) => {
         state.isDataLoading = false;
-      })
-      .addCase(fetchHomeDataAction.pending, (state) => {
-        setLoadingStatusAction(true);
       });
 
     builder
@@ -43,7 +42,6 @@ export const service = createSlice({
       })
       .addCase(fetchActiveDataAction.rejected, (state) => {
         state.isDataLoading = false;
-        store.dispatch(redirectToRouteAction(PageRoute.NotFound));
       });
 
     builder
