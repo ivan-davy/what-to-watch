@@ -57,13 +57,22 @@ export const makeFakeReviews = () => ([
 
 export const makeFakeActiveData = () => ({
   movie: makeFakeMovie(),
-  similar: [makeFakeMovie(), makeFakeMovie(), makeFakeMovie(), makeFakeMovie()],
+  similar: [makeFakeMovie(),
+    {...makeFakeMovie(), id: 2},
+    {...makeFakeMovie(), id: 3},
+    {...makeFakeMovie(), id: 4},
+  ],
   reviews: makeFakeReviews(),
 });
 
 export const makeFakeHomeData = () => ({
   featuredMovie: makeFakeMovie(),
-  movies: [makeFakeMovie(), makeFakeMovie(), makeFakeMovie(), makeFakeMovie(), makeFakeMovie(), makeFakeMovie()]
+  movies: [makeFakeMovie(),
+    {...makeFakeMovie(), id: 2},
+    {...makeFakeMovie(), id: 3},
+    {...makeFakeMovie(), id: 4},
+    {...makeFakeMovie(), id: 5},
+    {...makeFakeMovie(), id: 6}]
 });
 
 export const makeFakeUserData = () => ({
