@@ -6,8 +6,9 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import MyListScreen from './my-list-screen';
 import {AuthorizationStatus} from '../../const';
 import {ALL_GENRES_FILTER_NAME} from '../../const';
+import thunk from 'redux-thunk';
 
-const mockStore = configureMockStore();
+const mockStore = configureMockStore([thunk]);
 
 describe('Component: MyListScreen', () => {
   it('should render correctly', () => {

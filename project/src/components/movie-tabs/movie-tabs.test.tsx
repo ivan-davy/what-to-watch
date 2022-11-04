@@ -17,7 +17,7 @@ describe('Component: MovieTabs', () => {
     render(
       <Provider store={mockStore({active: {movie: makeFakeMovie(), reviews: []}})}>
         <HistoryRouter history={history}>
-          <MovieTabs tab={MovieScreenTab.Overview}/>
+          <MovieTabs tab={MovieScreenTab.Overview} />
         </HistoryRouter>
       </Provider>
     );
