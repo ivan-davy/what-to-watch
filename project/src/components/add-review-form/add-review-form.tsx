@@ -42,8 +42,8 @@ export default function AddReviewForm(): JSX.Element {
 
           {STARS.map((star: number) => (
             <>
-              <input className="rating__input" id={`star-${star}`} type="radio" name="rating" value={`${star}`} disabled={formSubmitState === FormStatus.Disabled}/>
-              <label className="rating__label" htmlFor={`star-${star}`}>Rating {star}</label>
+              <input key={star} className="rating__input" id={`star-${star}`} type="radio" name="rating" value={`${star}`} disabled={formSubmitState === FormStatus.Disabled}/>
+              <label key={star} className="rating__label" htmlFor={`star-${star}`}>Rating {star}</label>
             </>))}
 
         </div>

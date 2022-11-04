@@ -25,7 +25,7 @@ export default function MovieTabs({tab}: MovieTabsPropsData): JSX.Element | null
   const movie: MovieType | null = useAppSelector((state) => state.active.movie);
   const reviews: ReviewType[] | null = useAppSelector((state) => state.active.reviews);
 
-  if (!movie || reviews.length === 0) {
+  if (!movie) {
     return null;
   }
 

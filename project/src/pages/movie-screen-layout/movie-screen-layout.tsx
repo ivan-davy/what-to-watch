@@ -1,7 +1,7 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
-import {Outlet, useNavigate, useParams} from 'react-router-dom';
-import {PageRoute} from '../../const';
+import {Link, Outlet, useNavigate, useParams} from 'react-router-dom';
+import {AuthorizationStatus, PageRoute} from '../../const';
 import MovieList from '../../components/movie-list/movie-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {fetchActiveDataAction} from '../../store/api-actions';
@@ -25,6 +25,7 @@ export default function MovieScreenLayout(): JSX.Element {
   const movie: MovieType | null = useAppSelector((state) => state.active.movie);
   const similar: MovieType[] = useAppSelector((state) => state.active.similar);
   const isLoading: boolean = useAppSelector((state) => state.service.isDataLoading);
+  const authStatus: AuthorizationStatus = useAppSelector((state) => state.service.authStatus);
 
   if (isLoading || movie?.id.toString() !== params.id) {
     return (
@@ -66,6 +67,9 @@ export default function MovieScreenLayout(): JSX.Element {
                         <span>Play</span>
                       </button>
                       <MyListButton movie={movie}/>
+                      {authStatus === AuthorizationStatus.Auth ?
+                        <Link to={`${PageRoute.Movie}/${movie.id}${PageRoute.AddReview}`} className="btn film-card__button">Add review</Link> :
+                        null}
                     </div>
                   </div>
                 </div>
