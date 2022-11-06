@@ -17,8 +17,10 @@ export default function VideoPlayer({movie}: VideoPlayerPropsType): JSX.Element 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const navigate = useNavigate();
 
+  window.HTMLMediaElement.prototype.pause = jest.fn();
+
   useEffect(() => {
-    if (videoRef.current === null) {
+    if (!videoRef.current) {
       return;
     }
     if (isPlaying) {
@@ -26,7 +28,7 @@ export default function VideoPlayer({movie}: VideoPlayerPropsType): JSX.Element 
       return;
     }
 
-    videoRef.current?.addEventListener('timeupdate', handleTimeUpdate);
+    videoRef.current.addEventListener('timeupdate', handleTimeUpdate);
     videoRef.current.pause();
   }, [isPlaying, timeRemaining]);
 

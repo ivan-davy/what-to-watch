@@ -6,7 +6,7 @@ import {FormStatus} from '../../const';
 
 const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 400;
-const STARS = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+const STARS = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1] as const;
 
 const defaultReview: NewReviewType = {
   comment: '',
@@ -41,10 +41,12 @@ export default function AddReviewForm(): JSX.Element {
         <div className="rating__stars">
 
           {STARS.map((star: number) => (
-            <>
-              <input key={star} className="rating__input" id={`star-${star}`} type="radio" name="rating" value={`${star}`} disabled={formSubmitState === FormStatus.Disabled}/>
-              <label key={star} className="rating__label" htmlFor={`star-${star}`}>Rating {star}</label>
-            </>))}
+            <React.Fragment key={`${star}-rc`}>
+              <input key={`${star}-inp`} className="rating__input" id={`star-${star}`} type="radio" name="rating"
+                value={`${star}`} disabled={formSubmitState === FormStatus.Disabled}
+              />
+              <label key={`${star}-lbl`} className="rating__label" htmlFor={`star-${star}`}>Rating {star}</label>
+            </React.Fragment>))}
 
         </div>
       </div>
