@@ -4,6 +4,7 @@ import {render, screen} from '@testing-library/react';
 import SignInScreen from './sign-in-screen';
 import {Provider} from 'react-redux';
 import {configureMockStore} from '@jedmao/redux-mock-store';
+import {AuthorizationStatus} from '../../const';
 
 const mockStore = configureMockStore();
 
@@ -13,7 +14,7 @@ describe('Component: SignInScreen', () => {
     history.push('/login');
 
     render(
-      <Provider store={mockStore({})}>
+      <Provider store={mockStore({service: {authStatus: AuthorizationStatus.NoAuth}})}>
         <HistoryRouter history={history}>
           <SignInScreen/>
         </HistoryRouter>
