@@ -1,16 +1,18 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
-import {useRef, FormEvent} from 'react';
-import {useAppDispatch} from '../../hooks/store-hooks';
+import {FormEvent, useEffect, useRef} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {useNavigate} from 'react-router-dom';
 import {AuthDataType} from '../../types/types';
 import {loginAction} from '../../store/api-actions';
-import {PageRoute} from '../../const';
+import {AuthorizationStatus, PageRoute} from '../../const';
 import {EMAIL_PATTERN, PASSWORD_PATTERN} from '../../regex';
+import {redirectToRouteAction} from '../../store/action';
 
 export default function SignInScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const authStatus = useAppSelector((state) => state.service.authStatus);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -29,6 +31,12 @@ export default function SignInScreen(): JSX.Element {
     }
     navigate(PageRoute.Home);
   };
+
+  useEffect(() => {
+    if (authStatus === AuthorizationStatus.Auth) {
+      dispatch(redirectToRouteAction('/'));
+    }
+  }, []);
 
   return (
     <div className="user-page">

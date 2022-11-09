@@ -6,7 +6,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {PageRoute} from '../../const';
 
 export default function User(): JSX.Element {
-  const authStatus = useAppSelector((state) => state.service.authStatus);
+  const authStatus: AuthorizationStatus = useAppSelector((state) => state.service.authStatus);
   const userData = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
