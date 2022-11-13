@@ -3,6 +3,8 @@ import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {genreChangeAction} from '../../store/action';
 import {ALL_GENRES_FILTER_NAME} from '../../const';
 
+const MAX_GENRES_SHOWN = 10;
+
 export type GenresListPropsType = {
   movies: MovieType[];
 }
@@ -25,5 +27,5 @@ export default function GenresList({movies}: GenresListPropsType): JSX.Element {
     </li>
   );
 
-  return <>{orderedGenresList.slice(0, 10).map((genre) => getGenreElement(genre))}</>;
+  return <>{orderedGenresList.slice(0, MAX_GENRES_SHOWN).map((genre) => getGenreElement(genre))}</>;
 }
