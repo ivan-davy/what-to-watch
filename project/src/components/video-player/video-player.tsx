@@ -17,8 +17,6 @@ export default function VideoPlayer({movie}: VideoPlayerPropsType): JSX.Element 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const navigate = useNavigate();
 
-  window.HTMLMediaElement.prototype.pause = jest.fn();
-
   useEffect(() => {
     if (!videoRef.current) {
       return;

@@ -28,6 +28,11 @@ const fakeApp = (
 );
 
 describe('Application Routing', () => {
+  beforeAll(() => {
+    window.HTMLMediaElement.prototype.play = jest.fn();
+    window.HTMLMediaElement.prototype.pause = jest.fn();
+  });
+
   it('should render home screen when user navigates to "/"', () => {
     history.push(PageRoute.Home);
 
