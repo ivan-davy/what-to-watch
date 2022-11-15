@@ -57,7 +57,7 @@ export const makeFakeReviews = () => ([
 
 export const makeFakeActiveData = () => ({
   movie: makeFakeMovie(),
-  similar: [makeFakeMovie(),
+  similarMovies: [makeFakeMovie(),
     {...makeFakeMovie(), id: 2},
     {...makeFakeMovie(), id: 3},
     {...makeFakeMovie(), id: 4},
