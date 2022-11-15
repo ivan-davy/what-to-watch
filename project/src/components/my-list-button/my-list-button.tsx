@@ -3,14 +3,16 @@ import {AuthorizationStatus} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {BaseSyntheticEvent} from 'react';
 import {postToggleMyListMovie} from '../../store/api-actions';
+import {getMyList} from '../../store/user/selectors';
+import {getAuthStatus} from '../../store/service/selectors';
 
 export type MyListButtonPropsType = {
   movie: MovieType;
 }
 
 export default function MyListButton({movie}: MyListButtonPropsType): JSX.Element | null {
-  const myListMovies = useAppSelector((state) => state.user.myList);
-  const authStatus = useAppSelector((state) => state.service.authStatus);
+  const myListMovies = useAppSelector(getMyList);
+  const authStatus = useAppSelector(getAuthStatus);
   const dispatch = useAppDispatch();
 
   const handleButtonClick = (evt: BaseSyntheticEvent) => {

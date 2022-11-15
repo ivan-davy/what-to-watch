@@ -10,6 +10,8 @@ import {MovieType} from '../../types/types';
 import { useEffect } from 'react';
 import LoadingSpinner from '../../components/loading/loading-spinner';
 import MyListButton from '../../components/my-list-button/my-list-button';
+import {getActiveMovie, getSimilarMovies} from '../../store/active/selectors';
+import {getAuthStatus, getLoadingStatus} from '../../store/service/selectors';
 
 export default function MovieScreenLayout(): JSX.Element {
   const params = useParams();
@@ -22,10 +24,10 @@ export default function MovieScreenLayout(): JSX.Element {
     }
   }, []);
 
-  const movie: MovieType | null = useAppSelector((state) => state.active.movie);
-  const similar: MovieType[] = useAppSelector((state) => state.active.similar);
-  const isLoading: boolean = useAppSelector((state) => state.service.isDataLoading);
-  const authStatus: AuthorizationStatus = useAppSelector((state) => state.service.authStatus);
+  const movie: MovieType | null = useAppSelector(getActiveMovie);
+  const similar: MovieType[] = useAppSelector(getSimilarMovies);
+  const isLoading: boolean = useAppSelector(getLoadingStatus);
+  const authStatus: AuthorizationStatus = useAppSelector(getAuthStatus);
 
   if (isLoading || movie?.id.toString() !== params.id) {
     return (

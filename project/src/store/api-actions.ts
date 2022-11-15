@@ -47,7 +47,7 @@ export const fetchActiveDataAction = createAsyncThunk<FetchActiveDataReturnType,
       activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
         .data.slice(0, SIMILAR_SHOWN_QTY);
       activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Reviews}/${movieId}`)).data;
-
+      console.log(activeData);
       return activeData;
     } catch (err) {
       dispatch(redirectToRouteAction(PageRoute.NotFound));

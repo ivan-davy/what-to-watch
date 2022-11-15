@@ -4,6 +4,7 @@ import {BaseSyntheticEvent, useEffect, useState} from 'react';
 import {useAppSelector} from '../../hooks/store-hooks';
 import {ALL_GENRES_FILTER_NAME, MAX_MOVIES_SHOWN_HOME} from '../../const';
 import ShowMore from '../show-more/show-more';
+import {getSelectedGenre} from '../../store/home/selectors';
 
 export type MovieListPropsType = {
   movies: MovieType[] | null;
@@ -11,7 +12,7 @@ export type MovieListPropsType = {
 }
 
 export default function MovieList({movies, isAtHome = false}: MovieListPropsType): JSX.Element {
-  const selectedGenreHome: string = useAppSelector((state) => state.home.selectedGenre);
+  const selectedGenreHome: string = useAppSelector(getSelectedGenre);
   const moviesFiltered: MovieType[] = [];
 
   if (isAtHome) {

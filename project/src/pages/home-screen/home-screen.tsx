@@ -10,11 +10,12 @@ import {useEffect} from 'react';
 import {fetchHomeDataAction} from '../../store/api-actions';
 import LoadingSpinner from '../../components/loading/loading-spinner';
 import MyListButton from '../../components/my-list-button/my-list-button';
+import {getFeaturedMovie, getMovies} from '../../store/home/selectors';
 
 
 export default function HomeScreen(): JSX.Element {
-  const featuredMovie = useAppSelector((state) => state.home.featuredMovie);
-  const movies = useAppSelector((state) => state.home.movies);
+  const featuredMovie = useAppSelector(getFeaturedMovie);
+  const movies = useAppSelector(getMovies);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 

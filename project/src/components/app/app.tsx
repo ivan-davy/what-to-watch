@@ -11,10 +11,11 @@ import MovieScreenLayout from '../../pages/movie-screen-layout/movie-screen-layo
 import MovieTabs from '../movie-tabs/movie-tabs';
 import {useAppSelector} from '../../hooks/store-hooks';
 import LoadingSpinner from '../loading/loading-spinner';
+import {getAuthStatus} from '../../store/service/selectors';
 
 
 function App(): JSX.Element {
-  const authStatus = useAppSelector((state) => state.service.authStatus);
+  const authStatus = useAppSelector(getAuthStatus);
 
   if (authStatus === AuthorizationStatus.Unknown) {
     return (

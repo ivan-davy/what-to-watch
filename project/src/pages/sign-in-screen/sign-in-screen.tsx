@@ -8,11 +8,12 @@ import {loginAction} from '../../store/api-actions';
 import {AuthorizationStatus, PageRoute} from '../../const';
 import {EMAIL_PATTERN, PASSWORD_PATTERN} from '../../regex';
 import {redirectToRouteAction} from '../../store/action';
+import {getAuthStatus} from '../../store/service/selectors';
 
 export default function SignInScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const authStatus = useAppSelector((state) => state.service.authStatus);
+  const authStatus = useAppSelector(getAuthStatus);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

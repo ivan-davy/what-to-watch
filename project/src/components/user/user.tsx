@@ -4,10 +4,12 @@ import {logoutAction} from '../../store/api-actions';
 import {BaseSyntheticEvent} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {PageRoute} from '../../const';
+import {getAuthStatus} from '../../store/service/selectors';
+import {getUserData} from '../../store/user/selectors';
 
 export default function User(): JSX.Element {
-  const authStatus: AuthorizationStatus = useAppSelector((state) => state.service.authStatus);
-  const userData = useAppSelector((state) => state.user);
+  const authStatus: AuthorizationStatus = useAppSelector(getAuthStatus);
+  const userData = useAppSelector(getUserData);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

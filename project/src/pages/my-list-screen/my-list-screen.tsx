@@ -8,11 +8,13 @@ import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {useEffect} from 'react';
 import {fetchHomeDataAction} from '../../store/api-actions';
 import LoadingSpinner from '../../components/loading/loading-spinner';
+import {getMyList} from '../../store/user/selectors';
+import {getAuthStatus, getLoadingStatus} from '../../store/service/selectors';
 
 export default function MyListScreen(): JSX.Element {
-  const myListMovies = useAppSelector((state) => state.user.myList);
-  const authStatus = useAppSelector((state) => state.service.authStatus);
-  const isLoading = useAppSelector((state) => state.service.isDataLoading);
+  const myListMovies = useAppSelector(getMyList);
+  const authStatus = useAppSelector(getAuthStatus);
+  const isLoading = useAppSelector(getLoadingStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 

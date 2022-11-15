@@ -5,6 +5,7 @@ import MovieOverview from '../movie-overview/movie-overview';
 import MovieDetails from '../movie-details/movie-details';
 import MovieReviews from '../movie-reviews/movie-reviews';
 import {useAppSelector} from '../../hooks/store-hooks';
+import {getActiveMovie, getReviews} from '../../store/active/selectors';
 
 export type MovieTabsPropsData = {
   tab: number;
@@ -22,8 +23,8 @@ const renderTab = (tab: number, movie: MovieType, reviews: ReviewType[]) => {
 };
 
 export default function MovieTabs({tab}: MovieTabsPropsData): JSX.Element | null {
-  const movie: MovieType | null = useAppSelector((state) => state.active.movie);
-  const reviews: ReviewType[] | null = useAppSelector((state) => state.active.reviews);
+  const movie: MovieType | null = useAppSelector(getActiveMovie);
+  const reviews: ReviewType[] | null = useAppSelector(getReviews);
 
   if (!movie) {
     return null;

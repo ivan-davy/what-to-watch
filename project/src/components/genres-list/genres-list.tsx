@@ -2,6 +2,7 @@ import {MovieType} from '../../types/types';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {genreChangeAction} from '../../store/action';
 import {ALL_GENRES_FILTER_NAME} from '../../const';
+import {getSelectedGenre} from '../../store/home/selectors';
 
 const MAX_GENRES_SHOWN = 10;
 
@@ -18,7 +19,7 @@ export default function GenresList({movies}: GenresListPropsType): JSX.Element {
     }
   });
 
-  const selectedGenre = useAppSelector((state) => state.home.selectedGenre);
+  const selectedGenre = useAppSelector(getSelectedGenre);
   const dispatch = useAppDispatch();
 
   const getGenreElement = (genre: string): JSX.Element => (
