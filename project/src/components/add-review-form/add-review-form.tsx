@@ -3,7 +3,7 @@ import {NewReviewType} from '../../types/types';
 import {postUserReviewAction} from '../../store/api-actions';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {FormStatus} from '../../const';
-import {getId} from '../../store/user/selectors';
+import {getActiveMovie} from '../../store/active/selectors';
 
 const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 400;
@@ -18,7 +18,7 @@ export default function AddReviewForm(): JSX.Element {
   const [formState, setFormState] = React.useState(defaultReview);
   const [formSubmitState, setFormSubmitState] = React.useState(FormStatus.Available);
   const dispatch = useAppDispatch();
-  const movieId = useAppSelector(getId) as number;
+  const movieId = useAppSelector(getActiveMovie)?.id as number;
 
   const handleFormChange = (evt: SyntheticEvent) => {
     const target = evt.target as HTMLTextAreaElement | HTMLInputElement;
