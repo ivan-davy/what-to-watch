@@ -1,7 +1,7 @@
 import {MovieType} from '../../types/types';
 
 export default function MovieOverview({...movie}: MovieType): JSX.Element {
-  const prettyRating = (rating: number) => {
+  const getPrettyRating = (rating: number) => {
     if (rating >= 0 && rating < 3) {
       return 'Bad';
     }
@@ -24,7 +24,7 @@ export default function MovieOverview({...movie}: MovieType): JSX.Element {
       <div className="film-rating">
         <div className="film-rating__score">{movie.rating}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">{prettyRating(movie.rating)}</span>
+          <span className="film-rating__level">{getPrettyRating(movie.rating)}</span>
           <span className="film-rating__count">{movie.scoresCount} ratings</span>
         </p>
       </div>

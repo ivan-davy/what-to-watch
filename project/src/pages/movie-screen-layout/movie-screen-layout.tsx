@@ -18,18 +18,18 @@ export default function MovieScreenLayout(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (movie?.id.toString() !== params.id) {
-      dispatch(fetchActiveDataAction(params.id as string));
-    }
-  }, []);
-
   const movie: MovieType | null = useAppSelector(getActiveMovie);
   const similar: MovieType[] = useAppSelector(getSimilarMovies);
   const isLoading: boolean = useAppSelector(getLoadingStatus);
   const authStatus: AuthorizationStatus = useAppSelector(getAuthStatus);
 
-  if (isLoading || movie?.id.toString() !== params.id) {
+  useEffect(() => {
+    if (movie?.id.toString() !== params.id) {
+      dispatch(fetchActiveDataAction(params.id as string));
+    }
+  }, [dispatch, movie?.id, params.id]);
+
+  if (isLoading || (movie?.id.toString() !== params.id)) {
     return (
       <LoadingSpinner/>
     );

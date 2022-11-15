@@ -10,7 +10,7 @@ export type HomeType = {
 
 export type ActiveType = {
   movie: MovieType | null;
-  similar: MovieType[];
+  similarMovies: MovieType[];
   reviews: ReviewType[];
 }
 

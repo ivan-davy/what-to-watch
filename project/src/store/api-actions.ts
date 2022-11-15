@@ -39,15 +39,15 @@ export const fetchActiveDataAction = createAsyncThunk<FetchActiveDataReturnType,
   async (movieId, {dispatch, extra: api}) => {
     const activeData: FetchActiveDataReturnType = {
       movie: null,
-      similar: [],
+      similarMovies: [],
       reviews: [],
     };
     try {
       activeData.movie = (await api.get<MovieType>(`${ApiRoute.Movies}/${movieId}`)).data;
-      activeData.similar = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
+      activeData.similarMovies = (await api.get<MovieType[]>(`${ApiRoute.Movies}/${movieId}${ApiRoute.Similar}`))
         .data.slice(0, SIMILAR_SHOWN_QTY);
       activeData.reviews = (await api.get<ReviewType[]>(`${ApiRoute.Reviews}/${movieId}`)).data;
-      console.log(activeData);
+
       return activeData;
     } catch (err) {
       dispatch(redirectToRouteAction(PageRoute.NotFound));

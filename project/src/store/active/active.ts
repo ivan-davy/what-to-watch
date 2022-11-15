@@ -5,7 +5,7 @@ import {fetchActiveDataAction, postToggleMyListMovie, postUserReviewAction} from
 
 export const initialState: ActiveType = {
   movie: null,
-  similar: [],
+  similarMovies: [],
   reviews: [],
 };
 
@@ -17,7 +17,7 @@ export const active = createSlice({
     builder
       .addCase(fetchActiveDataAction.fulfilled, (state, action) => {
         state.movie = action.payload.movie;
-        state.similar = action.payload.similar;
+        state.similarMovies = action.payload.similarMovies;
         state.reviews = action.payload.reviews;
       });
 
