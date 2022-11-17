@@ -2,11 +2,12 @@ import {ActiveType} from '../../types/state';
 import {createSlice} from '@reduxjs/toolkit';
 import {Namespace} from '../../const';
 import {fetchActiveDataAction, postToggleMyListMovie, postUserReviewAction} from '../api-actions';
+import {MovieType, ReviewType} from '../../types/types';
 
 export const initialState: ActiveType = {
   movie: null,
-  similarMovies: [],
-  reviews: [],
+  similarMovies: [] as MovieType[],
+  reviews: [] as ReviewType[],
 };
 
 export const active = createSlice({
