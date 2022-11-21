@@ -11,7 +11,7 @@ const SECS_IN_HOUR = 3600;
 const MILLISECS_IN_SEC = 1000;
 
 export default function VideoPlayer({movie}: VideoPlayerPropsType): JSX.Element {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [timeRemaining, setTimeRemaining] = useState(0);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -21,20 +21,19 @@ export default function VideoPlayer({movie}: VideoPlayerPropsType): JSX.Element 
     if (!videoRef.current) {
       return;
     }
+    videoRef.current.addEventListener('timeupdate', handleTimeUpdate);
     if (isPlaying) {
       videoRef.current.play();
       return;
     }
-
-    videoRef.current.addEventListener('timeupdate', handleTimeUpdate);
     videoRef.current.pause();
   }, [isPlaying, timeRemaining]);
 
   const getPrettyRemainingTime = (): string => {
     if (timeRemaining > SECS_IN_HOUR) {
-      return new Date(timeRemaining * MILLISECS_IN_SEC).toISOString().slice(11, 19);
+      return `-${new Date(timeRemaining * MILLISECS_IN_SEC).toISOString().slice(11, 19)}`;
     }
-    return new Date(timeRemaining * MILLISECS_IN_SEC).toISOString().slice(14, 19);
+    return `-${new Date(timeRemaining * MILLISECS_IN_SEC).toISOString().slice(14, 19)}`;
   };
 
   const getProgress = (): number => {
