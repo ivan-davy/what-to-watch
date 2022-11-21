@@ -53,7 +53,7 @@ export default function AddReviewForm(): JSX.Element {
       </div>
 
       <div className="add-review__text" style={{backgroundColor: '#FFFFFF', opacity: '65%'}}>
-        <textarea className="add-review__textarea" name="review-text" id="review-text"
+        <textarea className="add-review__textarea" name="review-text" id="review-text" disabled={formSubmitState === FormStatus.Disabled}
           placeholder="Review text" defaultValue={formState.comment}
         >
         </textarea>
