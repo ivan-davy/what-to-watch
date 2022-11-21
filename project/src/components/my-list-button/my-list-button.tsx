@@ -2,7 +2,7 @@ import {MovieType} from '../../types/types';
 import {AuthorizationStatus} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {BaseSyntheticEvent} from 'react';
-import {postToggleMyListMovie} from '../../store/api-actions';
+import {postToggleMyListMovieAction} from '../../store/api-actions';
 import {getMyList} from '../../store/user/selectors';
 import {getAuthStatus} from '../../store/service/selectors';
 
@@ -17,7 +17,7 @@ export default function MyListButton({movie}: MyListButtonPropsType): JSX.Elemen
 
   const handleButtonClick = (evt: BaseSyntheticEvent) => {
     evt.preventDefault();
-    dispatch(postToggleMyListMovie({movieId: movie.id, actionId: movie.isFavorite ? 0 : 1}));
+    dispatch(postToggleMyListMovieAction({movieId: movie.id, actionId: movie.isFavorite ? 0 : 1}));
   };
 
   if (authStatus === AuthorizationStatus.NoAuth) {

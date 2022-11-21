@@ -7,6 +7,7 @@ import {redirectToRouteAction, setLoadingStatusAction} from './action';
 import {Omit} from '@reduxjs/toolkit/dist/tsHelpers';
 import {dropToken, saveToken} from '../api/token';
 import React from 'react';
+import {toast} from 'react-toastify';
 
 type FetchHomeDataReturnType = Omit<HomeType, 'selectedGenre'>;
 export const fetchHomeDataAction = createAsyncThunk<FetchHomeDataReturnType, undefined, {
@@ -84,6 +85,7 @@ export const postUserReviewAction = createAsyncThunk<PostUserReviewReturnType, {
 
       return updatedReviews;
     } catch (err) {
+      toast.error('Something went wrong...');
       formData.setFormSubmitStateCb(FormStatus.Available);
 
       throw err;
@@ -91,8 +93,8 @@ export const postUserReviewAction = createAsyncThunk<PostUserReviewReturnType, {
   }
 );
 
-type PostToggleMyListMovieReturnType = MovieType;
-export const postToggleMyListMovie = createAsyncThunk<PostToggleMyListMovieReturnType, {
+type PostToggleMyListMovieActionReturnType = MovieType;
+export const postToggleMyListMovieAction = createAsyncThunk<PostToggleMyListMovieActionReturnType, {
   movieId: number;
   actionId: number;
 }, {
@@ -102,7 +104,7 @@ export const postToggleMyListMovie = createAsyncThunk<PostToggleMyListMovieRetur
 }>(
   'user/apiPostToggleMyListMovie',
   async ({actionId, movieId}, {dispatch, extra: api}) => {
-    const updatedMovie: MovieType = (await api.post<PostToggleMyListMovieReturnType>(
+    const updatedMovie: MovieType = (await api.post<PostToggleMyListMovieActionReturnType>(
       `${ApiRoute.MyList}/${movieId}/${actionId}`)).data;
     return updatedMovie;
   }

@@ -9,7 +9,7 @@ import {
   checkAuthAction,
   fetchActiveDataAction,
   fetchHomeDataAction, fetchMyListMoviesAction, loginAction, logoutAction,
-  postToggleMyListMovie,
+  postToggleMyListMovieAction,
   postUserReviewAction
 } from './api-actions';
 import {redirectToRouteAction, setLoadingStatusAction} from './action';
@@ -108,12 +108,12 @@ describe('Async actions', () => {
       .onPost(`${ApiRoute.MyList}/${1}/${1}`)
       .reply(200, makeFakeMovie());
 
-    await store.dispatch(postToggleMyListMovie({movieId: 1, actionId: 1}));
+    await store.dispatch(postToggleMyListMovieAction({movieId: 1, actionId: 1}));
     const actions = store.getActions().map(({type}) => type);
 
     expect(actions).toEqual([
-      postToggleMyListMovie.pending.type,
-      postToggleMyListMovie.fulfilled.type,
+      postToggleMyListMovieAction.pending.type,
+      postToggleMyListMovieAction.fulfilled.type,
     ]);
   });
 

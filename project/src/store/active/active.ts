@@ -1,7 +1,7 @@
 import {ActiveType} from '../../types/state';
 import {createSlice} from '@reduxjs/toolkit';
 import {Namespace} from '../../const';
-import {fetchActiveDataAction, postToggleMyListMovie, postUserReviewAction} from '../api-actions';
+import {fetchActiveDataAction, postToggleMyListMovieAction, postUserReviewAction} from '../api-actions';
 import {MovieType, ReviewType} from '../../types/types';
 
 export const initialState: ActiveType = {
@@ -28,7 +28,7 @@ export const active = createSlice({
       });
 
     builder
-      .addCase(postToggleMyListMovie.fulfilled, (state, action) => {
+      .addCase(postToggleMyListMovieAction.fulfilled, (state, action) => {
         if (state.movie?.id === action.payload.id) {
           state.movie = action.payload;
         }

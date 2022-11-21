@@ -1,4 +1,4 @@
-import {fetchHomeDataAction, postToggleMyListMovie} from '../api-actions';
+import {fetchHomeDataAction, postToggleMyListMovieAction} from '../api-actions';
 import {makeFakeHomeData, makeFakeMovie} from '../../mocks/mocks';
 import {home, initialState} from './home';
 
@@ -14,7 +14,7 @@ describe('Reducer: home', () => {
   });
 
   it('should update featuredMovie\'s isFavorite value only in case it was the one added/removed from myList', () => {
-    expect(home.reducer(initialState, {type: postToggleMyListMovie.fulfilled.type, payload: makeFakeMovie()}))
+    expect(home.reducer(initialState, {type: postToggleMyListMovieAction.fulfilled.type, payload: makeFakeMovie()}))
       .toEqual(initialState);
   });
 });

@@ -1,5 +1,5 @@
 import {active, initialState} from './active';
-import {fetchActiveDataAction, postToggleMyListMovie, postUserReviewAction} from '../api-actions';
+import {fetchActiveDataAction, postToggleMyListMovieAction, postUserReviewAction} from '../api-actions';
 import {makeFakeActiveData, makeFakeMovie, makeFakeReviews} from '../../mocks/mocks';
 
 describe('Reducer: active', () => {
@@ -19,7 +19,7 @@ describe('Reducer: active', () => {
   });
 
   it('should update active movie\'s isFavorite value only in case it was the one added/removed from myList', () => {
-    expect(active.reducer(initialState, {type: postToggleMyListMovie.fulfilled.type, payload: makeFakeMovie()}))
+    expect(active.reducer(initialState, {type: postToggleMyListMovieAction.fulfilled.type, payload: makeFakeMovie()}))
       .toEqual(initialState);
   });
 });

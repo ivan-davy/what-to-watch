@@ -3,7 +3,7 @@ import {
   checkAuthAction,
   fetchMyListMoviesAction,
   loginAction,
-  postToggleMyListMovie
+  postToggleMyListMovieAction
 } from '../api-actions';
 import {makeFakeMovie, makeFakeUserData} from '../../mocks/mocks';
 
@@ -29,7 +29,7 @@ describe('Reducer: service', () => {
   });
 
   it('should add the movie to myList if it is not yet in it', () => {
-    expect(user.reducer(initialState, {type: postToggleMyListMovie.fulfilled, payload: {...makeFakeMovie(), isFavorite: true}}))
+    expect(user.reducer(initialState, {type: postToggleMyListMovieAction.fulfilled, payload: {...makeFakeMovie(), isFavorite: true}}))
       .toEqual({...initialState, myList: [{...makeFakeMovie(), isFavorite: true}]});
   });
 });

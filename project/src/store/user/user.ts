@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {Namespace} from '../../const';
 import {UserType} from '../../types/state';
-import {checkAuthAction, fetchMyListMoviesAction, loginAction, postToggleMyListMovie} from '../api-actions';
+import {checkAuthAction, fetchMyListMoviesAction, loginAction, postToggleMyListMovieAction} from '../api-actions';
 
 export const initialState: UserType = {
   id: null,
@@ -43,7 +43,7 @@ export const user = createSlice({
       });
 
     builder
-      .addCase(postToggleMyListMovie.fulfilled, (state, action) => {
+      .addCase(postToggleMyListMovieAction.fulfilled, (state, action) => {
         if (action.payload.isFavorite && !state.myList.find((movie) => movie.id === action.payload.id)) {
           state.myList.push(action.payload);
         } else {
