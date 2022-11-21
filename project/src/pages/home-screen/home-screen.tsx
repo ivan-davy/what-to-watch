@@ -55,7 +55,7 @@ export default function HomeScreen(): JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{featuredMovie?.name}</h2>
+              <h2 className="film-card__title" onClick={() => navigate(`/movie/${featuredMovie.id}`)}>{featuredMovie?.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{featuredMovie?.genre}</span>
                 <span className="film-card__year">{featuredMovie?.released}</span>
