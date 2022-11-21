@@ -20,9 +20,15 @@ export const fetchHomeDataAction = createAsyncThunk<FetchHomeDataReturnType, und
       movies: [],
       featuredMovie: null,
     };
+    try {
+      homeData.movies = (await api.get<MovieType[]>(ApiRoute.Movies)).data;
+      homeData.featuredMovie = (await api.get<MovieType>(ApiRoute.Featured)).data;
+    }
+    catch (err) {
+      dispatch(redirectToRouteAction(PageRoute.NotFound));
 
-    homeData.movies = (await api.get<MovieType[]>(ApiRoute.Movies)).data;
-    homeData.featuredMovie = (await api.get<MovieType>(ApiRoute.Featured)).data;
+      throw err;
+    }
 
     return homeData;
   },
