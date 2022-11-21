@@ -1,6 +1,6 @@
 import {MovieType} from '../../types/types';
 import {PageRoute} from '../../const';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import VideoPlayerMini from '../video-player-mini/video-player-mini';
 
 type MovieCardPropsType = {
@@ -9,9 +9,10 @@ type MovieCardPropsType = {
 }
 
 export default function MovieCard({movie, isActive}: MovieCardPropsType): JSX.Element {
+  const navigate = useNavigate();
   return (
     <article className="small-film-card catalog__films-card" id={movie.id.toString()}>
-      <div className="small-film-card__image">
+      <div className="small-film-card__image" onClick={() => navigate(`/movie/${movie.id}`)}>
         {
           isActive ?
             <VideoPlayerMini movie={movie} autoPlay/> :
