@@ -11,6 +11,7 @@ import {fetchHomeDataAction} from '../../store/api-actions';
 import LoadingSpinner from '../../components/loading/loading-spinner';
 import MyListButton from '../../components/my-list-button/my-list-button';
 import {getFeaturedMovie, getMovies} from '../../store/home/selectors';
+import {Link} from 'react-router-dom';
 
 
 export default function HomeScreen(): JSX.Element {
@@ -46,9 +47,11 @@ export default function HomeScreen(): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={featuredMovie?.posterImage} alt={`${featuredMovie?.name} poster`} width="218"
-                height="327"
-              />
+              <Link to={`/movie/${featuredMovie.id}`}>
+                <img src={featuredMovie?.posterImage} alt={`${featuredMovie?.name} poster`} width="218"
+                  height="327"
+                />
+              </Link>
             </div>
 
             <div className="film-card__desc">
