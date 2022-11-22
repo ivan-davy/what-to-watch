@@ -3,6 +3,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks/store-hooks';
 import {genreChangeAction} from '../../store/action';
 import {ALL_GENRES_FILTER_NAME} from '../../const';
 import {getSelectedGenre} from '../../store/home/selectors';
+import {useMemo} from 'react';
 
 const MAX_GENRES_SHOWN = 10;
 
@@ -11,13 +12,16 @@ export type GenresListPropsType = {
 }
 
 export default function GenresList({movies}: GenresListPropsType): JSX.Element {
-  const orderedGenresList: string[] = [];
-  orderedGenresList.push(ALL_GENRES_FILTER_NAME);
-  movies.forEach((movie) => {
-    if (!orderedGenresList.includes(movie.genre)) {
-      orderedGenresList.push(movie.genre);
-    }
-  });
+  const getOrderedGenresList = (): string[] => {
+    const orderedGenresList: string[] = [];
+    orderedGenresList.push(ALL_GENRES_FILTER_NAME);
+    movies.forEach((movie) => {
+      if (!orderedGenresList.includes(movie.genre)) {
+        orderedGenresList.push(movie.genre);
+      }
+    });
+    return orderedGenresList;
+  };
 
   const selectedGenre = useAppSelector(getSelectedGenre);
   const dispatch = useAppDispatch();
@@ -28,5 +32,10 @@ export default function GenresList({movies}: GenresListPropsType): JSX.Element {
     </li>
   );
 
-  return <>{orderedGenresList.slice(0, MAX_GENRES_SHOWN).map((genre) => getGenreElement(genre))}</>;
+  return (
+    <>
+      {useMemo(() => getOrderedGenresList(), [movies])
+        .slice(0, MAX_GENRES_SHOWN)
+        .map((genre) => getGenreElement(genre))}
+    </>);
 }

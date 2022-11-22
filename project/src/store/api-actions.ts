@@ -57,6 +57,7 @@ export const fetchActiveDataAction = createAsyncThunk<FetchActiveDataReturnType,
 
       return activeData;
     } catch (err) {
+      toast.error('Something went wrong...');
       dispatch(redirectToRouteAction(PageRoute.NotFound));
 
       throw err;
