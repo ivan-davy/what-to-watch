@@ -15,9 +15,11 @@
     "react-toastify": "^9.0.8"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --passWithNoTests",
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
+
     "eject": "react-scripts eject",
     "lint": "eslint --ext .tsx --ext .ts src/"
   },
@@ -77,5 +79,6 @@
     "eslint": "8.22.0",
     "faker": "^5.5.3",
     "typescript": "^4.8.4"
-  }
+  },
+  "homepage": "https://ivan-davy.github.io/what-to-watch)"
 }
