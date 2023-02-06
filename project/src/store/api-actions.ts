@@ -82,7 +82,7 @@ export const postUserReviewAction = createAsyncThunk<PostUserReviewReturnType, {
       const updatedReviews: ReviewType[] = (await api.post<PostUserReviewReturnType>(
         `${ApiRoute.Reviews}/${activeId}`, formData.userReview)).data;
       formData.setFormSubmitStateCb(FormStatus.Submitted);
-      dispatch(redirectToRouteAction(`${PageRoute.Movie}/${activeId}`));
+      dispatch(redirectToRouteAction(`/what-to-watch${PageRoute.Movie}/${activeId}`));
 
       return updatedReviews;
     } catch (err) {
