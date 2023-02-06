@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "https://ivan-davy.github.io/what-to-watch/static/css/main.616e0428.css",
-    "main.js": "https://ivan-davy.github.io/what-to-watch/static/js/main.bd54b6c0.js",
-    "index.html": "https://ivan-davy.github.io/what-to-watch/index.html",
-    "main.616e0428.css.map": "https://ivan-davy.github.io/what-to-watch/static/css/main.616e0428.css.map",
-    "main.bd54b6c0.js.map": "https://ivan-davy.github.io/what-to-watch/static/js/main.bd54b6c0.js.map"
+    "main.css": "/what-to-watch/static/css/main.616e0428.css",
+    "main.js": "/what-to-watch/static/js/main.e81f8439.js",
+    "index.html": "/what-to-watch/index.html",
+    "main.616e0428.css.map": "/what-to-watch/static/css/main.616e0428.css.map",
+    "main.e81f8439.js.map": "/what-to-watch/static/js/main.e81f8439.js.map"
   },
   "entrypoints": [
     "static/css/main.616e0428.css",
-    "static/js/main.bd54b6c0.js"
+    "static/js/main.e81f8439.js"
   ]
 }
